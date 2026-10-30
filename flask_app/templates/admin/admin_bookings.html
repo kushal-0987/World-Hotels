@@ -1,0 +1,76 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Bookings - Admin Panel{% endblock %}
+
+{% block breadcrumbs %}
+<a href="{{ url_for('admin.dashboard') }}">Dashboard</a> / <span>Bookings</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Booking Management</h1>
+    <p class="text-muted">View and manage all bookings</p>
+  </div>
+  <a href="{{ url_for('admin.add_booking') }}" class="btn btn-primary">
+    <i class="bi bi-plus-circle"></i> Add Manual Booking
+  </a>
+</div>
+
+{% if bookings %}
+<div class="admin-card">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Booking Code</th>
+          <th>Customer</th>
+          <th>City</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Nights</th>
+          <th>Rooms</th>
+          <th>Total (£)</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in bookings %}
+        <tr>
+          <td><strong>{{ b.BookingCode }}</strong></td>
+          <td>{{ b.CustomerName }}</td>
+          <td>{{ b.City }}</td>
+          <td>{{ b.CheckInDate.strftime('%d %b %Y') if b.CheckInDate else 'N/A' }}</td>
+          <td>{{ b.CheckOutDate.strftime('%d %b %Y') if b.CheckOutDate else 'N/A' }}</td>
+          <td>{{ b.Nights }}</td>
+          <td>{{ b.NumRooms }}</td>
+          <td>£{{ "%.2f"|format(b.TotalPriceGBP) }}</td>
+          <td>
+            <form action="{{ url_for('admin.update_booking_status', booking_id=b.BookingID) }}"
+                  method="post" class="d-inline-block">
+              <select class="form-select form-select-sm status-select" name="status" onchange="this.form.submit()">
+                <option value="Pending" {% if b.BookingStatus == 'Pending' %}selected{% endif %}>Pending</option>
+                <option value="Confirmed" {% if b.BookingStatus == 'Confirmed' %}selected{% endif %}>Confirmed</option>
+                <option value="Cancelled" {% if b.BookingStatus == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                <option value="Completed" {% if b.BookingStatus == 'Completed' %}selected{% endif %}>Completed</option>
+              </select>
+            </form>
+          </td>
+          <td>
+            <a href="{{ url_for('admin.admin_receipt', booking_id=b.BookingID) }}" class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-eye"></i> View
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="admin-card">
+  <p class="text-center text-muted">No bookings found.</p>
+</div>
+{% endif %}
+{% endblock %}

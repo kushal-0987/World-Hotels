@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - World Hotels{% endblock %}
+
+{% block content %}
+<!-- About Hero Section - Redesigned -->
+<section class="about-hero-new">
+  <div class="about-hero-bg-new">
+    <div class="hero-bg-image">
+      <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&q=80" alt="Luxury Hotel">
+    </div>
+    <div class="hero-gradient-overlay"></div>
+    <div class="hero-pattern-overlay"></div>
+  </div>
+  
+  <div class="container">
+    <div class="about-hero-content-new">
+      <!-- Badge -->
+      <div class="hero-badge-new animate-on-load">
+        <div class="badge-icon">
+          <i class="bi bi-award-fill"></i>
+        </div>
+        <div class="badge-text">
+          <span class="badge-label">Since 2010</span>
+          <span class="badge-subtitle">14+ Years of Excellence</span>
+        </div>
+      </div>
+      
+      <!-- Main Heading -->
+      <h1 class="hero-title-new animate-on-load">
+        Crafting <span class="text-accent">Extraordinary</span><br>
+        Travel Experiences
+      </h1>
+      
+      <!-- Subtitle -->
+      <p class="hero-subtitle-new animate-on-load">
+        We connect discerning travelers with the world's most exceptional hotels, 
+        creating memories that last a lifetime.
+      </p>
+      
+      <!-- CTA Buttons -->
+      <div class="hero-cta-buttons animate-on-load">
+        <a href="{{ url_for('booking.booking') }}" class="hero-cta-primary">
+          <span>Explore Our Hotels</span>
+          <i class="bi bi-arrow-right"></i>
+        </a>
+        <a href="#story" class="hero-cta-secondary">
+          <i class="bi bi-play-circle"></i>
+          <span>Our Story</span>
+        </a>
+      </div>
+      
+      <!-- Stats Cards -->
+      <div class="hero-stats-grid-new">
+        <div class="hero-stat-card animate-on-load">
+          <div class="stat-icon-wrapper">
+            <i class="bi bi-building"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number-new" data-count="500">0</span>
+            <span class="stat-label-new">Premium Hotels</span>
+          </div>
+        </div>
+        <div class="hero-stat-card animate-on-load">
+          <div class="stat-icon-wrapper">
+            <i class="bi bi-globe2"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number-new" data-count="50">0</span>
+            <span class="stat-label-new">Countries Worldwide</span>
+          </div>
+        </div>
+        <div class="hero-stat-card animate-on-load">
+          <div class="stat-icon-wrapper">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number-new" data-count="2">0</span>
+            <span class="stat-suffix">M+</span>
+            <span class="stat-label-new">Happy Guests</span>
+          </div>
+        </div>
+        <div class="hero-stat-card animate-on-load">
+          <div class="stat-icon-wrapper">
+            <i class="bi bi-star-fill"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number-new" data-count="4">0</span>
+            <span class="stat-suffix">.8</span>
+            <span class="stat-label-new">Average Rating</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll Indicator -->
+  <div class="hero-scroll-indicator-new">
+    <div class="scroll-mouse">
+      <div class="scroll-wheel"></div>
+    </div>
+    <span class="scroll-text">Scroll to discover</span>
+  </div>
+</section>
+
+<!-- Story Section -->
+<section class="about-story">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="about-story-images animate-on-scroll">
+          <div class="story-img-main">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80" alt="Hotel Exterior">
+          </div>
+          <div class="story-img-secondary">
+            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80" alt="Hotel Room">
+          </div>
+          <div class="story-experience-badge">
+            <span class="exp-years">14+</span>
+            <span class="exp-text">Years of Excellence</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="about-story-content animate-on-scroll">
+          <span class="section-badge">Our Story</span>
+          <h2>From a Simple Idea to a <span class="text-highlight">Global Network</span></h2>
+          <p class="lead">World Hotels began with a vision: to make luxury travel accessible to everyone while maintaining the highest standards of service and comfort.</p>
+          <p>Founded in 2010 in London, we started as a small booking platform connecting travelers with boutique hotels across the UK. Today, we've grown into a global hospitality network spanning 50 countries.</p>
+          <div class="story-features">
+            <div class="story-feature">
+              <div class="feature-icon">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <div class="feature-text">
+                <h4>Trusted & Secure</h4>
+                <p>256-bit SSL encryption for all transactions</p>
+              </div>
+            </div>
+            <div class="story-feature">
+              <div class="feature-icon">
+                <i class="bi bi-heart"></i>
+              </div>
+              <div class="feature-text">
+                <h4>Guest First</h4>
+                <p>24/7 customer support in 12 languages</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values Section -->
+<section class="about-values">
+  <div class="container">
+    <div class="section-header text-center animate-on-scroll">
+      <span class="section-badge">Our Values</span>
+      <h2>What Drives Us <span class="text-gradient">Forward</span></h2>
+      <p>The principles that guide every decision we make</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card animate-on-scroll">
+        <div class="value-icon">
+          <i class="bi bi-stars"></i>
+        </div>
+        <h3>Excellence</h3>
+        <p>We curate only the finest hotels that meet our rigorous quality standards, ensuring every stay exceeds expectations.</p>
+      </div>
+      <div class="value-card animate-on-scroll">
+        <div class="value-icon">
+          <i class="bi bi-transparency"></i>
+        </div>
+        <h3>Transparency</h3>
+        <p>No hidden fees, no surprises. Our pricing is clear, honest, and competitive, always.</p>
+      </div>
+      <div class="value-card animate-on-scroll">
+        <div class="value-icon">
+          <i class="bi bi-lightbulb"></i>
+        </div>
+        <h3>Innovation</h3>
+        <p>We continuously evolve our platform with cutting-edge technology to enhance your booking experience.</p>
+      </div>
+      <div class="value-card animate-on-scroll">
+        <div class="value-icon">
+          <i class="bi bi-globe"></i>
+        </div>
+        <h3>Sustainability</h3>
+        <p>Partnering with eco-conscious hotels to promote responsible travel and protect our planet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="about-timeline">
+  <div class="container">
+    <div class="section-header text-center animate-on-scroll">
+      <span class="section-badge">Our Journey</span>
+      <h2>Milestones That <span class="text-highlight">Define Us</span></h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-marker">
+          <i class="bi bi-rocket-takeoff"></i>
+        </div>
+        <div class="timeline-content">
+          <span class="timeline-year">2010</span>
+          <h4>The Beginning</h4>
+          <p>World Hotels launches in London with 25 partner hotels across the UK.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-marker">
+          <i class="bi bi-globe-europe-africa"></i>
+        </div>
+        <div class="timeline-content">
+          <span class="timeline-year">2014</span>
+          <h4>European Expansion</h4>
+          <p>Expanded to 15 European countries with 200+ hotel partners.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-marker">
+          <i class="bi bi-phone"></i>
+        </div>
+        <div class="timeline-content">
+          <span class="timeline-year">2017</span>
+          <h4>Mobile Revolution</h4>
+          <p>Launched our award-winning mobile app with 1 million downloads in the first year.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-marker">
+          <i class="bi bi-trophy"></i>
+        </div>
+        <div class="timeline-content">
+          <span class="timeline-year">2020</span>
+          <h4>Industry Recognition</h4>
+          <p>Won "Best Travel Platform" at the Global Hospitality Awards.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-marker">
+          <i class="bi bi-globe2"></i>
+        </div>
+        <div class="timeline-content">
+          <span class="timeline-year">2024</span>
+          <h4>Global Presence</h4>
+          <p>Now operating in 50 countries with 500+ premium hotel partners worldwide.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section class="about-team">
+  <div class="container">
+    <div class="section-header text-center animate-on-scroll">
+      <span class="section-badge">Leadership</span>
+      <h2>Meet the <span class="text-gradient">Visionaries</span></h2>
+      <p>The passionate team behind World Hotels</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card animate-on-scroll">
+        <div class="team-image">
+          <img src="{{ url_for('main.serve_image', filename='founder.png') }}" alt="CEO" loading="eager" decoding="async" fetchpriority="high">
+          <div class="team-social">
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-twitter-x"></i></a>
+          </div>
+        </div>
+        <div class="team-info">
+          <h4>Kushal Pokhrel</h4>
+          <span>Founder & CEO</span>
+        </div>
+      </div>
+      <div class="team-card animate-on-scroll">
+        <div class="team-image">
+          <img src="{{ url_for('main.serve_image', filename='Marketing.jpg') }}" alt="COO" class="team-img-cmo" loading="eager" decoding="async" fetchpriority="high">
+          <div class="team-social">
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-twitter-x"></i></a>
+          </div>
+        </div>
+        <div class="team-info">
+          <h4>Sareena Ghimire</h4>
+          <span>Chief Operating Officer</span>
+        </div>
+      </div>
+      <div class="team-card animate-on-scroll">
+        <div class="team-image">
+          <img src="{{ url_for('main.serve_image', filename='Prabhu.jpg') }}" alt="CTO" class="team-img-cto" loading="eager" decoding="async" fetchpriority="high">
+          <div class="team-social">
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-twitter-x"></i></a>
+          </div>
+        </div>
+        <div class="team-info">
+          <h4>Prabhu Lamsal</h4>
+          <span>Chief Technology Officer</span>
+        </div>
+      </div>
+      <div class="team-card animate-on-scroll">
+        <div class="team-image">
+          <img src="{{ url_for('main.serve_image', filename='chief_operating.jpg') }}" alt="CMO" loading="eager" decoding="async" fetchpriority="high">
+          <div class="team-social">
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-twitter-x"></i></a>
+          </div>
+        </div>
+        <div class="team-info">
+          <h4>Kusum Pokhrel</h4>
+          <span>Chief Marketing Officer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Counter Section -->
+<section class="about-counters">
+  <div class="about-counters-bg">
+    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80" alt="Hotel Pool">
+    <div class="counters-overlay"></div>
+  </div>
+  <div class="container">
+    <div class="counters-grid">
+      <div class="counter-item animate-on-scroll">
+        <div class="counter-icon">
+          <i class="bi bi-calendar-check"></i>
+        </div>
+        <div class="counter-number" data-count="2500000">0</div>
+        <div class="counter-label">Bookings Made</div>
+      </div>
+      <div class="counter-item animate-on-scroll">
+        <div class="counter-icon">
+          <i class="bi bi-emoji-smile"></i>
+        </div>
+        <div class="counter-number" data-count="98">0</div>
+        <div class="counter-suffix">%</div>
+        <div class="counter-label">Satisfaction Rate</div>
+      </div>
+      <div class="counter-item animate-on-scroll">
+        <div class="counter-icon">
+          <i class="bi bi-headset"></i>
+        </div>
+        <div class="counter-number" data-count="24">0</div>
+        <div class="counter-suffix">/7</div>
+        <div class="counter-label">Customer Support</div>
+      </div>
+      <div class="counter-item animate-on-scroll">
+        <div class="counter-icon">
+          <i class="bi bi-star-fill"></i>
+        </div>
+        <div class="counter-number" data-count="4">0</div>
+        <div class="counter-suffix">.8</div>
+        <div class="counter-label">Average Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Partners Section -->
+<section class="about-partners">
+  <div class="container">
+    <div class="section-header text-center animate-on-scroll">
+      <span class="section-badge">Trusted By</span>
+      <h2>Our <span class="text-highlight">Partners</span></h2>
+    </div>
+    <div class="partners-slider animate-on-scroll">
+      <div class="partners-track">
+        <div class="partner-logo"><i class="bi bi-building"></i> Marriott</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> Hilton</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> Hyatt</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> IHG</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> Accor</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> Radisson</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> Marriott</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> Hilton</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> Hyatt</div>
+        <div class="partner-logo"><i class="bi bi-building"></i> IHG</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="about-cta">
+  <div class="container">
+    <div class="cta-content animate-on-scroll">
+      <h2>Ready to Start Your Journey?</h2>
+      <p>Join millions of happy travelers who trust World Hotels for their perfect stay</p>
+      <div class="cta-buttons">
+        <a href="{{ url_for('main.hotels') }}" class="cta-btn cta-btn-primary">
+          <i class="bi bi-search"></i> Explore Hotels
+        </a>
+        <a href="{{ url_for('auth.register') }}" class="cta-btn cta-btn-secondary">
+          <i class="bi bi-person-plus"></i> Join Now
+        </a>
+      </div>
+      <div class="cta-trust">
+        <span><i class="bi bi-shield-check"></i> Secure Booking</span>
+        <span><i class="bi bi-arrow-repeat"></i> Free Cancellation</span>
+        <span><i class="bi bi-award"></i> Best Price Guarantee</span>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

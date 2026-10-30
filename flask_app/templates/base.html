@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}World Hotels{% endblock %}</title>
+  
+  <!-- Booking.com Style Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <!-- Auth Pages Styles - separate file for login, register, password reset pages -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth/auth.css') }}">
+  <!-- Page-specific styles -->
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Beautiful Preloader -->
+  <div class="wh-preloader" id="whPreloader">
+    <div class="wh-loader-content">
+      <!-- Animated Logo -->
+      <div class="wh-loader-logo">
+        <div class="wh-loader-globe">
+          <div class="wh-globe-ring"></div>
+          <div class="wh-globe-ring"></div>
+          <div class="wh-globe-ring"></div>
+          <div class="wh-globe-core">
+            <i class="bi bi-building"></i>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Brand Name -->
+      <div class="wh-loader-brand">
+        World<span class="wh-loader-dot">.</span>Hotels
+      </div>
+      
+      <!-- Animated Text -->
+      <div class="wh-loader-text">
+        <span class="wh-loader-word">Discovering</span>
+        <span class="wh-loader-word">your</span>
+        <span class="wh-loader-word">perfect</span>
+        <span class="wh-loader-word">stay...</span>
+      </div>
+      
+      <!-- Progress Bar -->
+      <div class="wh-loader-progress">
+        <div class="wh-loader-progress-bar"></div>
+      </div>
+      
+      <!-- Floating Elements -->
+      <div class="wh-loader-particles">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking.com Style Header -->
+  <header class="wh-header">
+    <!-- Top Bar -->
+    <div class="wh-topbar">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <!-- Left: Promotional Banner & Currency -->
+          <div class="wh-topbar-left">
+            <div class="wh-topbar-divider"></div>
+            
+            <!-- Currency Selector Dropdown -->
+            <div class="wh-currency-selector dropdown">
+              <button class="wh-currency-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://flagcdn.com/w20/gb.png" alt="UK" id="currencyFlag">
+                <span id="currencyCode">GBP</span>
+                <i class="bi bi-chevron-down"></i>
+              </button>
+              <ul class="dropdown-menu wh-currency-dropdown">
+                <li class="dropdown-header">Select Currency</li>
+                <li>
+                  <button class="dropdown-item wh-currency-item active" data-currency="GBP" data-flag="gb" data-symbol="£">
+                    <img src="https://flagcdn.com/w20/gb.png" alt="UK">
+                    <span>GBP - British Pound</span>
+                    <span class="currency-symbol">£</span>
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item wh-currency-item" data-currency="EUR" data-flag="eu" data-symbol="€">
+                    <img src="https://flagcdn.com/w20/eu.png" alt="EU">
+                    <span>EUR - Euro</span>
+                    <span class="currency-symbol">€</span>
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item wh-currency-item" data-currency="USD" data-flag="us" data-symbol="$">
+                    <img src="https://flagcdn.com/w20/us.png" alt="US">
+                    <span>USD - US Dollar</span>
+                    <span class="currency-symbol">$</span>
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item wh-currency-item" data-currency="INR" data-flag="in" data-symbol="₹">
+                    <img src="https://flagcdn.com/w20/in.png" alt="India">
+                    <span>INR - Indian Rupee</span>
+                    <span class="currency-symbol">₹</span>
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item wh-currency-item" data-currency="AUD" data-flag="au" data-symbol="A$">
+                    <img src="https://flagcdn.com/w20/au.png" alt="Australia">
+                    <span>AUD - Australian Dollar</span>
+                    <span class="currency-symbol">A$</span>
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item wh-currency-item" data-currency="CAD" data-flag="ca" data-symbol="C$">
+                    <img src="https://flagcdn.com/w20/ca.png" alt="Canada">
+                    <span>CAD - Canadian Dollar</span>
+                    <span class="currency-symbol">C$</span>
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item wh-currency-item" data-currency="NPR" data-flag="np" data-symbol="रू">
+                    <img src="https://flagcdn.com/w20/np.png" alt="Nepal">
+                    <span>NPR - Nepali Rupee</span>
+                    <span class="currency-symbol">रू</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Center: Date and Digital Clock -->
+          <div class="wh-digital-clock">
+            <div class="wh-date-display" id="currentDate"></div>
+            <div class="wh-clock-display" id="digitalClock">
+              <span class="wh-clock-time">00:00:00</span>
+            </div>
+          </div>
+          
+          <!-- Right: Help & Contact -->
+          <div class="wh-topbar-right">
+            <a href="{{ url_for('main.contact') }}" class="wh-topbar-link">
+              <i class="bi bi-telephone"></i>
+              <span class="d-none d-md-inline">Contact Us</span>
+            </a>
+            <a href="{{ url_for('main.help') }}" class="wh-topbar-link">
+              <i class="bi bi-question-circle"></i>
+              <span>Help</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Navbar -->
+    <nav class="navbar navbar-expand-lg wh-navbar">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand wh-brand" href="{{ url_for('main.home') }}">
+          <img src="{{ url_for('main.serve_image', filename='logo.png') }}" alt="World Hotels" class="wh-logo-img">
+          <span class="wh-brand-text">World Hotels</span>
+        </a>
+        
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler wh-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#whNavbar">
+          <i class="bi bi-list"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="whNavbar">
+          <!-- Navigation Tabs with Active Indicator -->
+          <ul class="navbar-nav wh-nav-tabs me-auto">
+            <li class="nav-item">
+              <a class="nav-link wh-tab {{ 'active' if request.endpoint == 'main.home' else '' }}" href="{{ url_for('main.home') }}">
+                <i class="bi bi-house"></i>
+                <span>Home</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link wh-tab {{ 'active' if request.endpoint == 'main.hotels' else '' }}" href="{{ url_for('main.hotels') }}">
+                <i class="bi bi-geo-alt"></i>
+                <span>Destinations</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link wh-tab {{ 'active' if request.endpoint and 'booking' in request.endpoint else '' }}" href="{{ url_for('booking.booking') }}">
+                <i class="bi bi-calendar-check"></i>
+                <span>Book Now</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link wh-tab {{ 'active' if request.endpoint == 'main.about' else '' }}" href="{{ url_for('main.about') }}">
+                <i class="bi bi-info-circle"></i>
+                <span>About</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Auth Buttons -->
+          <div class="wh-auth-buttons">
+            {% if session.get('user_id') %}
+              <div class="dropdown">
+                <button class="wh-btn-user dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                  <i class="bi bi-person-circle"></i>
+                  <span class="d-none d-md-inline ms-1">My Account</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end wh-dropdown">
+                  <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}">
+                    <i class="bi bi-person me-2"></i>Profile
+                  </a></li>
+                  {% if session.get('role') == 'admin' %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="dropdown-header">Admin</li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin.admin_bookings') }}">
+                      <i class="bi bi-calendar3 me-2"></i>Manage Bookings
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin.admin_reports') }}">
+                      <i class="bi bi-bar-chart me-2"></i>Reports
+                    </a></li>
+                  {% else %}
+                    <li><a class="dropdown-item" href="{{ url_for('booking.my_bookings') }}">
+                      <i class="bi bi-journal-text me-2"></i>My Bookings
+                    </a></li>
+                  {% endif %}
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
+                    <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                  </a></li>
+                </ul>
+              </div>
+            {% else %}
+              <a href="{{ url_for('auth.register') }}" class="wh-btn-register">Register</a>
+              <a href="{{ url_for('auth.login') }}" class="wh-btn-signin">Sign in</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Beautiful Toast Notifications -->
+  <div class="wh-toast-container" id="toastContainer">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for m in messages %}
+          <div class="wh-toast wh-toast-show">
+            <div class="wh-toast-icon">
+              {% if 'success' in m.lower() or 'welcome' in m.lower() or 'logged in' in m.lower() %}
+                <i class="bi bi-check-circle-fill"></i>
+              {% elif 'error' in m.lower() or 'invalid' in m.lower() or 'failed' in m.lower() %}
+                <i class="bi bi-x-circle-fill"></i>
+              {% elif 'warning' in m.lower() %}
+                <i class="bi bi-exclamation-triangle-fill"></i>
+              {% else %}
+                <i class="bi bi-info-circle-fill"></i>
+              {% endif %}
+            </div>
+            <div class="wh-toast-content">
+              <span class="wh-toast-message">{{ m }}</span>
+            </div>
+            <button class="wh-toast-close" onclick="this.parentElement.remove()">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <div class="wh-toast-progress"></div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Booking.com Style Footer -->
+  <footer class="wh-footer">
+    <div class="container">
+      <!-- Footer Links -->
+      <div class="wh-footer-links-grid">
+        <div class="wh-footer-col">
+          <h6>Support</h6>
+          <ul>
+            <li><a href="{{ url_for('main.help') }}">Help Centre</a></li>
+            <li><a href="#">Safety Information</a></li>
+            <li><a href="#">Cancellation Options</a></li>
+          </ul>
+        </div>
+        <div class="wh-footer-col">
+          <h6>Discover</h6>
+          <ul>
+            <li><a href="{{ url_for('main.hotels') }}">All Hotels</a></li>
+            <li><a href="{{ url_for('booking.booking') }}">Book Now</a></li>
+            <li><a href="{{ url_for('main.about') }}">About Us</a></li>
+          </ul>
+        </div>
+        <div class="wh-footer-col">
+          <h6>Terms & Settings</h6>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Cookie Settings</a></li>
+          </ul>
+        </div>
+        <div class="wh-footer-col">
+          <h6>Partners</h6>
+          <ul>
+            <li><a href="#">List Your Property</a></li>
+            <li><a href="#">Affiliate Programme</a></li>
+            <li><a href="#">Business Travel</a></li>
+          </ul>
+        </div>
+        <div class="wh-footer-col">
+          <h6>About</h6>
+          <ul>
+            <li><a href="{{ url_for('main.about') }}">About World Hotels</a></li>
+            <li><a href="{{ url_for('main.contact') }}">Contact Us</a></li>
+            <li><a href="{{ url_for('auth.register') }}">Sign Up</a></li>
+            <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Footer Bottom -->
+      <div class="wh-footer-bottom">
+        <div class="wh-footer-brand">
+          <img src="{{ url_for('main.serve_image', filename='logo.png') }}" alt="World Hotels" class="wh-footer-logo">
+        </div>
+        <p class="wh-copyright">Copyright © <span id="whYear"></span> World Hotels. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="whBackToTop" class="wh-back-to-top" aria-label="Back to top">
+    <i class="bi bi-chevron-up"></i>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

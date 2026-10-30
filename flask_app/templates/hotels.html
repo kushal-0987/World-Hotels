@@ -1,0 +1,688 @@
+{% extends "base.html" %}
+
+{% block title %}Destinations - World Hotels{% endblock %}
+
+{% block content %}
+<!-- Destinations Hero -->
+<section class="dest-hero">
+  <div class="dest-hero-bg">
+    <video autoplay muted loop playsinline id="heroVideo">
+      <source src="{{ url_for('main.serve_video', filename='A_video.mp4') }}" type="video/mp4">
+      <!-- Fallback image if video doesn't load -->
+      <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=80" alt="Travel Destinations">
+    </video>
+    <div class="dest-hero-overlay"></div>
+  </div>
+  
+  <!-- Floating particles -->
+  <div class="dest-particles">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+  
+  <div class="container">
+    <div class="dest-hero-content">
+      <span class="dest-badge animate-on-load">
+        <i class="bi bi-compass"></i> Explore UK
+      </span>
+      <h1 class="animate-on-load">Discover Amazing<br><span class="text-gradient">Destinations</span></h1>
+      <p class="animate-on-load">Handpicked hotels in the UK's most vibrant cities. Find your perfect stay.</p>
+      
+      <!-- Enhanced Search Box (Same as Landing Page) -->
+      <div class="wh-search-box-new animate-on-load">
+        <form action="{{ url_for('main.hotels') }}" method="GET" class="wh-search-form-new">
+          <div class="search-field-wrapper">
+            <div class="wh-search-field-new">
+              <label class="field-label">Location</label>
+              <input type="text" placeholder="Where are you going?" name="destination" id="destinationInputHotels" autocomplete="off" class="field-input" {% if destination_filter %}value="{{ destination_filter }}"{% endif %}>
+              <div class="search-suggestions" id="searchSuggestionsHotels"></div>
+            </div>
+            
+            <div class="field-divider"></div>
+            
+            <div class="wh-search-field-new">
+              <label class="field-label">Check-in</label>
+              <input type="date" name="checkin" id="checkInInputHotels" placeholder="Add date" class="field-input" {% if request.args.get('checkin') %}value="{{ request.args.get('checkin') }}"{% endif %}>
+            </div>
+            
+            <div class="field-divider"></div>
+            
+            <div class="wh-search-field-new">
+              <label class="field-label">Check-out</label>
+              <input type="date" name="checkout" id="checkOutInputHotels" placeholder="Add date" class="field-input" {% if request.args.get('checkout') %}value="{{ request.args.get('checkout') }}"{% endif %}>
+            </div>
+            
+            <div class="field-divider"></div>
+            
+            <div class="wh-search-field-new">
+              <label class="field-label">Guests</label>
+              <input type="number" name="guests" id="guestsInputHotels" placeholder="Number of guests" min="1" class="field-input" {% if request.args.get('guests') %}value="{{ request.args.get('guests') }}"{% endif %}>
+            </div>
+            
+            <button type="submit" class="wh-search-btn-new">
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Quick Stats -->
+      <div class="dest-hero-stats animate-on-load">
+        <div class="dest-stat">
+          <i class="bi bi-building"></i>
+          <div>
+            <strong>{{ hotels|length }}+</strong>
+            <span>Hotels</span>
+          </div>
+        </div>
+        <div class="dest-stat">
+          <i class="bi bi-geo-alt"></i>
+          <div>
+            <strong>{{ hotels|map(attribute='City')|unique|list|length }}</strong>
+            <span>Cities</span>
+          </div>
+        </div>
+        <div class="dest-stat">
+          <i class="bi bi-star-fill"></i>
+          <div>
+            <strong>4.8</strong>
+            <span>Rating</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll indicator -->
+  <div class="dest-scroll-hint">
+    <span>Scroll to explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- Filter & View Options -->
+<section class="dest-filter-section">
+  <div class="container">
+    <div class="dest-filter-bar">
+      <!-- City Filter Pills -->
+      <div class="dest-filter-pills">
+        {% if destination_filter %}
+        <button class="dest-pill" data-filter="all">
+          <i class="bi bi-grid-3x3-gap"></i> All
+        </button>
+        {% else %}
+        <button class="dest-pill active" data-filter="all">
+          <i class="bi bi-grid-3x3-gap"></i> All
+        </button>
+        {% endif %}
+        {% if all_cities %}
+          {% for city in all_cities %}
+          <button class="dest-pill {% if destination_filter and city|lower == destination_filter|lower %}active{% endif %}" data-filter="{{ city|lower }}">
+            <i class="bi bi-geo-alt"></i> {{ city }}
+          </button>
+          {% endfor %}
+        {% else %}
+          {% set cities = hotels|map(attribute='City')|unique|list %}
+          {% for city in cities %}
+          <button class="dest-pill {% if destination_filter and city|lower == destination_filter|lower %}active{% endif %}" data-filter="{{ city|lower }}">
+            <i class="bi bi-geo-alt"></i> {{ city }}
+          </button>
+          {% endfor %}
+        {% endif %}
+      </div>
+      
+      <!-- Sort & View Toggle -->
+      <div class="dest-filter-actions">
+        <div class="dest-sort">
+          <select id="destSort" onchange="sortDestinations()">
+            <option value="default">Sort by: Featured</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name">Name: A-Z</option>
+            <option value="rating">Rating: High to Low</option>
+          </select>
+        </div>
+        
+        <div class="dest-view-toggle">
+          <button class="view-btn active" data-view="grid" title="Grid View">
+            <i class="bi bi-grid-3x3-gap-fill"></i>
+          </button>
+          <button class="view-btn" data-view="list" title="List View">
+            <i class="bi bi-list-ul"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Destinations Showcase -->
+<section class="dest-featured" {% if destination_filter %}style="display: none;"{% endif %}>
+  <div class="container">
+    <div class="dest-section-header">
+      <div>
+        <h2><i class="bi bi-fire"></i> Featured Destinations</h2>
+        <p>Our most popular cities for travelers</p>
+      </div>
+    </div>
+    
+    <div class="dest-featured-grid">
+      <!-- Large Feature Card - London -->
+      <div class="dest-feature-card dest-feature-large" data-city="london">
+        <img src="{{ url_for('main.serve_image', filename='image-1.jpg') }}" alt="London">
+        <div class="dest-feature-overlay">
+          <div class="dest-feature-badge">Most Popular</div>
+          <div class="dest-feature-content">
+            <h3>London</h3>
+            <p>The capital city experience</p>
+            <div class="dest-feature-meta">
+              <span><i class="bi bi-building"></i> {% set london_count = hotels|selectattr('City', 'equalto', 'London')|list|length %}{{ london_count }} Hotels</span>
+              <span><i class="bi bi-star-fill"></i> 4.9</span>
+            </div>
+            <a href="{{ url_for('booking.booking') }}" class="dest-feature-btn">
+              Explore <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Medium Cards -->
+      <div class="dest-feature-card dest-feature-medium" data-city="edinburgh">
+        <img src="{{ url_for('main.serve_image', filename='image-2.jpg') }}" alt="Edinburgh">
+        <div class="dest-feature-overlay">
+          <div class="dest-feature-badge">Historic</div>
+          <div class="dest-feature-content">
+            <h3>Edinburgh</h3>
+            <p>Scottish charm awaits</p>
+            <div class="dest-feature-meta">
+              <span><i class="bi bi-building"></i> {% set edin_count = hotels|selectattr('City', 'equalto', 'Edinburgh')|list|length %}{{ edin_count }} Hotels</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="dest-feature-card dest-feature-medium" data-city="manchester">
+        <img src="{{ url_for('main.serve_image', filename='image-3.jpg') }}" alt="Manchester">
+        <div class="dest-feature-overlay">
+          <div class="dest-feature-badge">Vibrant</div>
+          <div class="dest-feature-content">
+            <h3>Manchester</h3>
+            <p>Culture & nightlife</p>
+            <div class="dest-feature-meta">
+              <span><i class="bi bi-building"></i> {% set manc_count = hotels|selectattr('City', 'equalto', 'Manchester')|list|length %}{{ manc_count }} Hotels</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Small Cards -->
+      <div class="dest-feature-card dest-feature-small" data-city="birmingham">
+        <img src="{{ url_for('main.serve_image', filename='image-4.jpg') }}" alt="Birmingham">
+        <div class="dest-feature-overlay">
+          <div class="dest-feature-content">
+            <h3>Birmingham</h3>
+          </div>
+        </div>
+      </div>
+      
+      <div class="dest-feature-card dest-feature-small" data-city="liverpool">
+        <img src="{{ url_for('main.serve_image', filename='image-6.jpg') }}" alt="Liverpool">
+        <div class="dest-feature-overlay">
+          <div class="dest-feature-content">
+            <h3>Liverpool</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- All Hotels Grid -->
+<section class="dest-hotels-section">
+  <div class="container">
+    <div class="dest-section-header">
+      <div>
+        <h2><i class="bi bi-building"></i> All Hotels</h2>
+        <p>Browse our complete collection of premium accommodations</p>
+      </div>
+      <div class="dest-results-count">
+        <span id="resultsCount">{{ hotels|length }}</span> hotels found
+      </div>
+    </div>
+    
+    <!-- Hotels Grid -->
+    <div class="dest-hotels-grid" id="hotelsGrid">
+      {% for h in hotels %}
+      <article class="dest-hotel-card" 
+               data-city="{{ h.City|lower }}" 
+               data-price="{{ h.OffPeakRateGBP }}"
+               data-name="{{ h.HotelName|lower }}"
+               data-rating="4.{{ (loop.index % 3) + 7 }}">
+        
+        <!-- Image Section -->
+        <div class="dest-card-image">
+          {% set image_list = ['image-1.jpg', 'image-2.jpg', 'image-3.jpg', 'image-4.jpg', 'image-6.jpg', 'image-7.jpg', 'image-8.jpg', 'image-9.jpg', 'image-10.jpg', 'image-11.jpg', 'image-12.jpg', 'image-13.jpg', 'image-14.jpg', 'image-15.jpg', 'image-16.jpg', 'image-17.jpg', 'image-18.jpg', 'image-19.jpg', 'image-20.jpg'] %}
+          {% set image_index = (loop.index0 % image_list|length) %}
+          <img src="{{ url_for('main.serve_image', filename=image_list[image_index]) }}" alt="{{ h.HotelName }}">
+          
+          <!-- Badges -->
+          <div class="dest-card-badges">
+            <span class="dest-badge-city">
+              <i class="bi bi-geo-alt-fill"></i> {{ h.City }}
+            </span>
+            {% if loop.index <= 3 %}
+            <span class="dest-badge-popular">
+              <i class="bi bi-fire"></i> Popular
+            </span>
+            {% endif %}
+          </div>
+          
+          <!-- Wishlist Button -->
+          <button class="dest-wishlist" onclick="toggleWishlist(this)">
+            <i class="bi bi-heart"></i>
+          </button>
+          
+          <!-- Quick View Overlay -->
+          <div class="dest-card-quick">
+            <a href="{{ url_for('booking.booking') }}" class="dest-quick-btn">
+              <i class="bi bi-eye"></i> Quick View
+            </a>
+          </div>
+        </div>
+        
+        <!-- Content Section -->
+        <div class="dest-card-content">
+          <div class="dest-card-header">
+            <h3 class="dest-card-title">{{ h.HotelName }}</h3>
+            <div class="dest-card-rating">
+              <span class="rating-score">4.{{ (loop.index % 3) + 7 }}</span>
+              <span class="rating-text">Excellent</span>
+            </div>
+          </div>
+          
+          <!-- Features -->
+          <div class="dest-card-features">
+            <span><i class="bi bi-wifi"></i> Free WiFi</span>
+            <span><i class="bi bi-cup-hot"></i> Breakfast</span>
+            <span><i class="bi bi-p-circle"></i> Parking</span>
+            <span><i class="bi bi-snow"></i> AC</span>
+          </div>
+          
+          <!-- Capacity -->
+          <div class="dest-card-capacity">
+            <i class="bi bi-door-open"></i>
+            <span>{{ h.CapacityRooms }} rooms available</span>
+          </div>
+          
+          <!-- Pricing -->
+          <div class="dest-card-pricing" data-offpeak="{{ h.OffPeakRateGBP }}" data-peak="{{ h.PeakRateGBP }}">
+            <div class="price-info">
+              <span class="price-label">From</span>
+              <span class="price-amount price-convert" data-price="{{ h.OffPeakRateGBP }}">£{{ "%.0f"|format(h.OffPeakRateGBP) }}</span>
+              <span class="price-period">/night</span>
+            </div>
+            <div class="price-peak price-convert-inline" data-price="{{ h.PeakRateGBP }}">
+              Peak: <span class="peak-price">£{{ "%.0f"|format(h.PeakRateGBP) }}</span>/night
+            </div>
+          </div>
+          
+          <!-- Actions -->
+          <div class="dest-card-actions">
+            <a href="{{ url_for('booking.booking') }}" class="dest-book-btn">
+              <span>Book Now</span>
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    
+    <!-- No Results Message -->
+    <div class="dest-no-results" id="noResults" style="display: none;">
+      <i class="bi bi-search"></i>
+      <h3>No hotels found</h3>
+      <p>Try adjusting your search or filters</p>
+      <button class="dest-reset-btn" onclick="resetFilters()">
+        <i class="bi bi-arrow-counterclockwise"></i> Reset Filters
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="dest-why-section">
+  <div class="container">
+    <div class="dest-section-header text-center">
+      <h2><i class="bi bi-award"></i> Why Book With Us</h2>
+      <p>Experience the World Hotels difference</p>
+    </div>
+    
+    <div class="dest-why-grid">
+      <div class="dest-why-card">
+        <div class="dest-why-icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <h4>Best Price Guarantee</h4>
+        <p>Find a lower price? We'll match it and give you an extra 10% off.</p>
+      </div>
+      
+      <div class="dest-why-card">
+        <div class="dest-why-icon">
+          <i class="bi bi-calendar-x"></i>
+        </div>
+        <h4>Free Cancellation</h4>
+        <p>Plans change. Cancel up to 24 hours before check-in for a full refund.</p>
+      </div>
+      
+      <div class="dest-why-card">
+        <div class="dest-why-icon">
+          <i class="bi bi-headset"></i>
+        </div>
+        <h4>24/7 Support</h4>
+        <p>Our dedicated team is here to help you anytime, anywhere.</p>
+      </div>
+      
+      <div class="dest-why-card">
+        <div class="dest-why-icon">
+          <i class="bi bi-credit-card"></i>
+        </div>
+        <h4>Secure Payment</h4>
+        <p>Your payment information is encrypted and secure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="dest-newsletter">
+  <div class="container">
+    <div class="dest-newsletter-card">
+      <div class="dest-newsletter-content">
+        <i class="bi bi-envelope-paper"></i>
+        <h3>Get Exclusive Deals</h3>
+        <p>Subscribe to our newsletter and never miss a travel deal!</p>
+      </div>
+      <form class="dest-newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="Enter your email address">
+        <button type="submit">
+          Subscribe <i class="bi bi-send"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+// Filter by city
+document.querySelectorAll('.dest-pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    document.querySelectorAll('.dest-pill').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    
+    const filter = this.dataset.filter;
+    filterByCity(filter);
+  });
+});
+
+function filterByCity(city) {
+  const cards = document.querySelectorAll('.dest-hotel-card');
+  let visibleCount = 0;
+  
+  cards.forEach(card => {
+    if (city === 'all' || card.dataset.city === city) {
+      card.style.display = '';
+      card.classList.add('animate-in');
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+      card.classList.remove('animate-in');
+    }
+  });
+  
+  document.getElementById('resultsCount').textContent = visibleCount;
+  document.getElementById('noResults').style.display = visibleCount === 0 ? 'flex' : 'none';
+}
+
+// Search functionality
+function filterDestinations() {
+  const searchTerm = document.getElementById('destSearchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.dest-hotel-card');
+  let visibleCount = 0;
+  
+  cards.forEach(card => {
+    const city = card.dataset.city;
+    const name = card.dataset.name;
+    
+    if (city.includes(searchTerm) || name.includes(searchTerm)) {
+      card.style.display = '';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  
+  document.getElementById('resultsCount').textContent = visibleCount;
+  document.getElementById('noResults').style.display = visibleCount === 0 ? 'flex' : 'none';
+}
+
+// Sort functionality
+function sortDestinations() {
+  const sortBy = document.getElementById('destSort').value;
+  const grid = document.getElementById('hotelsGrid');
+  const cards = Array.from(grid.querySelectorAll('.dest-hotel-card'));
+  
+  cards.sort((a, b) => {
+    switch(sortBy) {
+      case 'price-low':
+        return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+      case 'price-high':
+        return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+      case 'name':
+        return a.dataset.name.localeCompare(b.dataset.name);
+      case 'rating':
+        return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+      default:
+        return 0;
+    }
+  });
+  
+  cards.forEach(card => grid.appendChild(card));
+}
+
+// View toggle (Grid/List)
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    
+    const view = this.dataset.view;
+    const grid = document.getElementById('hotelsGrid');
+    
+    if (view === 'list') {
+      grid.classList.add('list-view');
+    } else {
+      grid.classList.remove('list-view');
+    }
+  });
+});
+
+// Wishlist toggle
+function toggleWishlist(btn) {
+  btn.classList.toggle('active');
+  const icon = btn.querySelector('i');
+  
+  if (btn.classList.contains('active')) {
+    icon.classList.remove('bi-heart');
+    icon.classList.add('bi-heart-fill');
+  } else {
+    icon.classList.remove('bi-heart-fill');
+    icon.classList.add('bi-heart');
+  }
+}
+
+// Reset filters
+function resetFilters() {
+  document.getElementById('destSearchInput').value = '';
+  document.getElementById('destSort').value = 'default';
+  document.querySelectorAll('.dest-pill').forEach(p => p.classList.remove('active'));
+  document.querySelector('.dest-pill[data-filter="all"]').classList.add('active');
+  filterByCity('all');
+}
+
+// Auto-filter by destination if provided from search form
+{% if destination_filter %}
+document.addEventListener('DOMContentLoaded', function() {
+  const destination = "{{ destination_filter|lower }}";
+  
+  // Find and activate the matching filter pill
+  const filterPills = document.querySelectorAll('.dest-pill');
+  filterPills.forEach(pill => {
+    pill.classList.remove('active');
+    if (pill.dataset.filter === destination) {
+      pill.classList.add('active');
+    }
+  });
+  
+  // If no matching pill found, keep 'all' active but still filter
+  const matchingPill = document.querySelector(`.dest-pill[data-filter="${destination}"]`);
+  if (!matchingPill) {
+    const allPill = document.querySelector('.dest-pill[data-filter="all"]');
+    if (allPill) allPill.classList.add('active');
+  }
+  
+  // Hide featured destinations section when filtering
+  const featuredSection = document.querySelector('.dest-featured');
+  if (featuredSection) {
+    featuredSection.style.display = 'none';
+  }
+  
+  // Apply the filter
+  filterByCity(destination);
+  
+  // Scroll directly to All Hotels section after a short delay
+  setTimeout(() => {
+    const hotelsSection = document.querySelector('.dest-hotels-section');
+    if (hotelsSection) {
+      hotelsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 300);
+});
+{% endif %}
+
+// City search suggestions with dropdown for hotels page
+document.addEventListener('DOMContentLoaded', function() {
+  const destinationInputHotels = document.getElementById('destinationInputHotels');
+  const suggestionsDivHotels = document.getElementById('searchSuggestionsHotels');
+  const allCities = ['London', 'Edinburgh', 'Manchester', 'Birmingham', 'Glasgow', 'Bristol', 
+                     'Cardiff', 'Aberdeen', 'Belfast', 'Oxford', 'Norwich', 'Nottingham',
+                     'Plymouth', 'Swansea', 'Bournemouth', 'Kent', 'New Castle'];
+  const popularCities = ['London', 'Edinburgh', 'Manchester', 'Birmingham', 'Glasgow'];
+
+  function showSuggestionsHotels(citiesToShow) {
+  const searchBox = document.querySelector('.wh-search-box-new');
+  const searchWrapper = document.querySelector('.search-field-wrapper');
+  
+  if (citiesToShow.length > 0) {
+    // Sort: popular cities first, then alphabetically
+    const sorted = citiesToShow.sort((a, b) => {
+      const aPopular = popularCities.includes(a);
+      const bPopular = popularCities.includes(b);
+      if (aPopular && !bPopular) return -1;
+      if (!aPopular && bPopular) return 1;
+      return a.localeCompare(b);
+    });
+    
+    suggestionsDivHotels.innerHTML = sorted.map(city => 
+      `<div class="suggestion-item ${popularCities.includes(city) ? 'popular-city' : ''}" data-city="${city}">
+         <span>${city}</span>${popularCities.includes(city) ? ' <span class="popular-badge">Popular</span>' : ''}
+       </div>`
+    ).join('');
+    
+    // Add click event listeners to suggestion items to prevent form submission
+    suggestionsDivHotels.querySelectorAll('.suggestion-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const city = this.dataset.city;
+        if (destinationInputHotels) {
+          destinationInputHotels.value = city;
+        }
+        if (suggestionsDivHotels) suggestionsDivHotels.style.display = 'none';
+        
+        // Remove dropdown-open class when city is selected
+        if (searchBox) searchBox.classList.remove('dropdown-open');
+        if (searchWrapper) searchWrapper.classList.remove('dropdown-open');
+      });
+    });
+    suggestionsDivHotels.style.display = 'block';
+    
+    // Add class to search box and wrapper when dropdown is open
+    if (searchBox) searchBox.classList.add('dropdown-open');
+    if (searchWrapper) searchWrapper.classList.add('dropdown-open');
+  } else {
+    suggestionsDivHotels.style.display = 'none';
+    
+    // Remove class when dropdown is closed
+    if (searchBox) searchBox.classList.remove('dropdown-open');
+    if (searchWrapper) searchWrapper.classList.remove('dropdown-open');
+  }
+  }
+
+  if (destinationInputHotels && suggestionsDivHotels) {
+  // Show all cities when field is focused
+  destinationInputHotels.addEventListener('focus', function() {
+    const query = this.value.toLowerCase().trim();
+    if (query.length === 0) {
+      showSuggestionsHotels(allCities);
+    } else {
+      // Filter based on current value
+      const matches = allCities.filter(city => 
+        city.toLowerCase().includes(query)
+      );
+      showSuggestionsHotels(matches);
+    }
+  });
+  
+  // Filter cities as user types
+  destinationInputHotels.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    if (query.length >= 1) {
+      const matches = allCities.filter(city => 
+        city.toLowerCase().includes(query)
+      );
+      showSuggestionsHotels(matches);
+    } else {
+      // Show all cities when input is cleared
+      showSuggestionsHotels(allCities);
+    }
+  });
+  
+  // Hide dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    // Don't hide if clicking on suggestion items (they handle their own clicks)
+    if (e.target.closest('.suggestion-item')) {
+      return;
+    }
+    if (!destinationInputHotels.contains(e.target) && !suggestionsDivHotels.contains(e.target)) {
+      suggestionsDivHotels.style.display = 'none';
+      const searchBox = document.querySelector('.wh-search-box-new');
+      const searchWrapper = document.querySelector('.search-field-wrapper');
+      if (searchBox) searchBox.classList.remove('dropdown-open');
+      if (searchWrapper) searchWrapper.classList.remove('dropdown-open');
+    }
+  });
+  }
+
+  // Search on Enter key (for old search input if it still exists)
+  const oldSearchInput = document.getElementById('destSearchInput');
+  if (oldSearchInput) {
+    oldSearchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        filterDestinations();
+      }
+    });
+  }
+}); // End of DOMContentLoaded for search suggestions
+</script>
+{% endblock %}

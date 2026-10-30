@@ -1,0 +1,768 @@
+{% extends "base.html" %}
+
+{% block title %}World Hotels - Discover Your Perfect UK Escape{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Enhanced Search -->
+<section class="wh-hero-improved">
+  <div class="wh-hero-bg-improved">
+    <video autoplay muted loop playsinline id="heroVideo">
+      <source src="{{ url_for('main.serve_video', filename='B_video.mp4') }}" type="video/mp4">
+      <!-- Fallback image if video doesn't load -->
+      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80" alt="Luxury Hotel">
+    </video>
+    <div class="wh-hero-overlay-improved"></div>
+  </div>
+  
+  <div class="container">
+    <div class="wh-hero-content-improved">
+      
+      <h1 class="hero-headline animate-on-load">
+        Discover Your Perfect <span class="text-gradient">UK Escape</span>
+      </h1>
+      <p class="hero-subtitle animate-on-load">
+        Book direct and save more. Transparent pricing, no hidden fees, free cancellation.
+      </p>
+      
+      <!-- Enhanced Search Box -->
+      <div class="wh-search-box-new animate-on-load">
+        <form action="{{ url_for('main.hotels') }}" method="GET" class="wh-search-form-new">
+          <div class="search-field-wrapper">
+            <div class="wh-search-field-new">
+              <label class="field-label">Location</label>
+              <input type="text" placeholder="Where are you going?" name="destination" id="destinationInput" autocomplete="off" class="field-input">
+              <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+            
+            <div class="field-divider"></div>
+            
+            <div class="wh-search-field-new">
+              <label class="field-label">Check-in</label>
+              <input type="date" name="checkin" id="checkInInput" placeholder="Add date" class="field-input">
+            </div>
+            
+            <div class="field-divider"></div>
+            
+            <div class="wh-search-field-new">
+              <label class="field-label">Check-out</label>
+              <input type="date" name="checkout" id="checkOutInput" placeholder="Add date" class="field-input">
+            </div>
+            
+            <div class="field-divider"></div>
+            
+            <div class="wh-search-field-new">
+              <label class="field-label">Guests</label>
+              <input type="number" name="guests" id="guestsInput" placeholder="Number of guests" min="1" class="field-input">
+            </div>
+            
+            <button type="submit" class="wh-search-btn-new">
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Stats Bar -->
+<section class="wh-stats-bar">
+  <div class="container">
+    <div class="wh-stats-row">
+      <div class="wh-stat-item animate-on-scroll">
+        <i class="bi bi-building"></i>
+        <div>
+          <strong>{{ hotels|length }}+</strong>
+          <span>Hotels</span>
+        </div>
+      </div>
+      <div class="wh-stat-item animate-on-scroll">
+        <i class="bi bi-geo"></i>
+        <div>
+          <strong>17</strong>
+          <span>UK Cities</span>
+        </div>
+      </div>
+      <div class="wh-stat-item animate-on-scroll">
+        <i class="bi bi-star-fill"></i>
+        <div>
+          <strong>4.8</strong>
+          <span>Avg Rating</span>
+        </div>
+      </div>
+      <div class="wh-stat-item animate-on-scroll">
+        <i class="bi bi-emoji-smile"></i>
+        <div>
+          <strong>98%</strong>
+          <span>Satisfaction</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Offers Section -->
+<section class="wh-section wh-offers">
+  <div class="container">
+    <h2 class="wh-section-title">Special Offers</h2>
+    <p class="wh-section-subtitle">Promotions, deals and special offers for you</p>
+    
+    <div class="wh-offers-grid">
+      <div class="wh-offer-card wh-offer-blue animate-on-scroll">
+        <div class="wh-offer-content">
+          <div class="offer-badge">Save 15%</div>
+          <h3>Book Early & Save</h3>
+          <p>Book 45+ days in advance and save up to 15% on your UK getaway</p>
+          <a href="{{ url_for('booking.booking') }}" class="wh-offer-btn">Find Early Deals</a>
+        </div>
+        <div class="wh-offer-image">
+          <img src="{{ url_for('main.serve_image', filename='rooms-1.jpg') }}" alt="Hotel Deal">
+        </div>
+      </div>
+      
+      <div class="wh-offer-card wh-offer-green animate-on-scroll">
+        <div class="wh-offer-content">
+          <div class="offer-badge">New Year</div>
+          <h3>New Year, New Adventures</h3>
+          <p>Start 2025 with amazing UK destinations. Flexible booking with free cancellation</p>
+          <a href="{{ url_for('main.hotels') }}" class="wh-offer-btn">Explore Destinations</a>
+        </div>
+        <div class="wh-offer-image">
+          <img src="{{ url_for('main.serve_image', filename='rooms-2.jpg') }}" alt="Adventure">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Browse by Property Type -->
+<section class="wh-section wh-property-types-section">
+  <div class="container">
+    <h2 class="wh-section-title">Browse by property type</h2>
+    <p class="wh-section-subtitle">Find the perfect accommodation for your stay</p>
+    
+    <div class="wh-property-types">
+      <a href="{{ url_for('main.hotels') }}" class="wh-property-card property-hotel animate-on-scroll">
+        <div class="property-badge">Hotels</div>
+        <img src="{{ url_for('main.serve_image', filename='rooms-3.jpg') }}" alt="Hotels">
+        <div class="property-overlay">
+          <h4>Hotels</h4>
+          <p>{{ hotels|length }} properties</p>
+        </div>
+      </a>
+      <a href="{{ url_for('main.hotels') }}" class="wh-property-card property-apartment animate-on-scroll">
+        <div class="property-badge">Apartments</div>
+        <img src="{{ url_for('main.serve_image', filename='rooms-4.jpg') }}" alt="Apartments">
+        <div class="property-overlay">
+          <h4>Apartments</h4>
+          <p>Comfortable stays</p>
+        </div>
+      </a>
+      <a href="{{ url_for('main.hotels') }}" class="wh-property-card property-resort animate-on-scroll">
+        <div class="property-badge">Resorts</div>
+        <img src="{{ url_for('main.serve_image', filename='image-7.jpg') }}" alt="Resorts">
+        <div class="property-overlay">
+          <h4>Resorts</h4>
+          <p>Luxury getaways</p>
+        </div>
+      </a>
+      <a href="{{ url_for('main.hotels') }}" class="wh-property-card property-villa animate-on-scroll">
+        <div class="property-badge">Villas</div>
+        <img src="{{ url_for('main.serve_image', filename='image-8.jpg') }}" alt="Villas">
+        <div class="property-overlay">
+          <h4>Villas</h4>
+          <p>Private retreats</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Trending Destinations -->
+<section class="wh-section wh-destinations-section">
+  <div class="container">
+    <h2 class="wh-section-title">Trending destinations</h2>
+    <p class="wh-section-subtitle">Most popular choices for UK travellers</p>
+    
+    <div class="wh-destinations-grid-new">
+      <a href="{{ url_for('booking.booking') }}?destination=London" class="wh-dest-card-new animate-on-scroll">
+        <div class="wh-dest-image-wrapper">
+          <img src="{{ url_for('main.serve_image', filename='image-1.jpg') }}" alt="London">
+          <div class="wh-dest-badge">Popular</div>
+        </div>
+        <div class="wh-dest-content-new">
+          <div class="wh-dest-header">
+            <h3>London</h3>
+            <span class="wh-dest-stats"><i class="bi bi-calendar-check"></i> 127 bookings</span>
+          </div>
+          <p>Experience the vibrant capital with world-class attractions, shopping, and dining.</p>
+          <div class="wh-dest-footer">
+            <span class="wh-dest-link">Explore <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="{{ url_for('booking.booking') }}?destination=Edinburgh" class="wh-dest-card-new animate-on-scroll">
+        <div class="wh-dest-image-wrapper">
+          <img src="{{ url_for('main.serve_image', filename='image-2.jpg') }}" alt="Edinburgh">
+          <div class="wh-dest-badge">Historic</div>
+        </div>
+        <div class="wh-dest-content-new">
+          <div class="wh-dest-header">
+            <h3>Edinburgh</h3>
+            <span class="wh-dest-stats"><i class="bi bi-calendar-check"></i> 89 bookings</span>
+          </div>
+          <p>Discover historic charm in Scotland's capital. Rich heritage and stunning architecture await.</p>
+          <div class="wh-dest-footer">
+            <span class="wh-dest-link">Explore <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="{{ url_for('booking.booking') }}?destination=Manchester" class="wh-dest-card-new animate-on-scroll">
+        <div class="wh-dest-image-wrapper">
+          <img src="{{ url_for('main.serve_image', filename='image-3.jpg') }}" alt="Manchester">
+        </div>
+        <div class="wh-dest-content-new">
+          <div class="wh-dest-header">
+            <h3>Manchester</h3>
+            <span class="wh-dest-stats"><i class="bi bi-music-note-beamed"></i> Music City</span>
+          </div>
+          <p>Vibrant northern city known for music, culture, and football.</p>
+          <div class="wh-dest-footer">
+            <span class="wh-dest-link">Explore <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="{{ url_for('booking.booking') }}?destination=Birmingham" class="wh-dest-card-new animate-on-scroll">
+        <div class="wh-dest-image-wrapper">
+          <img src="{{ url_for('main.serve_image', filename='image-4.jpg') }}" alt="Birmingham">
+        </div>
+        <div class="wh-dest-content-new">
+          <div class="wh-dest-header">
+            <h3>Birmingham</h3>
+            <span class="wh-dest-stats"><i class="bi bi-shop"></i> Shopping Hub</span>
+          </div>
+          <p>England's second city with excellent shopping and dining.</p>
+          <div class="wh-dest-footer">
+            <span class="wh-dest-link">Explore <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="{{ url_for('booking.booking') }}?destination=Glasgow" class="wh-dest-card-new animate-on-scroll">
+        <div class="wh-dest-image-wrapper">
+          <img src="{{ url_for('main.serve_image', filename='image-6.jpg') }}" alt="Glasgow">
+        </div>
+        <div class="wh-dest-content-new">
+          <div class="wh-dest-header">
+            <h3>Glasgow</h3>
+            <span class="wh-dest-stats"><i class="bi bi-building"></i> Architecture</span>
+          </div>
+          <p>Scotland's largest city with stunning Victorian architecture.</p>
+          <div class="wh-dest-footer">
+            <span class="wh-dest-link">Explore <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Hotel Listings with Filters -->
+<section class="wh-section wh-hotels-section">
+  <div class="container">
+    <div class="wh-section-header">
+      <div>
+        <h2 class="wh-section-title">Stay at our top hotels</h2>
+        <p class="wh-section-subtitle">Hand-picked properties with transparent peak & off-peak pricing</p>
+      </div>
+      <a href="{{ url_for('main.hotels') }}" class="wh-see-all">See all <i class="bi bi-arrow-right"></i></a>
+    </div>
+    
+    <!-- Filter Buttons -->
+    <div class="hotel-filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="London">London</button>
+      <button class="filter-btn" data-filter="Manchester">Manchester</button>
+      <button class="filter-btn" data-filter="Edinburgh">Edinburgh</button>
+      <button class="filter-btn" data-filter="Birmingham">Birmingham</button>
+      <button class="filter-btn" data-filter="Glasgow">Glasgow</button>
+    </div>
+    
+    <div class="wh-hotels-grid" id="hotelsGrid">
+      {% for h in hotels %}
+      <article class="wh-hotel-card animate-on-scroll" data-city="{{ h.City }}">
+        <a href="{{ url_for('booking.booking') }}?destination={{ h.City }}" class="wh-hotel-link">
+          <div class="wh-hotel-image">
+            {% set image_list = ['image-1.jpg', 'image-2.jpg', 'image-3.jpg', 'image-4.jpg', 'image-6.jpg', 'image-7.jpg', 'image-8.jpg', 'image-9.jpg', 'image-10.jpg', 'image-11.jpg', 'image-12.jpg', 'image-13.jpg', 'image-14.jpg', 'image-15.jpg', 'image-16.jpg', 'image-17.jpg', 'image-18.jpg', 'image-19.jpg', 'image-20.jpg'] %}
+            {% set image_index = (loop.index0 % image_list|length) %}
+            <img src="{{ url_for('main.serve_image', filename=image_list[image_index]) }}" alt="{{ h.HotelName }}" loading="lazy">
+            <button class="wh-wishlist" type="button"><i class="bi bi-heart"></i></button>
+            <div class="hotel-urgency-badge">
+              <i class="bi bi-lightning-fill"></i>
+              <span>Only {{ (100 - loop.index * 3) if (100 - loop.index * 3) >= 3 else 3 }} rooms left!</span>
+            </div>
+          </div>
+          
+          <div class="wh-hotel-info">
+            <div class="wh-hotel-location">
+              <i class="bi bi-geo-alt"></i> {{ h.City }}, United Kingdom
+            </div>
+            <h3 class="wh-hotel-name">{{ h.HotelName }}</h3>
+            
+            <div class="wh-hotel-rating">
+              <span class="wh-rating-badge">{{ h.Rating|default(4.8) }}</span>
+              <span class="wh-rating-text">Excellent</span>
+              <span class="wh-rating-count">· {{ 120 + loop.index * 15 }} reviews</span>
+            </div>
+            
+            <div class="wh-hotel-features">
+              <span><i class="bi bi-wifi"></i> Free WiFi</span>
+              <span><i class="bi bi-cup-hot"></i> Breakfast</span>
+              <span><i class="bi bi-parking"></i> Parking</span>
+            </div>
+            
+            <div class="wh-hotel-pricing" data-offpeak="{{ h.OffPeakRateGBP }}" data-peak="{{ h.PeakRateGBP }}">
+              <div class="wh-price-label">
+                <span class="wh-price-type">Off-peak from</span>
+                <span class="wh-price-amount price-convert" data-price="{{ h.OffPeakRateGBP }}">£{{ "%.0f"|format(h.OffPeakRateGBP) }}</span>
+                <span class="wh-price-night">per night</span>
+              </div>
+              <div class="wh-price-peak price-convert-inline" data-price="{{ h.PeakRateGBP }}">
+                Peak: <span class="peak-price">£{{ "%.0f"|format(h.PeakRateGBP) }}</span>/night
+              </div>
+              <div class="booking-activity">
+                <i class="bi bi-eye"></i> Viewed {{ 50 + loop.index * 7 }} times today
+              </div>
+            </div>
+          </div>
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Genius Loyalty Banner -->
+<section class="wh-section wh-loyalty-banner">
+  <div class="container">
+    <div class="wh-loyalty-card animate-on-scroll">
+      <div class="wh-loyalty-icon">
+        <i class="bi bi-award"></i>
+      </div>
+      <div class="wh-loyalty-content">
+        <h3>Travel more, spend less</h3>
+        <p>Sign up and we'll send the best deals to you</p>
+      </div>
+      <div class="wh-loyalty-actions">
+        <a href="{{ url_for('auth.register') }}" class="wh-btn-primary">Sign up</a>
+        <a href="{{ url_for('auth.login') }}" class="wh-btn-secondary">Sign in</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Customer Testimonials -->
+<section class="wh-section wh-testimonials-section">
+  <div class="container">
+    <h2 class="wh-section-title">What Our Guests Say</h2>
+    <p class="wh-section-subtitle">Real reviews from real travelers</p>
+    
+    <div class="wh-testimonials-grid">
+      <div class="wh-testimonial-card animate-on-scroll">
+        <div class="testimonial-header">
+          <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=3b82f6&color=fff&size=60" alt="Sarah Johnson">
+          <div class="testimonial-info">
+            <h4>Sarah Johnson</h4>
+            <div class="testimonial-rating">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+        </div>
+        <p class="testimonial-text">
+          "Amazing stay! The hotel was exactly as described, and the booking process was so smooth. 
+          Best value in London - will definitely book again!"
+        </p>
+        <div class="testimonial-location">
+          <i class="bi bi-geo-alt"></i> WH London
+        </div>
+      </div>
+      
+      <div class="wh-testimonial-card animate-on-scroll">
+        <div class="testimonial-header">
+          <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=10b981&color=fff&size=60" alt="Michael Chen">
+          <div class="testimonial-info">
+            <h4>Michael Chen</h4>
+            <div class="testimonial-rating">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+        </div>
+        <p class="testimonial-text">
+          "Perfect location in Edinburgh! The room was spacious and clean. 
+          Free cancellation gave us peace of mind. Highly recommend!"
+        </p>
+        <div class="testimonial-location">
+          <i class="bi bi-geo-alt"></i> WH Edinburgh
+        </div>
+      </div>
+      
+      <div class="wh-testimonial-card animate-on-scroll">
+        <div class="testimonial-header">
+          <img src="https://ui-avatars.com/api/?name=Emma+Williams&background=f59e0b&color=fff&size=60" alt="Emma Williams">
+          <div class="testimonial-info">
+            <h4>Emma Williams</h4>
+            <div class="testimonial-rating">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+        </div>
+        <p class="testimonial-text">
+          "Outstanding service from start to finish. The transparent pricing made it easy to plan our trip. 
+          Already planning our next stay!"
+        </p>
+        <div class="testimonial-location">
+          <i class="bi bi-geo-alt"></i> WH Manchester
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Badges Section -->
+<section class="wh-trust-badges-section">
+  <div class="container">
+    <div class="wh-trust-badges-grid">
+      <div class="trust-badge-card">
+        <div class="trust-icon">
+          <i class="bi bi-shield-check-fill"></i>
+        </div>
+        <div class="trust-content">
+          <h4>Secure Booking</h4>
+          <p>256-bit SSL encryption</p>
+        </div>
+      </div>
+      <div class="trust-badge-card">
+        <div class="trust-icon">
+          <i class="bi bi-arrow-counterclockwise"></i>
+        </div>
+        <div class="trust-content">
+          <h4>Free Cancellation</h4>
+          <p>Cancel up to 60 days before</p>
+        </div>
+      </div>
+      <div class="trust-badge-card">
+        <div class="trust-icon">
+          <i class="bi bi-currency-pound"></i>
+        </div>
+        <div class="trust-content">
+          <h4>No Hidden Fees</h4>
+          <p>Transparent pricing always</p>
+        </div>
+      </div>
+      <div class="trust-badge-card">
+        <div class="trust-icon">
+          <i class="bi bi-headset"></i>
+        </div>
+        <div class="trust-content">
+          <h4>24/7 Support</h4>
+          <p>We're here to help</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Set minimum dates for check-in/check-out
+  const today = new Date().toISOString().split('T')[0];
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().split('T')[0];
+  
+  const checkInInput = document.getElementById('checkInInput');
+  const checkOutInput = document.getElementById('checkOutInput');
+  
+  if (checkInInput) {
+    checkInInput.min = today;
+    checkInInput.addEventListener('change', function() {
+      const nextDay = new Date(this.value);
+      nextDay.setDate(nextDay.getDate() + 1);
+      if (checkOutInput) {
+        checkOutInput.min = nextDay.toISOString().split('T')[0];
+      }
+    });
+  }
+  
+  if (checkOutInput) {
+    checkOutInput.min = tomorrowStr;
+  }
+  
+  // Guest selector
+  const guestMinus = document.getElementById('guestMinus');
+  const guestPlus = document.getElementById('guestPlus');
+  const guestsInput = document.getElementById('guestsInput');
+  const guestsLabel = document.getElementById('guestsLabel');
+  
+  function updateGuestsLabel() {
+    if (guestsLabel && guestsInput) {
+      guestsLabel.textContent = parseInt(guestsInput.value) === 1 ? 'Guest' : 'Guests';
+    }
+  }
+  
+  // Initialize label on page load
+  if (guestsInput) {
+    updateGuestsLabel();
+  }
+  
+  if (guestMinus && guestsInput) {
+    guestMinus.addEventListener('click', function() {
+      if (parseInt(guestsInput.value) > 1) {
+        guestsInput.value = parseInt(guestsInput.value) - 1;
+        updateGuestsLabel();
+      }
+    });
+  }
+  
+  if (guestPlus && guestsInput) {
+    guestPlus.addEventListener('click', function() {
+      if (parseInt(guestsInput.value) < 10) {
+        guestsInput.value = parseInt(guestsInput.value) + 1;
+        updateGuestsLabel();
+      }
+    });
+  }
+  
+  // City search suggestions with dropdown
+  const destinationInput = document.getElementById('destinationInput');
+  const suggestionsDiv = document.getElementById('searchSuggestions');
+  const allCities = ['London', 'Edinburgh', 'Manchester', 'Birmingham', 'Glasgow', 'Bristol', 
+                     'Cardiff', 'Aberdeen', 'Belfast', 'Oxford', 'Norwich', 'Nottingham',
+                     'Plymouth', 'Swansea', 'Bournemouth', 'Kent', 'New Castle'];
+  const popularCities = ['London', 'Edinburgh', 'Manchester', 'Birmingham', 'Glasgow'];
+  
+  function showSuggestions(citiesToShow) {
+    const searchBox = document.querySelector('.wh-search-box-new');
+    const searchWrapper = document.querySelector('.search-field-wrapper');
+    
+    if (citiesToShow.length > 0) {
+      // Sort: popular cities first, then alphabetically
+      const sorted = citiesToShow.sort((a, b) => {
+        const aPopular = popularCities.includes(a);
+        const bPopular = popularCities.includes(b);
+        if (aPopular && !bPopular) return -1;
+        if (!aPopular && bPopular) return 1;
+        return a.localeCompare(b);
+      });
+      
+      suggestionsDiv.innerHTML = sorted.map(city => 
+        `<div class="suggestion-item ${popularCities.includes(city) ? 'popular-city' : ''}" data-city="${city}">
+           <span>${city}</span>${popularCities.includes(city) ? ' <span class="popular-badge">Popular</span>' : ''}
+         </div>`
+      ).join('');
+      
+      // Add click event listeners to suggestion items to prevent form submission
+      suggestionsDiv.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const city = this.dataset.city;
+          selectCity(city);
+        });
+      });
+      suggestionsDiv.style.display = 'block';
+      
+      // Add class to search box and wrapper when dropdown is open
+      if (searchBox) searchBox.classList.add('dropdown-open');
+      if (searchWrapper) searchWrapper.classList.add('dropdown-open');
+    } else {
+      suggestionsDiv.style.display = 'none';
+      
+      // Remove class when dropdown is closed
+      if (searchBox) searchBox.classList.remove('dropdown-open');
+      if (searchWrapper) searchWrapper.classList.remove('dropdown-open');
+    }
+  }
+  
+  if (destinationInput && suggestionsDiv) {
+    // Show all cities when field is focused
+    destinationInput.addEventListener('focus', function() {
+      const query = this.value.toLowerCase().trim();
+      if (query.length === 0) {
+        showSuggestions(allCities);
+      } else {
+        // Filter based on current value
+        const matches = allCities.filter(city => 
+          city.toLowerCase().includes(query)
+        );
+        showSuggestions(matches);
+      }
+    });
+    
+    // Filter cities as user types
+    destinationInput.addEventListener('input', function() {
+      const query = this.value.toLowerCase().trim();
+      if (query.length >= 1) {
+        const matches = allCities.filter(city => 
+          city.toLowerCase().includes(query)
+        );
+        showSuggestions(matches);
+      } else {
+        // Show all cities when input is cleared
+        showSuggestions(allCities);
+      }
+    });
+    
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      // Don't hide if clicking on suggestion items (they handle their own clicks)
+      if (e.target.closest('.suggestion-item')) {
+        return;
+      }
+      if (!destinationInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+        suggestionsDiv.style.display = 'none';
+        const searchBox = document.querySelector('.wh-search-box-new');
+        const searchWrapper = document.querySelector('.search-field-wrapper');
+        if (searchBox) searchBox.classList.remove('dropdown-open');
+        if (searchWrapper) searchWrapper.classList.remove('dropdown-open');
+      }
+    });
+  }
+  
+  // Hotel filters
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const hotelCards = document.querySelectorAll('.wh-hotel-card');
+  
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      const filter = this.dataset.filter;
+      
+      hotelCards.forEach(card => {
+        if (filter === 'all' || card.dataset.city === filter) {
+          card.style.display = 'block';
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 10);
+        } else {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 300);
+        }
+      });
+    });
+  });
+  
+  // Scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, observerOptions);
+  
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+});
+
+function selectCity(city, event) {
+  // Prevent form submission if event is passed
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  
+  const input = document.getElementById('destinationInput');
+  const suggestions = document.getElementById('searchSuggestions');
+  const searchBox = document.querySelector('.wh-search-box-new');
+  const searchWrapper = document.querySelector('.search-field-wrapper');
+  
+  if (input) {
+    input.value = city;
+  }
+  if (suggestions) suggestions.style.display = 'none';
+  
+  // Remove dropdown-open class when city is selected
+  if (searchBox) searchBox.classList.remove('dropdown-open');
+  if (searchWrapper) searchWrapper.classList.remove('dropdown-open');
+  
+  // Activate corresponding filter button
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  let foundMatchingButton = false;
+  
+  filterBtns.forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.filter === city) {
+      btn.classList.add('active');
+      foundMatchingButton = true;
+    }
+  });
+  
+  // If no matching filter button found, activate 'all' button
+  if (!foundMatchingButton && city) {
+    const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+    if (allBtn) {
+      allBtn.classList.add('active');
+    }
+  }
+  
+  // Apply filter to hotel cards if they exist on the page
+  const hotelCards = document.querySelectorAll('.wh-hotel-card');
+  if (hotelCards.length > 0) {
+    hotelCards.forEach(card => {
+      const cardCity = card.dataset.city;
+      if (cardCity && cardCity.toLowerCase() === city.toLowerCase()) {
+        card.style.display = 'block';
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 10);
+      } else if (!city || city === 'all') {
+        // Show all if no city selected or 'all' selected
+        card.style.display = 'block';
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 10);
+      } else {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          card.style.display = 'none';
+        }, 300);
+      }
+    });
+    
+    // Removed auto-scroll to hotels section - user should click search button to navigate
+    // Only filter buttons should scroll, not dropdown selection
+  }
+}
+</script>
+{% endblock %}

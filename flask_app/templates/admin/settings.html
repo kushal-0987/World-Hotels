@@ -1,0 +1,40 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Settings - Admin Panel{% endblock %}
+
+{% block breadcrumbs %}
+<a href="{{ url_for('admin.dashboard') }}">Dashboard</a> / <span>Settings</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>System Settings</h1>
+  <p class="text-muted">Configure system-wide settings</p>
+</div>
+
+<div class="settings-grid">
+  <div class="admin-card">
+    <h5>Payment Gateway</h5>
+    <p class="text-muted">Configure payment processing</p>
+    <button class="btn btn-outline-primary">Configure</button>
+  </div>
+  
+  <div class="admin-card">
+    <h5>Email Templates</h5>
+    <p class="text-muted">Manage email notification templates</p>
+    <button class="btn btn-outline-primary">Manage</button>
+  </div>
+  
+  <div class="admin-card">
+    <h5>Tax & Service Charges</h5>
+    <p class="text-muted">Set tax rates and service charges</p>
+    <button class="btn btn-outline-primary">Configure</button>
+  </div>
+  
+  <div class="admin-card">
+    <h5>Cancellation Policy</h5>
+    <p class="text-muted">Manage cancellation policies</p>
+    <button class="btn btn-outline-primary">Manage</button>
+  </div>
+</div>
+{% endblock %}

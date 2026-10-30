@@ -1,0 +1,611 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Receipt - World Hotels{% endblock %}
+
+{% block extra_css %}
+<style>
+  @media print {
+    /* Hide non-essential elements */
+    .receipt-actions, 
+    .wh-header, 
+    .wh-footer, 
+    .wh-back-to-top,
+    .wh-navbar,
+    .wh-topbar {
+      display: none !important;
+    }
+    
+    /* Reset page layout */
+    body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    .receipt-wrapper {
+      background: white !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    
+    .receipt-container {
+      box-shadow: none !important;
+      border: 2px solid #000 !important;
+      margin: 0 !important;
+      padding: 30px !important;
+      max-width: 100% !important;
+      page-break-inside: avoid;
+    }
+    
+    /* Header styling for print */
+    .receipt-header {
+      border-bottom: 3px solid #000 !important;
+      padding-bottom: 20px !important;
+      margin-bottom: 25px !important;
+    }
+    
+    .receipt-logo-img {
+      filter: grayscale(100%) !important;
+    }
+    
+    .receipt-brand {
+      color: #000 !important;
+    }
+    
+    /* Status badge for print */
+    .receipt-status-badge {
+      background: #f0f0f0 !important;
+      color: #000 !important;
+      border: 2px solid #000 !important;
+      padding: 6px 12px !important;
+    }
+    
+    .receipt-status-badge.status-confirmed {
+      background: #e8f5e9 !important;
+    }
+    
+    .receipt-status-badge.status-cancelled {
+      background: #ffebee !important;
+    }
+    
+    .receipt-status-badge.status-pending {
+      background: #fff9c4 !important;
+    }
+    
+    /* Title section */
+    .receipt-title-section {
+      margin-bottom: 25px !important;
+    }
+    
+    .receipt-title {
+      color: #000 !important;
+      font-size: 28px !important;
+    }
+    
+    .receipt-subtitle {
+      color: #333 !important;
+    }
+    
+    /* Booking code box */
+    .receipt-booking-code {
+      background: #f5f5f5 !important;
+      border: 3px solid #000 !important;
+      border-radius: 8px !important;
+      padding: 20px !important;
+      margin-bottom: 25px !important;
+    }
+    
+    .booking-code-label {
+      color: #000 !important;
+    }
+    
+    .booking-code-value {
+      color: #000 !important;
+      font-size: 24px !important;
+    }
+    
+    /* Content grid */
+    .receipt-content-grid {
+      gap: 20px !important;
+      margin-bottom: 20px !important;
+    }
+    
+    /* Cards */
+    .receipt-details-card,
+    .receipt-pricing-card {
+      background: #fafafa !important;
+      border: 2px solid #000 !important;
+      border-radius: 8px !important;
+      padding: 20px !important;
+    }
+    
+    .receipt-card-header {
+      border-bottom: 2px solid #000 !important;
+      padding-bottom: 12px !important;
+      margin-bottom: 15px !important;
+    }
+    
+    .receipt-card-header h3 {
+      color: #000 !important;
+    }
+    
+    .receipt-card-header i {
+      color: #000 !important;
+    }
+    
+    /* Detail items */
+    .receipt-detail-item {
+      border-bottom: 1px solid #ccc !important;
+      padding: 10px 0 !important;
+    }
+    
+    .detail-label {
+      color: #000 !important;
+    }
+    
+    .detail-label i {
+      color: #000 !important;
+    }
+    
+    .detail-value {
+      color: #000 !important;
+      font-weight: 700 !important;
+    }
+    
+    /* Pricing breakdown */
+    .pricing-row {
+      padding: 10px 0 !important;
+    }
+    
+    .pricing-label span {
+      color: #000 !important;
+    }
+    
+    .pricing-label small {
+      color: #555 !important;
+    }
+    
+    .pricing-value {
+      color: #000 !important;
+    }
+    
+    .pricing-row.pricing-discount .pricing-value {
+      color: #006400 !important;
+    }
+    
+    .pricing-row.pricing-charge .pricing-value {
+      color: #8b0000 !important;
+    }
+    
+    .pricing-divider {
+      background: #000 !important;
+      height: 2px !important;
+    }
+    
+    .pricing-row.pricing-total {
+      border-top: 3px solid #000 !important;
+      padding-top: 15px !important;
+    }
+    
+    .pricing-row.pricing-total .pricing-value {
+      color: #000 !important;
+      font-size: 22px !important;
+    }
+    
+    /* Footer info */
+    .receipt-footer-info {
+      background: #f0f0f0 !important;
+      border: 1px solid #000 !important;
+      border-radius: 8px !important;
+      padding: 20px !important;
+      margin: 25px 0 !important;
+    }
+    
+    .receipt-footer-item {
+      border-bottom: 1px solid #ccc !important;
+      padding-bottom: 15px !important;
+      margin-bottom: 15px !important;
+    }
+    
+    .receipt-footer-item:last-child {
+      border-bottom: none !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    
+    .receipt-footer-item i {
+      color: #000 !important;
+    }
+    
+    .receipt-footer-item strong {
+      color: #000 !important;
+    }
+    
+    .receipt-footer-item p {
+      color: #333 !important;
+    }
+    
+    /* Remove gradients and shadows */
+    .receipt-container::before {
+      background: #000 !important;
+      height: 4px !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .receipt-pricing-card {
+      page-break-inside: avoid;
+    }
+    
+    /* Print-specific adjustments */
+    @page {
+      margin: 0.8cm;
+      size: A4;
+    }
+    
+    /* Compact layout for single page */
+    .receipt-container {
+      padding: 20px !important;
+      font-size: 12px !important;
+    }
+    
+    .receipt-header {
+      padding-bottom: 12px !important;
+      margin-bottom: 15px !important;
+    }
+    
+    .receipt-logo-img {
+      height: 35px !important;
+    }
+    
+    .receipt-brand {
+      font-size: 18px !important;
+    }
+    
+    .receipt-status-badge {
+      font-size: 11px !important;
+      padding: 4px 10px !important;
+    }
+    
+    .receipt-title-section {
+      margin-bottom: 15px !important;
+    }
+    
+    .receipt-title {
+      font-size: 22px !important;
+      margin-bottom: 4px !important;
+    }
+    
+    .receipt-subtitle {
+      font-size: 12px !important;
+    }
+    
+    .receipt-booking-code {
+      padding: 12px !important;
+      margin-bottom: 15px !important;
+    }
+    
+    .booking-code-label {
+      font-size: 11px !important;
+      margin-bottom: 4px !important;
+    }
+    
+    .booking-code-value {
+      font-size: 18px !important;
+    }
+    
+    .receipt-content-grid {
+      gap: 12px !important;
+      margin-bottom: 15px !important;
+    }
+    
+    .receipt-details-card,
+    .receipt-pricing-card {
+      padding: 12px !important;
+    }
+    
+    .receipt-card-header {
+      padding-bottom: 8px !important;
+      margin-bottom: 10px !important;
+    }
+    
+    .receipt-card-header h3 {
+      font-size: 14px !important;
+    }
+    
+    .receipt-card-header i {
+      font-size: 16px !important;
+    }
+    
+    .receipt-details-list {
+      gap: 8px !important;
+    }
+    
+    .receipt-detail-item {
+      padding: 6px 0 !important;
+    }
+    
+    .detail-label {
+      font-size: 11px !important;
+    }
+    
+    .detail-label i {
+      font-size: 13px !important;
+    }
+    
+    .detail-value {
+      font-size: 12px !important;
+    }
+    
+    .pricing-row {
+      padding: 6px 0 !important;
+    }
+    
+    .pricing-label span {
+      font-size: 12px !important;
+    }
+    
+    .pricing-label small {
+      font-size: 10px !important;
+    }
+    
+    .pricing-value {
+      font-size: 13px !important;
+    }
+    
+    .pricing-row.pricing-total {
+      padding-top: 10px !important;
+    }
+    
+    .pricing-row.pricing-total .pricing-label span {
+      font-size: 14px !important;
+    }
+    
+    .pricing-row.pricing-total .pricing-value {
+      font-size: 18px !important;
+    }
+    
+    .receipt-footer-info {
+      padding: 12px !important;
+      margin: 15px 0 !important;
+    }
+    
+    .receipt-footer-item {
+      padding-bottom: 10px !important;
+      margin-bottom: 10px !important;
+    }
+    
+    .receipt-footer-item i {
+      font-size: 18px !important;
+    }
+    
+    .receipt-footer-item strong {
+      font-size: 12px !important;
+    }
+    
+    .receipt-footer-item p {
+      font-size: 11px !important;
+      margin-top: 2px !important;
+    }
+    
+    /* Hide guest information card in print */
+    .receipt-content-grid > .receipt-details-card:nth-child(2) {
+      display: none !important;
+    }
+    
+    /* Make booking details full width when guest info is hidden */
+    .receipt-content-grid {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+    }
+    
+    /* Hide footer information in print */
+    .receipt-footer-info {
+      display: none !important;
+    }
+    
+    /* Force single page */
+    .receipt-container,
+    .receipt-header,
+    .receipt-title-section,
+    .receipt-booking-code,
+    .receipt-content-grid,
+    .receipt-pricing-card,
+    .receipt-footer-info {
+      page-break-inside: avoid !important;
+    }
+    
+    /* Hide decorative elements */
+    * {
+      text-shadow: none !important;
+      box-shadow: none !important;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="receipt-wrapper">
+  <div class="receipt-container">
+    <!-- Receipt Header -->
+    <div class="receipt-header">
+      <div class="receipt-logo">
+        <img src="{{ url_for('main.serve_image', filename='logo.png') }}" alt="World Hotels" class="receipt-logo-img">
+        <span class="receipt-brand">World Hotels</span>
+      </div>
+      <div class="receipt-header-right">
+        <div class="receipt-status-badge status-{{ booking.BookingStatus.lower() }}">
+          <i class="bi bi-{{ 'check-circle-fill' if booking.BookingStatus == 'Confirmed' else 'x-circle-fill' if booking.BookingStatus == 'Cancelled' else 'clock-fill' }}"></i>
+          <span>{{ booking.BookingStatus }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Receipt Title -->
+    <div class="receipt-title-section">
+      <h1 class="receipt-title">Booking Confirmation</h1>
+      <p class="receipt-subtitle">Thank you for choosing World Hotels. Please keep this receipt for your records.</p>
+    </div>
+
+    <!-- Booking Code Highlight -->
+    <div class="receipt-booking-code">
+      <div class="booking-code-label">Booking Reference</div>
+      <div class="booking-code-value">{{ booking.BookingCode }}</div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="receipt-content-grid">
+      <!-- Left Column: Booking Details -->
+      <div class="receipt-details-card">
+        <div class="receipt-card-header">
+          <i class="bi bi-calendar-check"></i>
+          <h3>Booking Details</h3>
+        </div>
+        <div class="receipt-details-list">
+          <div class="receipt-detail-item">
+            <div class="detail-label">
+              <i class="bi bi-building"></i>
+              <span>Hotel</span>
+            </div>
+            <div class="detail-value">{{ booking.HotelName }}</div>
+          </div>
+          <div class="receipt-detail-item">
+            <div class="detail-label">
+              <i class="bi bi-geo-alt"></i>
+              <span>Location</span>
+            </div>
+            <div class="detail-value">{{ booking.City }}</div>
+          </div>
+          <div class="receipt-detail-item">
+            <div class="detail-label">
+              <i class="bi bi-calendar-event"></i>
+              <span>Check-in</span>
+            </div>
+            <div class="detail-value">{{ booking.CheckInDate }}</div>
+          </div>
+          <div class="receipt-detail-item">
+            <div class="detail-label">
+              <i class="bi bi-calendar-x"></i>
+              <span>Check-out</span>
+            </div>
+            <div class="detail-value">{{ booking.CheckOutDate }}</div>
+          </div>
+          <div class="receipt-detail-item">
+            <div class="detail-label">
+              <i class="bi bi-moon-stars"></i>
+              <span>Duration</span>
+            </div>
+            <div class="detail-value">{{ booking.Nights }} {{ 'night' if booking.Nights == 1 else 'nights' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Guest Information -->
+      <div class="receipt-details-card">
+        <div class="receipt-card-header">
+          <i class="bi bi-people"></i>
+          <h3>Guest Information</h3>
+        </div>
+        <div class="receipt-details-list">
+          <div class="receipt-detail-item">
+            <div class="detail-label">
+              <i class="bi bi-door-open"></i>
+              <span>Rooms</span>
+            </div>
+            <div class="detail-value">{{ booking.NumRooms }} {{ 'room' if booking.NumRooms == 1 else 'rooms' }}</div>
+          </div>
+          <div class="receipt-detail-item">
+            <div class="detail-label">
+              <i class="bi bi-person"></i>
+              <span>Guests</span>
+            </div>
+            <div class="detail-value">{{ booking.NumGuests }} {{ 'guest' if booking.NumGuests == 1 else 'guests' }}</div>
+          </div>
+          {% if booking.AdvanceDays > 0 %}
+          <div class="receipt-detail-item">
+            <div class="detail-label">
+              <i class="bi bi-clock-history"></i>
+              <span>Advance Booking</span>
+            </div>
+            <div class="detail-value">{{ booking.AdvanceDays }} {{ 'day' if booking.AdvanceDays == 1 else 'days' }} in advance</div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing Breakdown -->
+    <div class="receipt-pricing-card">
+      <div class="receipt-card-header">
+        <i class="bi bi-receipt-cutoff"></i>
+        <h3>Payment Summary</h3>
+      </div>
+      <div class="pricing-breakdown">
+        {% set base_amount = booking.CalculatedNightlyRate * booking.Nights * booking.NumRooms %}
+        {% set discount_amount = base_amount - booking.TotalPriceGBP %}
+        <div class="pricing-row">
+          <div class="pricing-label">
+            <span>Nightly Rate (per room)</span>
+            <small>{{ booking.Nights }} {{ 'night' if booking.Nights == 1 else 'nights' }} × {{ booking.NumRooms }} {{ 'room' if booking.NumRooms == 1 else 'rooms' }}</small>
+          </div>
+          <div class="pricing-value">£{{ '%.2f'|format(base_amount) }}</div>
+        </div>
+        {% if booking.AdvanceDiscountPercent > 0 and discount_amount > 0 %}
+        <div class="pricing-row pricing-discount">
+          <div class="pricing-label">
+            <span>Early Booking Discount</span>
+            <small>{{ booking.AdvanceDiscountPercent }}% off ({{ booking.AdvanceDays }} {{ 'day' if booking.AdvanceDays == 1 else 'days' }} advance)</small>
+          </div>
+          <div class="pricing-value">-£{{ '%.2f'|format(discount_amount) }}</div>
+        </div>
+        {% endif %}
+        {% if booking.BookingStatus == 'Cancelled' and booking.CancellationChargeGBP %}
+        <div class="pricing-row pricing-charge">
+          <div class="pricing-label">
+            <span>Cancellation Charge</span>
+          </div>
+          <div class="pricing-value">£{{ '%.2f'|format(booking.CancellationChargeGBP) }}</div>
+        </div>
+        {% endif %}
+        <div class="pricing-divider"></div>
+        <div class="pricing-row pricing-total">
+          <div class="pricing-label">
+            <span>Total Amount</span>
+            <small>All prices in GBP</small>
+          </div>
+          <div class="pricing-value">£{{ '%.2f'|format(booking.TotalPriceGBP) }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Information -->
+    <div class="receipt-footer-info">
+      <div class="receipt-footer-item">
+        <i class="bi bi-info-circle"></i>
+        <div>
+          <strong>Need Help?</strong>
+          <p>Contact our 24/7 customer support for any questions about your booking.</p>
+        </div>
+      </div>
+      <div class="receipt-footer-item">
+        <i class="bi bi-shield-check"></i>
+        <div>
+          <strong>Secure Booking</strong>
+          <p>Your booking is confirmed and secure. You will receive a confirmation email shortly.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="receipt-actions">
+      <a href="{{ url_for('booking.my_bookings') }}" class="receipt-btn receipt-btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        <span>Back to My Bookings</span>
+      </a>
+      <button type="button" class="receipt-btn receipt-btn-primary" onclick="window.print()">
+        <i class="bi bi-printer"></i>
+        <span>Print Receipt</span>
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}

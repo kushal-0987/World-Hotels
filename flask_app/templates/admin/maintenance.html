@@ -1,0 +1,79 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Maintenance - Admin Panel{% endblock %}
+
+{% block breadcrumbs %}
+<a href="{{ url_for('admin.dashboard') }}">Dashboard</a> / <span>Maintenance</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Maintenance Management</h1>
+    <p class="text-muted">View and manage rooms under maintenance</p>
+  </div>
+</div>
+
+<div class="admin-card">
+  {% if maintenance_tasks %}
+    <div class="row g-3">
+      {% for task in maintenance_tasks %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+          {% if task.Image %}
+          <img src="{{ url_for('main.serve_image', filename=task.Image) }}" 
+               class="card-img-top" 
+               alt="Room {{ task.RoomNumber }}"
+               style="height: 200px; object-fit: cover;">
+          {% else %}
+          <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+            <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+          </div>
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">Room {{ task.RoomNumber }}</h5>
+            <p class="card-text mb-2">
+              <strong>Hotel:</strong> {{ task.HotelName }}<br>
+              <small class="text-muted">{{ task.City }}</small>
+            </p>
+            <p class="card-text mb-2">
+              <strong>Type:</strong> {{ task.RoomTypeName }}
+            </p>
+            <p class="card-text mb-2">
+              <span class="badge bg-danger">Under Maintenance</span>
+            </p>
+            {% if task.Title %}
+            <p class="card-text mb-2">
+              <strong>Reason:</strong> {{ task.Title }}
+            </p>
+            {% endif %}
+            {% if task.ScheduledStartDate %}
+            <p class="card-text mb-2">
+              <strong>Started:</strong> {{ task.ScheduledStartDate.strftime('%Y-%m-%d') if task.ScheduledStartDate else 'N/A' }}
+            </p>
+            {% endif %}
+            {% if task.MaintenanceEstimatedCompletion %}
+            <p class="card-text mb-2">
+              <strong>Est. Completion:</strong> {{ task.MaintenanceEstimatedCompletion.strftime('%Y-%m-%d') if task.MaintenanceEstimatedCompletion else 'N/A' }}
+            </p>
+            {% endif %}
+            <a href="{{ url_for('admin.edit_room', room_id=task.RoomID) }}" class="btn btn-sm btn-primary">
+              <i class="bi bi-pencil"></i> Manage Room
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="text-center py-5">
+      <i class="bi bi-check-circle text-success" style="font-size: 4rem;"></i>
+      <h4 class="mt-3">No Rooms Under Maintenance</h4>
+      <p class="text-muted">All rooms are currently available.</p>
+      <a href="{{ url_for('admin.rooms') }}" class="btn btn-primary">
+        <i class="bi bi-door-open"></i> View All Rooms
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

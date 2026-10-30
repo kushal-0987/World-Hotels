@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}My bookings{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2 mb-3">
+    <div>
+      <h1 class="h2 mb-1">My bookings</h1>
+      <p class="text-secondary mb-0">View receipts or cancel upcoming trips.</p>
+    </div>
+    <a class="btn btn-outline-primary" href="{{ url_for('booking.booking') }}">Make a new booking</a>
+  </div>
+
+  {% if bookings %}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>City</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Nights</th>
+          <th>Rooms</th>
+          <th>Total (£)</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in bookings %}
+        <tr>
+          <td>{{ b.BookingCode }}</td>
+          <td>{{ b.City }}</td>
+          <td>{{ b.CheckInDate }}</td>
+          <td>{{ b.CheckOutDate }}</td>
+          <td>{{ b.Nights }}</td>
+          <td>{{ b.NumRooms }}</td>
+          <td>{{ "%.2f"|format(b.TotalPriceGBP) }}</td>
+          <td>
+            <span class="badge {% if b.BookingStatus == 'Confirmed' %}bg-success{% elif b.BookingStatus == 'Cancelled' %}bg-danger{% else %}bg-warning{% endif %}">
+              {{ b.BookingStatus }}
+            </span>
+          </td>
+          <td>
+            <a class="btn btn-sm btn-outline-primary" href="{{ url_for('booking.receipt', booking_id=b.BookingID) }}">View receipt</a>
+            {% if b.BookingStatus != "Cancelled" %}
+              <button class="btn btn-sm btn-outline-danger" 
+                      type="button"
+                      onclick="showCancellationModal({{ b.BookingID }}, '{{ b.BookingCode }}', '{{ b.CheckInDate }}', {{ b.TotalPriceGBP }})">
+                Cancel
+              </button>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info mb-0" role="alert">
+      You have no bookings yet. <a class="alert-link" href="{{ url_for('booking.booking') }}">Make your first booking</a>.
+    </div>
+  {% endif %}
+
+  <!-- Cancellation Confirmation Modal -->
+  <div class="modal fade" id="cancellationModal" tabindex="-1" aria-labelledby="cancellationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cancellationModalLabel">Cancel Booking</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="cancellationLoading" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Calculating cancellation charges...</p>
+          </div>
+          <div id="cancellationDetails" style="display: none;">
+            <p class="mb-3">Are you sure you want to cancel this booking?</p>
+            <div class="card mb-3">
+              <div class="card-body">
+                <h6 class="card-title">Booking Information</h6>
+                <p class="mb-1"><strong>Booking ID:</strong> <span id="modalBookingCode"></span></p>
+                <p class="mb-1"><strong>Check-in Date:</strong> <span id="modalCheckInDate"></span></p>
+                <p class="mb-0"><strong>Total Price:</strong> £<span id="modalTotalPrice"></span></p>
+              </div>
+            </div>
+            <div class="card mb-3">
+              <div class="card-body">
+                <h6 class="card-title">Cancellation Charges</h6>
+                <div class="row mb-2">
+                  <div class="col-6"><strong>Days before check-in:</strong></div>
+                  <div class="col-6"><span id="modalDaysBefore"></span> days</div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-6"><strong>Cancellation charge:</strong></div>
+                  <div class="col-6 text-danger">£<span id="modalCancellationCharge"></span> (<span id="modalCancellationPercent"></span>%)</div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-6"><strong>Refund amount:</strong></div>
+                  <div class="col-6 text-success"><strong>£<span id="modalRefundAmount"></span></strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-warning mb-0" role="alert">
+              <i class="bi bi-exclamation-triangle"></i> 
+              <strong>Note:</strong> This action cannot be undone. The cancellation will be processed immediately.
+            </div>
+          </div>
+          <div id="cancellationError" style="display: none;">
+            <div class="alert alert-danger" role="alert">
+              <i class="bi bi-exclamation-circle"></i>
+              <span id="errorMessage"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form id="cancelBookingForm" method="post" style="display: none;">
+            <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Function to show cancellation modal with calculated charges
+function showCancellationModal(bookingId, bookingCode, checkInDate, totalPrice) {
+  // Show the modal
+  const modal = new bootstrap.Modal(document.getElementById('cancellationModal'));
+  modal.show();
+  
+  // Show loading state
+  document.getElementById('cancellationLoading').style.display = 'block';
+  document.getElementById('cancellationDetails').style.display = 'none';
+  document.getElementById('cancellationError').style.display = 'none';
+  document.getElementById('cancelBookingForm').style.display = 'none';
+  
+  // Set basic booking info
+  document.getElementById('modalBookingCode').textContent = bookingCode;
+  document.getElementById('modalCheckInDate').textContent = checkInDate;
+  document.getElementById('modalTotalPrice').textContent = parseFloat(totalPrice).toFixed(2);
+  
+  // Fetch cancellation preview from backend
+  const previewUrl = `/cancel_booking/${bookingId}/preview`;
+  fetch(previewUrl)
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(data => Promise.reject(data));
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Hide loading
+      document.getElementById('cancellationLoading').style.display = 'none';
+      
+      if (data.error) {
+        // Show error message
+        document.getElementById('errorMessage').textContent = data.error;
+        document.getElementById('cancellationError').style.display = 'block';
+      } else {
+        // Show cancellation details
+        document.getElementById('modalDaysBefore').textContent = data.days_before_checkin;
+        document.getElementById('modalCancellationCharge').textContent = parseFloat(data.cancellation_amount).toFixed(2);
+        document.getElementById('modalCancellationPercent').textContent = parseFloat(data.cancellation_percentage).toFixed(0);
+        document.getElementById('modalRefundAmount').textContent = parseFloat(data.refund_amount).toFixed(2);
+        
+        // Set form action
+        document.getElementById('cancelBookingForm').action = `/cancel_booking/${bookingId}`;
+        
+        // Show details and form
+        document.getElementById('cancellationDetails').style.display = 'block';
+        document.getElementById('cancelBookingForm').style.display = 'inline-block';
+      }
+    })
+    .catch(error => {
+      // Hide loading and show error
+      document.getElementById('cancellationLoading').style.display = 'none';
+      document.getElementById('errorMessage').textContent = 'Failed to load cancellation details. Please try again.';
+      document.getElementById('cancellationError').style.display = 'block';
+      console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

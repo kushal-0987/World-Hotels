@@ -1,0 +1,380 @@
+{% extends "base.html" %}
+
+{% block title %}Book Your Stay - World Hotels{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/booking.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="wh-booking-page">
+  <!-- Progress Indicator - Sticky below navigation -->
+  <div class="booking-progress">
+    <div class="booking-progress-content">
+      <div class="progress-step active" data-step="1">
+        <div class="progress-step-number">1</div>
+        <span>Select Room</span>
+      </div>
+      <div class="progress-connector"></div>
+      <div class="progress-step" data-step="2">
+        <div class="progress-step-number">2</div>
+        <span>Guest Details</span>
+      </div>
+      <div class="progress-connector"></div>
+      <div class="progress-step" data-step="3">
+        <div class="progress-step-number">3</div>
+        <span>Confirmation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Booking Container -->
+  <div class="booking-main-wrapper">
+    <!-- Left Column: Guest Form -->
+    <div class="booking-form-column">
+      <form method="post" action="{{ url_for('booking.booking') }}" class="booking-form" id="bookingForm">
+        
+        <!-- Step 1: Room Selection -->
+        <div class="booking-form-card">
+          <h3><i class="bi bi-door-open"></i> Select Your Room</h3>
+          
+          <!-- Destination Selection -->
+          <div class="booking-form-group">
+            <label>Destination <span class="required">*</span></label>
+            <select name="city" id="bookingCity" required>
+              <option value="">Choose a city...</option>
+              <option value="London">London - From £200/night</option>
+              <option value="Edinburgh">Edinburgh - From £160/night</option>
+              <option value="Manchester">Manchester - From £180/night</option>
+              <option value="Birmingham">Birmingham - From £150/night</option>
+              <option value="Glasgow">Glasgow - From £150/night</option>
+              <option value="Bristol">Bristol - From £140/night</option>
+              <option value="Cardiff">Cardiff - From £130/night</option>
+              <option value="Aberdeen">Aberdeen - From £140/night</option>
+              <option value="Belfast">Belfast - From £130/night</option>
+              <option value="New Castle">New Castle - From £120/night</option>
+              <option value="Norwich">Norwich - From £130/night</option>
+              <option value="Nottingham">Nottingham - From £130/night</option>
+              <option value="Oxford">Oxford - From £180/night</option>
+              <option value="Plymouth">Plymouth - From £180/night</option>
+              <option value="Swansea">Swansea - From £130/night</option>
+              <option value="Bournemouth">Bournemouth - From £130/night</option>
+              <option value="Kent">Kent - From £140/night</option>
+            </select>
+            <span class="error-message">Please select a destination</span>
+          </div>
+
+          <!-- Date Selection -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="booking-form-group">
+              <label>Check-in Date <span class="required">*</span></label>
+              <input type="date" name="check_in" id="checkInDate" required>
+              <span class="error-message">Please select check-in date</span>
+            </div>
+            <div class="booking-form-group">
+              <label>Check-out Date <span class="required">*</span></label>
+              <input type="date" name="check_out" id="checkOutDate" required>
+              <span class="error-message">Please select check-out date</span>
+            </div>
+          </div>
+
+          <!-- Room Type -->
+          <div class="booking-form-group">
+            <label>Room Type <span class="required">*</span></label>
+            <div class="room-type-selection">
+              <label class="room-type-option">
+                <input type="radio" name="room_type" value="standard" required>
+                <div class="room-type-label">
+                  <div class="room-type-name">Standard</div>
+                  <div class="room-type-capacity">1 Guest</div>
+                </div>
+              </label>
+              <label class="room-type-option">
+                <input type="radio" name="room_type" value="double" required>
+                <div class="room-type-label">
+                  <div class="room-type-name">Double</div>
+                  <div class="room-type-capacity">2 Guests</div>
+                </div>
+              </label>
+              <label class="room-type-option">
+                <input type="radio" name="room_type" value="family" required>
+                <div class="room-type-label">
+                  <div class="room-type-name">Family</div>
+                  <div class="room-type-capacity">Up to 4 Guests</div>
+                </div>
+              </label>
+            </div>
+            <span class="error-message">Please select a room type</span>
+          </div>
+
+          <!-- Quantity -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="booking-form-group">
+              <label>Number of Rooms <span class="required">*</span></label>
+              <input type="number" name="num_rooms" id="numRooms" value="1" min="1" max="5" required>
+              <span class="error-message">Please enter number of rooms</span>
+            </div>
+            <div class="booking-form-group">
+              <label>Number of Guests <span class="required">*</span></label>
+              <input type="number" name="num_guests" id="numGuests" value="1" min="1" max="4" required>
+              <span class="error-message">Please enter number of guests</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Guest Information
+             Note: Guest information is pre-filled from your account.
+             Booking uses your existing customer profile from session.
+             These fields are for verification and optional updates.
+        -->
+        <div class="booking-form-card">
+          <h3><i class="bi bi-person"></i> Guest Information</h3>
+          
+          <div class="booking-form-group">
+            <label>Full Name <span class="required">*</span></label>
+            <input type="text" name="guest_name" id="guestName" 
+                   value="{{ customer.CustomerName if customer else '' }}" 
+                   placeholder="John Doe" required>
+            <span class="error-message">Please enter your full name</span>
+          </div>
+
+          <div class="booking-form-group">
+            <label>Email Address <span class="required">*</span></label>
+            <input type="email" name="guest_email" id="guestEmail" 
+                   value="{{ customer.CustomerEmail if customer else '' }}" 
+                   placeholder="john@example.com" required>
+            <span class="error-message">Please enter a valid email address</span>
+          </div>
+
+          <div class="booking-form-group">
+            <label>Phone Number <span class="required">*</span></label>
+            <div class="phone-input-group">
+              <select name="country_code" id="countryCode" style="height: 44px;">
+                <option value="+44">+44 (UK)</option>
+                <option value="+1">+1 (US)</option>
+                <option value="+91">+91 (IN)</option>
+                <option value="+86">+86 (CN)</option>
+              </select>
+              <input type="tel" name="guest_phone" id="guestPhone" 
+                     value="{{ customer.CustomerPhone if customer else '' }}" 
+                     placeholder="7700 900000" required>
+            </div>
+            <span class="error-message">Please enter a valid phone number</span>
+          </div>
+
+          <!-- Special Requests (Collapsible) -->
+          <div class="special-requests-toggle" onclick="toggleSpecialRequests()">
+            <span><i class="bi bi-gear"></i> Special Requests (Optional)</span>
+            <i class="bi bi-chevron-down" id="requestsIcon"></i>
+          </div>
+          <div class="special-requests-content" id="specialRequests">
+            <div class="booking-form-group">
+              <label>Bed Preference</label>
+              <select name="bed_preference">
+                <option value="">No Preference</option>
+                <option value="single">Single Bed</option>
+                <option value="double">Double Bed</option>
+                <option value="twin">Twin Beds</option>
+              </select>
+            </div>
+            <div class="booking-form-group">
+              <label>Floor Preference</label>
+              <select name="floor_preference">
+                <option value="">No Preference</option>
+                <option value="ground">Ground Floor</option>
+                <option value="low">Low Floor</option>
+                <option value="high">High Floor</option>
+              </select>
+            </div>
+            <div class="booking-form-group">
+              <label>Additional Requests</label>
+              <textarea name="additional_requests" placeholder="Early check-in, extra pillows, etc."></textarea>
+            </div>
+          </div>
+
+          <!-- Extras -->
+          <div class="extras-section">
+            <label style="font-weight: 600; margin-bottom: 12px; display: block;">Optional Extras</label>
+            <div class="extras-item">
+              <label>
+                <input type="checkbox" name="airport_pickup" value="1">
+                <span>Airport Pickup</span>
+              </label>
+              <span class="extras-item-price">+£25</span>
+            </div>
+            <div class="extras-item">
+              <label>
+                <input type="checkbox" name="breakfast" value="1">
+                <span>Breakfast Included</span>
+              </label>
+              <span class="extras-item-price">+£8/day</span>
+            </div>
+            <div class="extras-item">
+              <label>
+                <input type="checkbox" name="late_checkout" value="1">
+                <span>Late Checkout</span>
+              </label>
+              <span class="extras-item-price">+£15</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="booking-form-card">
+          <h3><i class="bi bi-file-text"></i> Terms & Policies</h3>
+          
+          <div class="terms-accordion">
+            <div class="terms-item">
+              <div class="terms-header" onclick="toggleTerms('cancellation')">
+                <span>Cancellation Policy</span>
+                <i class="bi bi-chevron-down" id="cancellationIcon"></i>
+              </div>
+              <div class="terms-content" id="cancellationContent">
+                <p>Free cancellation up to 60 days before check-in. 50% charge between 30-60 days. 100% charge within 30 days of check-in.</p>
+              </div>
+            </div>
+            <div class="terms-item">
+              <div class="terms-header" onclick="toggleTerms('rules')">
+                <span>Hotel Rules</span>
+                <i class="bi bi-chevron-down" id="rulesIcon"></i>
+              </div>
+              <div class="terms-content" id="rulesContent">
+                <p><strong>Check-in:</strong> After 2:00 PM<br>
+                <strong>Check-out:</strong> Before 11:00 AM<br>
+                <strong>Pet Policy:</strong> Pets not allowed<br>
+                <strong>Smoking:</strong> Non-smoking rooms only</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="terms-checkbox">
+            <input type="checkbox" name="agree_terms" id="agreeTerms" required>
+            <label for="agreeTerms">
+              I agree to the <a href="#">terms and conditions</a> and <a href="#">privacy policy</a> <span class="required">*</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="booking-actions">
+          <div class="urgency-message" id="urgencyMessage" style="display: none;">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="urgencyText">Only 2 rooms left at this price!</span>
+          </div>
+          <button type="submit" class="booking-submit-btn" id="submitBtn">
+            <span class="spinner"></span>
+            <span class="btn-text">Confirm Booking</span>
+          </button>
+          <div class="back-link">
+            <a href="{{ url_for('main.home') }}">
+              <i class="bi bi-arrow-left"></i> Back to Home
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Column: Booking Summary (Sticky) -->
+    <div class="booking-summary-column">
+      <div class="booking-summary-card" id="bookingSummary">
+        <div class="summary-hotel">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=300&q=80" 
+               alt="Hotel" class="summary-hotel-image" id="summaryHotelImage">
+          <div class="summary-hotel-info">
+            <div class="summary-hotel-name" id="summaryHotelName">Select a destination</div>
+            <div class="summary-hotel-location" id="summaryHotelLocation">
+              <i class="bi bi-geo-alt"></i> <span id="summaryCity">--</span>
+            </div>
+            <div class="summary-hotel-rating">
+              <i class="bi bi-star-fill"></i>
+              <span>4.8</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-dates">
+          <div class="summary-date-item">
+            <span class="summary-date-label">Check-in</span>
+            <span class="summary-date-value" id="summaryCheckIn">--</span>
+          </div>
+          <div class="summary-date-item">
+            <span class="summary-date-label">Check-out</span>
+            <span class="summary-date-value" id="summaryCheckOut">--</span>
+          </div>
+          <div class="summary-date-item">
+            <span class="summary-date-label">Nights</span>
+            <span class="summary-date-value" id="summaryNights">0</span>
+          </div>
+        </div>
+
+        <div class="summary-details">
+          <div class="summary-detail-item">
+            <span class="summary-detail-label">Rooms</span>
+            <span class="summary-detail-value" id="summaryRooms">1</span>
+          </div>
+          <div class="summary-detail-item">
+            <span class="summary-detail-label">Guests</span>
+            <span class="summary-detail-value" id="summaryGuests">1</span>
+          </div>
+          <div class="summary-detail-item">
+            <span class="summary-detail-label">Room Type</span>
+            <span class="summary-detail-value" id="summaryRoomType">--</span>
+          </div>
+        </div>
+
+        <div class="summary-pricing">
+          <div class="pricing-item">
+            <span class="pricing-label">Room Rate</span>
+            <span class="pricing-value" id="pricingRate">£0</span>
+          </div>
+          <div class="pricing-item">
+            <span class="pricing-label">Nights</span>
+            <span class="pricing-value" id="pricingNights">0</span>
+          </div>
+          <div class="pricing-item">
+            <span class="pricing-label">Subtotal</span>
+            <span class="pricing-value" id="pricingSubtotal">£0.00</span>
+          </div>
+          <div class="pricing-item">
+            <span class="pricing-label">Taxes</span>
+            <span class="pricing-value" id="pricingTaxes">£0.00</span>
+          </div>
+          <div class="pricing-item" id="discountItem" style="display: none;">
+            <span class="pricing-label" style="color: #27AE60;">Discount</span>
+            <span class="pricing-value" style="color: #27AE60;" id="pricingDiscount">-£0.00</span>
+          </div>
+          <div class="pricing-total">
+            <span class="pricing-total-label">Total</span>
+            <span class="pricing-total-value" id="pricingTotal">£0.00</span>
+          </div>
+        </div>
+
+        <div class="promo-section">
+          <label style="font-size: 13px; margin-bottom: 8px; display: block;">Promo Code</label>
+          <div class="promo-input-group">
+            <input type="text" name="promo_code" placeholder="Enter code">
+            <button type="button" onclick="applyPromoCode()">Apply</button>
+          </div>
+        </div>
+
+        <div class="summary-trust">
+          <div class="trust-badge-item">
+            <i class="bi bi-shield-check"></i>
+            <span>Secure Booking</span>
+          </div>
+          <div class="trust-badge-item">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            <span>Free Cancellation</span>
+          </div>
+          <div class="trust-badge-item">
+            <i class="bi bi-x-circle"></i>
+            <span>No Hidden Fees</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+{% endblock %}

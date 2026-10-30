@@ -1,0 +1,307 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Dashboard - Admin Panel{% endblock %}
+
+{% block breadcrumbs %}
+<a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card stat-revenue">
+      <div class="stat-icon">
+        <i class="bi bi-currency-pound"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-label">Today's Revenue</div>
+        <div class="stat-value">£{{ today_revenue|default(0)|round(2) }}</div>
+        <div class="stat-change">
+          <i class="bi bi-info-circle"></i> From bookings made today
+        </div>
+      </div>
+    </div>
+    
+    <div class="stat-card stat-bookings">
+      <div class="stat-icon">
+        <i class="bi bi-calendar-check"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-label">Total Bookings</div>
+        <div class="stat-value">{{ total_bookings|default(0) }}</div>
+        <div class="stat-change">
+          <i class="bi bi-info-circle"></i> All time bookings
+        </div>
+      </div>
+    </div>
+    
+    <div class="stat-card stat-rooms">
+      <div class="stat-icon">
+        <i class="bi bi-clock-history"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-label">Active Bookings</div>
+        <div class="stat-value">{{ active_bookings|default(0) }}</div>
+        <div class="stat-change">
+          <span class="badge bg-success">Confirmed & Pending</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stat-card stat-maintenance">
+      <div class="stat-icon">
+        <i class="bi bi-hourglass-split"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-label">Pending Approval</div>
+        <div class="stat-value">{{ pending_bookings|default(0) }}</div>
+        <div class="stat-change warning">
+          <i class="bi bi-exclamation-triangle"></i> Needs attention
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="card-header">
+        <h5>Revenue Overview (Last 30 Days)</h5>
+      </div>
+      <div class="chart-body">
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-card">
+      <div class="card-header">
+        <h5>Revenue by Hotel</h5>
+      </div>
+      <div class="chart-body">
+        <canvas id="hotelRevenueChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions & Recent Activity -->
+  <div class="dashboard-bottom">
+    <div class="quick-actions-card">
+      <div class="card-header">
+        <h5>Quick Actions</h5>
+      </div>
+      <div class="quick-actions-grid">
+        <a href="{{ url_for('admin.add_booking') }}" class="quick-action-btn">
+          <i class="bi bi-plus-circle"></i>
+          <span>Add Booking</span>
+        </a>
+        <a href="{{ url_for('admin.customers') }}" class="quick-action-btn">
+          <i class="bi bi-people"></i>
+          <span>View Customers</span>
+        </a>
+        <a href="{{ url_for('admin.hotels') }}" class="quick-action-btn">
+          <i class="bi bi-building"></i>
+          <span>Manage Hotels</span>
+        </a>
+        <a href="{{ url_for('admin.admin_reports') }}" class="quick-action-btn">
+          <i class="bi bi-graph-up"></i>
+          <span>View Reports</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="recent-bookings-card">
+      <div class="card-header">
+        <h5>Recent Bookings</h5>
+        <a href="{{ url_for('admin.admin_bookings') }}" class="view-all-link">View All</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Booking Code</th>
+              <th>Guest</th>
+              <th>Hotel</th>
+              <th>Check-in</th>
+              <th>Check-out</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in recent_bookings[:10] %}
+            <tr>
+              <td><strong>{{ booking.BookingCode }}</strong></td>
+              <td>{{ booking.CustomerName }}</td>
+              <td>{{ booking.City }}</td>
+              <td>{{ booking.CheckInDate.strftime('%d %b %Y') if booking.CheckInDate else 'N/A' }}</td>
+              <td>{{ booking.CheckOutDate.strftime('%d %b %Y') if booking.CheckOutDate else 'N/A' }}</td>
+              <td>£{{ booking.TotalPriceGBP|round(2) }}</td>
+              <td>
+                <span class="badge bg-{{ 'success' if booking.BookingStatus == 'Confirmed' else 'warning' if booking.BookingStatus == 'Pending' else 'danger' if booking.BookingStatus == 'Cancelled' else 'info' }}">
+                  {{ booking.BookingStatus }}
+                </span>
+              </td>
+              <td>
+                <a href="{{ url_for('admin.admin_receipt', booking_id=booking.BookingID) }}" class="btn btn-sm btn-outline-primary">
+                  <i class="bi bi-eye"></i>
+                </a>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="8" class="text-center text-muted">No recent bookings</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Check-ins/Check-outs -->
+  <div class="dashboard-bottom">
+    <div class="upcoming-card">
+      <div class="card-header">
+        <h5>Upcoming Check-ins (Next 7 Days)</h5>
+      </div>
+      <div class="upcoming-list">
+        {% for checkin in upcoming_checkins[:5] %}
+        <div class="upcoming-item">
+          <div class="upcoming-date">
+            <span class="date-day">{{ checkin.CheckInDate.strftime('%d') if checkin.CheckInDate else 'N/A' }}</span>
+            <span class="date-month">{{ checkin.CheckInDate.strftime('%b') if checkin.CheckInDate else 'N/A' }}</span>
+          </div>
+          <div class="upcoming-details">
+            <strong>{{ checkin.CustomerName }}</strong>
+            <span>{{ checkin.HotelName }}, {{ checkin.City }}</span>
+            <span class="text-muted">{{ checkin.NumRooms }} room(s) • {{ checkin.NumGuests }} guest(s)</span>
+          </div>
+          <div class="upcoming-actions">
+            <a href="{{ url_for('admin.admin_receipt', booking_id=checkin.BookingID) }}" class="btn btn-sm btn-primary">
+              View Details
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <div class="text-center text-muted p-4">No upcoming check-ins</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="upcoming-card">
+      <div class="card-header">
+        <h5>Upcoming Check-outs (Next 7 Days)</h5>
+      </div>
+      <div class="upcoming-list">
+        {% for checkout in upcoming_checkouts[:5] %}
+        <div class="upcoming-item">
+          <div class="upcoming-date">
+            <span class="date-day">{{ checkout.CheckOutDate.strftime('%d') if checkout.CheckOutDate else 'N/A' }}</span>
+            <span class="date-month">{{ checkout.CheckOutDate.strftime('%b') if checkout.CheckOutDate else 'N/A' }}</span>
+          </div>
+          <div class="upcoming-details">
+            <strong>{{ checkout.CustomerName }}</strong>
+            <span>{{ checkout.HotelName }}, {{ checkout.City }}</span>
+            <span class="text-muted">{{ checkout.NumRooms }} room(s) • Total: £{{ checkout.TotalPriceGBP|round(2) }}</span>
+          </div>
+          <div class="upcoming-actions">
+            <a href="{{ url_for('admin.admin_receipt', booking_id=checkout.BookingID) }}" class="btn btn-sm btn-primary">
+              View Details
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <div class="text-center text-muted p-4">No upcoming check-outs</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts Section -->
+  <div class="alerts-card">
+    <div class="card-header">
+      <h5>
+        <i class="bi bi-exclamation-triangle"></i>
+        System Alerts
+      </h5>
+    </div>
+    <div class="alerts-list" id="alertsList">
+      {% if pending_bookings > 0 %}
+      <div class="alert-item alert-info">
+        <i class="bi bi-calendar-check"></i>
+        <div>
+          <strong>{{ pending_bookings }} pending bookings</strong>
+          <span>Require confirmation</span>
+        </div>
+        <a href="{{ url_for('admin.admin_bookings') }}?status=Pending" class="btn btn-sm btn-outline-info">View</a>
+      </div>
+      {% endif %}
+      {% if not pending_bookings %}
+      <div class="alert-item alert-success">
+        <i class="bi bi-check-circle"></i>
+        <div>
+          <strong>All systems operational</strong>
+          <span>No alerts at this time</span>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Revenue Chart
+const revenueCtx = document.getElementById('revenueChart');
+const revenueChart = new Chart(revenueCtx, {
+  type: 'line',
+  data: {
+    labels: {{ revenue_labels|tojson }},
+    datasets: [{
+      label: 'Revenue (£)',
+      data: {{ revenue_data|tojson }},
+      borderColor: '#2563eb',
+      backgroundColor: 'rgba(37, 99, 235, 0.1)',
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+
+// Hotel Revenue Chart
+const hotelRevenueCtx = document.getElementById('hotelRevenueChart');
+const hotelRevenueChart = new Chart(hotelRevenueCtx, {
+  type: 'doughnut',
+  data: {
+    labels: {{ hotel_names|tojson }},
+    datasets: [{
+      data: {{ hotel_revenues|tojson }},
+      backgroundColor: [
+        '#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
+        '#06b6d4', '#f97316', '#ec4899'
+      ]
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right' }
+    }
+  }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,591 @@
+{% extends "base.html" %}
+
+{% block title %}Help Centre - World Hotels{% endblock %}
+
+{% block content %}
+<!-- Help Section -->
+<section class="wh-section">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="help-page-header">
+      <h1>Help Centre</h1>
+      <p class="help-subtitle">Find answers to your questions and get the support you need</p>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="wh-help-search">
+      <div class="input-group input-group-lg">
+        <span class="input-group-text">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" class="form-control" id="helpSearch" placeholder="Search for help...">
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="wh-help-quick-links">
+      <h3>Quick Links</h3>
+      <div class="row g-3">
+        <div class="col-md-4 col-sm-6">
+          <a href="#booking" class="wh-help-card">
+            <i class="bi bi-calendar-check"></i>
+            <h5>Booking</h5>
+            <p>How to make and manage bookings</p>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="#cancellation" class="wh-help-card">
+            <i class="bi bi-x-circle"></i>
+            <h5>Cancellation</h5>
+            <p>Cancel or modify your booking</p>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="#payment" class="wh-help-card">
+            <i class="bi bi-credit-card"></i>
+            <h5>Payment</h5>
+            <p>Payment methods and billing</p>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="#account" class="wh-help-card">
+            <i class="bi bi-person-circle"></i>
+            <h5>Account</h5>
+            <p>Manage your account settings</p>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="#hotels" class="wh-help-card">
+            <i class="bi bi-building"></i>
+            <h5>Hotels</h5>
+            <p>Find and choose hotels</p>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="#contact" class="wh-help-card">
+            <i class="bi bi-headset"></i>
+            <h5>Contact Us</h5>
+            <p>Get in touch with our team</p>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="wh-help-faq">
+      <h3>Frequently Asked Questions</h3>
+      
+      <!-- Booking FAQs -->
+      <div class="wh-faq-category" id="booking">
+        <h4><i class="bi bi-calendar-check"></i> Booking</h4>
+        <div class="accordion" id="bookingAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#booking1">
+                How do I make a booking?
+              </button>
+            </h2>
+            <div id="booking1" class="accordion-collapse collapse show" data-bs-parent="#bookingAccordion">
+              <div class="accordion-body">
+                To make a booking, simply navigate to the "Book Now" page, select your destination, choose your check-in and check-out dates, and follow the booking process. You'll need to create an account or sign in to complete your reservation.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#booking2">
+                Can I book for multiple rooms?
+              </button>
+            </h2>
+            <div id="booking2" class="accordion-collapse collapse" data-bs-parent="#bookingAccordion">
+              <div class="accordion-body">
+                Yes, you can book multiple rooms in a single booking. During the booking process, you'll be able to specify the number of rooms you need.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#booking3">
+                How do I view my bookings?
+              </button>
+            </h2>
+            <div id="booking3" class="accordion-collapse collapse" data-bs-parent="#bookingAccordion">
+              <div class="accordion-body">
+                After signing in, click on "My Account" and select "My Bookings" from the dropdown menu. You'll see all your current and past bookings there.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cancellation FAQs -->
+      <div class="wh-faq-category" id="cancellation">
+        <h4><i class="bi bi-x-circle"></i> Cancellation</h4>
+        <div class="accordion" id="cancellationAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#cancel1">
+                Can I cancel my booking?
+              </button>
+            </h2>
+            <div id="cancel1" class="accordion-collapse collapse show" data-bs-parent="#cancellationAccordion">
+              <div class="accordion-body">
+                Yes, you can cancel your booking through the "My Bookings" page. Cancellation charges may apply depending on how close to the check-in date you cancel. Please check the cancellation policy for your specific booking.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cancel2">
+                What is the cancellation policy?
+              </button>
+            </h2>
+            <div id="cancel2" class="accordion-collapse collapse" data-bs-parent="#cancellationAccordion">
+              <div class="accordion-body">
+                Our cancellation policy varies by hotel and booking type. Generally, cancellations made more than 48 hours before check-in are free, while cancellations within 48 hours may incur charges. Please review the specific terms when making your booking.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cancel3">
+                Will I get a refund?
+              </button>
+            </h2>
+            <div id="cancel3" class="accordion-collapse collapse" data-bs-parent="#cancellationAccordion">
+              <div class="accordion-body">
+                Refunds depend on the cancellation policy and timing. If you're eligible for a refund, it will be processed to your original payment method within 5-10 business days.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment FAQs -->
+      <div class="wh-faq-category" id="payment">
+        <h4><i class="bi bi-credit-card"></i> Payment</h4>
+        <div class="accordion" id="paymentAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#payment1">
+                What payment methods do you accept?
+              </button>
+            </h2>
+            <div id="payment1" class="accordion-collapse collapse show" data-bs-parent="#paymentAccordion">
+              <div class="accordion-body">
+                We accept major credit cards (Visa, Mastercard, American Express) and debit cards. All payments are processed securely through our encrypted payment gateway.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#payment2">
+                Can I change the currency?
+              </button>
+            </h2>
+            <div id="payment2" class="accordion-collapse collapse" data-bs-parent="#paymentAccordion">
+              <div class="accordion-body">
+                Yes! You can change the currency using the currency selector in the top bar. We support GBP, EUR, USD, INR, AUD, CAD, and NPR. Prices will be automatically converted to your selected currency.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#payment3">
+                Is my payment information secure?
+              </button>
+            </h2>
+            <div id="payment3" class="accordion-collapse collapse" data-bs-parent="#paymentAccordion">
+              <div class="accordion-body">
+                Absolutely. We use industry-standard encryption and secure payment processing. Your payment information is never stored on our servers and is handled by our trusted payment partners.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account FAQs -->
+      <div class="wh-faq-category" id="account">
+        <h4><i class="bi bi-person-circle"></i> Account</h4>
+        <div class="accordion" id="accountAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#account1">
+                How do I create an account?
+              </button>
+            </h2>
+            <div id="account1" class="accordion-collapse collapse show" data-bs-parent="#accountAccordion">
+              <div class="accordion-body">
+                Click on "Register" in the top navigation bar, fill in your details, and verify your email address.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#account2">
+                I forgot my password. What should I do?
+              </button>
+            </h2>
+            <div id="account2" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+              <div class="accordion-body">
+                Click on "Sign in" and then select "Forgot Password". Enter your email address, and we'll send you a password reset link.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#account3">
+                How do I update my profile?
+              </button>
+            </h2>
+            <div id="account3" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+              <div class="accordion-body">
+                After signing in, click on "My Account" and select "Profile". From there, you can update your personal information, profile picture, and preferences.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hotels FAQs -->
+      <div class="wh-faq-category" id="hotels">
+        <h4><i class="bi bi-building"></i> Hotels</h4>
+        <div class="accordion" id="hotelsAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#hotels1">
+                How do I find hotels in a specific city?
+              </button>
+            </h2>
+            <div id="hotels1" class="accordion-collapse collapse show" data-bs-parent="#hotelsAccordion">
+              <div class="accordion-body">
+                Visit the "Destinations" page and use the filter pills to select a city, or use the search bar on the home page to find hotels in your desired location.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#hotels2">
+                What is the difference between peak and off-peak rates?
+              </button>
+            </h2>
+            <div id="hotels2" class="accordion-collapse collapse" data-bs-parent="#hotelsAccordion">
+              <div class="accordion-body">
+                Peak rates apply during high-demand periods (holidays, weekends, special events), while off-peak rates are available during regular periods. The rates are clearly displayed when you view hotel details.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#hotels3">
+                Are all hotels available year-round?
+              </button>
+            </h2>
+            <div id="hotels3" class="accordion-collapse collapse" data-bs-parent="#hotelsAccordion">
+              <div class="accordion-body">
+                Most hotels are available year-round, but availability may vary. Check the hotel details and booking calendar for specific availability dates.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Support Section -->
+    <div class="wh-help-contact">
+      <div class="wh-help-contact-card">
+        <h3>Still need help?</h3>
+        <p>Our support team is here to assist you 24/7</p>
+        <div class="wh-help-contact-buttons">
+          <a href="{{ url_for('main.contact') }}" class="btn btn-primary btn-lg">
+            <i class="bi bi-envelope"></i> Contact Us
+          </a>
+          <a href="tel:+9779851163785" class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-telephone"></i> Call Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.help-page-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.help-page-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.help-subtitle {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.wh-help-search {
+  max-width: 700px;
+  margin: 0 auto 50px;
+}
+
+.wh-help-search .input-group-text {
+  background: white;
+  border-right: none;
+  color: #6b7280;
+}
+
+.wh-help-search .form-control {
+  border-left: none;
+  padding: 16px;
+  font-size: 16px;
+}
+
+.wh-help-search .form-control:focus {
+  border-color: #0071ce;
+  box-shadow: 0 0 0 3px rgba(0, 113, 206, 0.1);
+}
+
+.wh-help-quick-links {
+  margin-bottom: 60px;
+}
+
+.wh-help-quick-links h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1f2937;
+}
+
+.wh-help-card {
+  display: block;
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.wh-help-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 113, 206, 0.15);
+  color: #0071ce;
+}
+
+.wh-help-card i {
+  font-size: 48px;
+  color: #0071ce;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.wh-help-card h5 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.wh-help-card p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 14px;
+}
+
+.wh-help-faq {
+  margin-bottom: 60px;
+}
+
+.wh-help-faq h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: #1f2937;
+}
+
+.wh-faq-category {
+  margin-bottom: 40px;
+}
+
+.wh-faq-category h4 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #0071ce;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wh-faq-category h4 i {
+  font-size: 28px;
+}
+
+.wh-faq-category .accordion-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.wh-faq-category .accordion-button {
+  background: #f9fafb;
+  color: #1f2937;
+  font-weight: 600;
+  padding: 20px;
+  border: none;
+}
+
+.wh-faq-category .accordion-button:not(.collapsed) {
+  background: #0071ce;
+  color: white;
+  box-shadow: none;
+}
+
+.wh-faq-category .accordion-button:focus {
+  box-shadow: 0 0 0 3px rgba(0, 113, 206, 0.1);
+}
+
+.wh-faq-category .accordion-body {
+  padding: 20px;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.wh-help-contact {
+  margin-top: 60px;
+}
+
+.wh-help-contact-card {
+  background: linear-gradient(135deg, #0071ce 0%, #005a9e 100%);
+  border-radius: 16px;
+  padding: 48px;
+  text-align: center;
+  color: white;
+}
+
+.wh-help-contact-card h3 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.wh-help-contact-card p {
+  font-size: 18px;
+  opacity: 0.9;
+  margin-bottom: 32px;
+}
+
+.wh-help-contact-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.wh-help-contact-buttons .btn {
+  min-width: 180px;
+}
+
+@media (max-width: 768px) {
+  .help-page-header h1 {
+    font-size: 28px;
+  }
+  
+  .help-subtitle {
+    font-size: 14px;
+  }
+  
+  .wh-help-quick-links h3,
+  .wh-help-faq h3 {
+    font-size: 24px;
+  }
+  
+  .wh-help-contact-card {
+    padding: 32px 24px;
+  }
+  
+  .wh-help-contact-card h3 {
+    font-size: 24px;
+  }
+  
+  .wh-help-contact-buttons {
+    flex-direction: column;
+  }
+  
+  .wh-help-contact-buttons .btn {
+    width: 100%;
+  }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Help search functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('helpSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const faqItems = document.querySelectorAll('.accordion-item');
+      
+      faqItems.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        const category = item.closest('.wh-faq-category');
+        
+        if (text.includes(searchTerm)) {
+          item.style.display = '';
+          if (category) category.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // Show/hide categories based on visible items
+      document.querySelectorAll('.wh-faq-category').forEach(category => {
+        const visibleItems = category.querySelectorAll('.accordion-item[style=""]');
+        if (visibleItems.length === 0 && searchTerm !== '') {
+          category.style.display = 'none';
+        } else {
+          category.style.display = '';
+        }
+      });
+    });
+  }
+  
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        const headerOffset = 100;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+});
+</script>
+{% endblock %}

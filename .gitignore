@@ -1,0 +1,32 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDE files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Unnecessary coursework
+raw_practice/
+weekly-WEB-DEV/
+
+# Large video files
+Images/A_video.mp4
+Images/B_video.mp4
+
+# Old database backup - do not publish
+database/sacstrsx_25024648.sql

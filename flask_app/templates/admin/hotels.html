@@ -1,0 +1,64 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Hotels - Admin Panel{% endblock %}
+
+{% block breadcrumbs %}
+<a href="{{ url_for('admin.dashboard') }}">Dashboard</a> / <span>Hotels</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Hotel Management</h1>
+    <p class="text-muted">Manage all hotels in the system</p>
+  </div>
+  <a href="{{ url_for('admin.add_hotel') }}" class="btn btn-primary">
+    <i class="bi bi-plus-circle"></i> Add New Hotel
+  </a>
+</div>
+
+<div class="admin-card">
+  <div class="table-responsive">
+    <table class="table table-hover" id="hotelsTable">
+      <thead>
+        <tr>
+          <th>Hotel Name</th>
+          <th>City</th>
+          <th>Capacity</th>
+          <th>Peak Rate</th>
+          <th>Off-Peak Rate</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hotel in hotels %}
+        <tr>
+          <td><strong>{{ hotel.HotelName }}</strong></td>
+          <td>{{ hotel.City }}</td>
+          <td>{{ hotel.CapacityRooms }} rooms</td>
+          <td>£{{ hotel.PeakRateGBP }}</td>
+          <td>£{{ hotel.OffPeakRateGBP }}</td>
+          <td>
+            {% if hotel.Status == 'Active' %}
+            <span class="badge bg-success">Active</span>
+            {% else %}
+            <span class="badge bg-secondary">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('admin.edit_hotel', hotel_id=hotel.HotelID) }}" class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-pencil"></i> Edit
+            </a>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="7" class="text-center text-muted">No hotels found</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

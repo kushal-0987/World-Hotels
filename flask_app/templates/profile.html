@@ -1,0 +1,581 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - World Hotels{% endblock %}
+
+{% block content %}
+<section class="wh-profile-page">
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="profile-header-bg"></div>
+    <div class="container">
+      <div class="profile-header-content">
+        <!-- Profile Photo Section -->
+        <div class="profile-photo-section">
+          <div class="profile-photo-wrapper">
+            <div class="profile-photo-container">
+              <img 
+                id="profilePhotoPreview" 
+                src="{{ session.get('profile_picture', url_for('static', filename='images/default-avatar.png')) }}" 
+                alt="Profile Photo"
+                onerror="this.src='https://ui-avatars.com/api/?name={{ customer.CustomerName|urlencode }}&background=3b82f6&color=fff&size=200'">
+              <div class="profile-photo-overlay">
+                <label for="profilePhotoInput" class="photo-upload-btn">
+                  <i class="bi bi-camera-fill"></i>
+                  <span>Change Photo</span>
+                </label>
+                <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
+              </div>
+              <div class="photo-upload-progress" id="photoUploadProgress" style="display: none;">
+                <div class="progress-bar"></div>
+              </div>
+            </div>
+            <div class="profile-badge">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Verified</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Info -->
+        <div class="profile-info">
+          <h1 class="profile-name">{{ customer.CustomerName }}</h1>
+          <p class="profile-email">
+            <i class="bi bi-envelope"></i>
+            {{ user_email }}
+          </p>
+          <div class="profile-meta">
+            <div class="meta-item">
+              <i class="bi bi-calendar-check"></i>
+              <span>Member since {{ member_since or 'Recently' }}</span>
+            </div>
+            <div class="meta-item">
+              <i class="bi bi-geo-alt"></i>
+              <span>{{ customer.City or 'Not set' }}, {{ customer.Country or '' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="profile-quick-stats">
+          <div class="quick-stat">
+            <div class="stat-value">{{ stats.total_bookings or 0 }}</div>
+            <div class="stat-label">Total Bookings</div>
+          </div>
+          <div class="quick-stat">
+            <div class="stat-value">
+              {% if stats.last_booking_date %}
+                {{ stats.last_booking_date.strftime('%b %Y') }}
+              {% else %}
+                --
+              {% endif %}
+            </div>
+            <div class="stat-label">Last Booking</div>
+          </div>
+          <div class="quick-stat">
+            <div class="stat-value">
+              <i class="bi bi-envelope"></i>
+            </div>
+            <div class="stat-label">Login Method</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="profile-content-grid">
+      <!-- Left Column -->
+      <div class="profile-main">
+        <!-- Personal Information Card -->
+        <div class="profile-card">
+          <div class="card-header">
+            <h2>
+              <i class="bi bi-person"></i>
+              Personal Information
+            </h2>
+            <button type="button" class="edit-toggle-btn" data-target="personalInfo">
+              <i class="bi bi-pencil"></i>
+              <span>Edit</span>
+            </button>
+          </div>
+
+          <form method="post" class="profile-form" id="personalInfoForm" enctype="multipart/form-data">
+            <div class="form-section">
+              <div class="form-group">
+                <label for="full_name">
+                  <i class="bi bi-person-badge"></i>
+                  Full Name
+                </label>
+                <input 
+                  type="text" 
+                  id="full_name" 
+                  name="full_name"
+                  value="{{ customer.CustomerName }}" 
+                  required
+                  readonly>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">
+                  <i class="bi bi-telephone"></i>
+                  Phone Number
+                </label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  name="phone"
+                  value="{{ customer.CustomerPhone or '' }}"
+                  placeholder="+44 123 456 7890"
+                  readonly>
+              </div>
+
+              <div class="form-group">
+                <label for="email_display">
+                  <i class="bi bi-envelope"></i>
+                  Email Address
+                </label>
+                <input 
+                  type="email" 
+                  id="email_display" 
+                  value="{{ user_email }}"
+                  readonly
+                  disabled>
+                <small class="form-hint">Email cannot be changed</small>
+              </div>
+            </div>
+
+            <div class="form-actions" style="display: none;">
+              <button type="button" class="btn-cancel" onclick="cancelEdit('personalInfo')">Cancel</button>
+              <button type="submit" class="btn-save">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Address Information Card -->
+        <div class="profile-card">
+          <div class="card-header">
+            <h2>
+              <i class="bi bi-geo-alt"></i>
+              Address Information
+            </h2>
+            <button type="button" class="edit-toggle-btn" data-target="addressInfo">
+              <i class="bi bi-pencil"></i>
+              <span>Edit</span>
+            </button>
+          </div>
+
+          <form method="post" class="profile-form" id="addressInfoForm">
+            <div class="form-section">
+              <div class="form-group">
+                <label for="address1">
+                  <i class="bi bi-house"></i>
+                  Address Line 1
+                </label>
+                <input 
+                  type="text" 
+                  id="address1" 
+                  name="address1"
+                  value="{{ customer.AddressLine1 or '' }}"
+                  placeholder="Street address"
+                  readonly>
+              </div>
+
+              <div class="form-group">
+                <label for="address2">
+                  <i class="bi bi-building"></i>
+                  Address Line 2
+                </label>
+                <input 
+                  type="text" 
+                  id="address2" 
+                  name="address2"
+                  value="{{ customer.AddressLine2 or '' }}"
+                  placeholder="Apartment, suite, etc. (optional)"
+                  readonly>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    City
+                  </label>
+                  <input 
+                    type="text" 
+                    id="city" 
+                    name="city"
+                    value="{{ customer.City or '' }}"
+                    placeholder="City"
+                    readonly>
+                </div>
+
+                <div class="form-group">
+                  <label for="country">
+                    <i class="bi bi-globe"></i>
+                    Country
+                  </label>
+                  <input 
+                    type="text" 
+                    id="country" 
+                    name="country"
+                    value="{{ customer.Country or '' }}"
+                    placeholder="Country"
+                    readonly>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions" style="display: none;">
+              <button type="button" class="btn-cancel" onclick="cancelEdit('addressInfo')">Cancel</button>
+              <button type="submit" class="btn-save">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Preferences Card -->
+        <div class="profile-card">
+          <div class="card-header">
+            <h2>
+              <i class="bi bi-sliders"></i>
+              Stay Preferences
+            </h2>
+            <button type="button" class="edit-toggle-btn" data-target="preferencesInfo">
+              <i class="bi bi-pencil"></i>
+              <span>Edit</span>
+            </button>
+          </div>
+
+          <form method="post" class="profile-form" id="preferencesInfoForm">
+            <div class="form-section">
+              <div class="form-group">
+                <label for="preferences">
+                  <i class="bi bi-heart"></i>
+                  Special Requests & Preferences
+                </label>
+                <textarea 
+                  id="preferences" 
+                  name="preferences" 
+                  rows="4"
+                  placeholder="E.g., Non-smoking room, high floor, late check-in, extra pillows..."
+                  readonly>{{ customer.Preferences or '' }}</textarea>
+                <small class="form-hint">Let us know your preferences for a better stay experience</small>
+              </div>
+
+              <!-- Preference Tags -->
+              <div class="preference-tags">
+                <label>Quick Preferences:</label>
+                <div class="tags-container">
+                  <label class="tag-item">
+                    <input type="checkbox" name="pref_nonsmoking" value="Non-smoking room">
+                    <span>Non-smoking</span>
+                  </label>
+                  <label class="tag-item">
+                    <input type="checkbox" name="pref_highfloor" value="High floor">
+                    <span>High Floor</span>
+                  </label>
+                  <label class="tag-item">
+                    <input type="checkbox" name="pref_latecheckin" value="Late check-in">
+                    <span>Late Check-in</span>
+                  </label>
+                  <label class="tag-item">
+                    <input type="checkbox" name="pref_earlycheckout" value="Early check-out">
+                    <span>Early Check-out</span>
+                  </label>
+                  <label class="tag-item">
+                    <input type="checkbox" name="pref_quiet" value="Quiet room">
+                    <span>Quiet Room</span>
+                  </label>
+                  <label class="tag-item">
+                    <input type="checkbox" name="pref_view" value="Room with view">
+                    <span>Room with View</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions" style="display: none;">
+              <button type="button" class="btn-cancel" onclick="cancelEdit('preferencesInfo')">Cancel</button>
+              <button type="submit" class="btn-save">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="profile-sidebar">
+        <!-- Account Statistics Card -->
+        <div class="profile-card">
+          <div class="card-header">
+            <h2>
+              <i class="bi bi-graph-up"></i>
+              Account Statistics
+            </h2>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
+                <i class="bi bi-calendar-check"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-number">{{ stats.total_bookings or 0 }}</div>
+                <div class="stat-text">Total Bookings</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-number">
+                  {% if stats.last_booking_date %}
+                    {{ stats.last_booking_date.strftime('%b') }}
+                  {% else %}
+                    --
+                  {% endif %}
+                </div>
+                <div class="stat-text">Last Booking</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                <i class="bi bi-star-fill"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-number">4.8</div>
+                <div class="stat-text">Avg Rating</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Card -->
+        <div class="profile-card">
+          <div class="card-header">
+            <h2>
+              <i class="bi bi-shield-check"></i>
+              Security
+            </h2>
+          </div>
+          <div class="security-list">
+            <div class="security-item">
+              <div class="security-info">
+                <i class="bi bi-key"></i>
+                <div>
+                  <div class="security-title">Password</div>
+                  <div class="security-desc">Last changed: Recently</div>
+                </div>
+              </div>
+              <a href="{{ url_for('auth.forgot_password') }}" class="security-action">Change</a>
+            </div>
+            <div class="security-item">
+              <div class="security-info">
+                <i class="bi bi-envelope"></i>
+                <div>
+                  <div class="security-title">Login Method</div>
+                  <div class="security-desc">
+                    Email & Password
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="security-item">
+              <div class="security-info">
+                <i class="bi bi-shield-lock"></i>
+                <div>
+                  <div class="security-title">Two-Factor Auth</div>
+                  <div class="security-desc">Not enabled</div>
+                </div>
+              </div>
+              <button class="security-action" disabled>Enable</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Card -->
+        <div class="profile-card">
+          <div class="card-header">
+            <h2>
+              <i class="bi bi-lightning"></i>
+              Quick Actions
+            </h2>
+          </div>
+          <div class="quick-actions">
+            <a href="{{ url_for('booking.my_bookings') }}" class="action-btn">
+              <i class="bi bi-calendar-event"></i>
+              <span>My Bookings</span>
+            </a>
+            <a href="{{ url_for('booking.booking') }}" class="action-btn">
+              <i class="bi bi-plus-circle"></i>
+              <span>New Booking</span>
+            </a>
+            <a href="{{ url_for('main.home') }}" class="action-btn">
+              <i class="bi bi-house"></i>
+              <span>Home</span>
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="action-btn action-danger">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Logout</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Profile Photo Upload
+  const photoInput = document.getElementById('profilePhotoInput');
+  const photoPreview = document.getElementById('profilePhotoPreview');
+  const uploadProgress = document.getElementById('photoUploadProgress');
+
+  photoInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size must be less than 5MB');
+        return;
+      }
+
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        photoPreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      // Upload to server
+      uploadPhoto(file);
+    }
+  });
+
+  function uploadPhoto(file) {
+    const formData = new FormData();
+    formData.append('profile_photo', file);
+
+    uploadProgress.style.display = 'block';
+    const progressBar = uploadProgress.querySelector('.progress-bar');
+
+    fetch('{{ url_for("auth.upload_profile_photo") }}', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      uploadProgress.style.display = 'none';
+      if (data.success) {
+        photoPreview.src = data.photo_url;
+        showToast('Profile photo updated successfully!', 'success');
+      } else {
+        showToast(data.error || 'Failed to upload photo', 'error');
+      }
+    })
+    .catch(error => {
+      uploadProgress.style.display = 'none';
+      showToast('Error uploading photo', 'error');
+      console.error('Upload error:', error);
+    });
+  }
+
+  // Edit Toggle Buttons
+  document.querySelectorAll('.edit-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const target = this.dataset.target;
+      const form = document.getElementById(target + 'Form');
+      const inputs = form.querySelectorAll('input, textarea');
+      const actions = form.querySelector('.form-actions');
+
+      // Toggle readonly
+      inputs.forEach(input => {
+        if (input.id !== 'email_display') {
+          input.readOnly = !input.readOnly;
+        }
+      });
+
+      // Show/hide actions
+      actions.style.display = actions.style.display === 'none' ? 'flex' : 'none';
+      this.style.display = actions.style.display === 'none' ? 'flex' : 'none';
+    });
+  });
+
+  // Preference Tags
+  document.querySelectorAll('.preference-tags input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const textarea = document.getElementById('preferences');
+      let currentPrefs = textarea.value.split(',').map(p => p.trim()).filter(p => p);
+      
+      if (this.checked) {
+        if (!currentPrefs.includes(this.value)) {
+          currentPrefs.push(this.value);
+        }
+      } else {
+        currentPrefs = currentPrefs.filter(p => p !== this.value);
+      }
+      
+      textarea.value = currentPrefs.join(', ');
+    });
+  });
+
+  // Load existing preferences into tags
+  const preferencesText = document.getElementById('preferences').value;
+  if (preferencesText) {
+    const prefs = preferencesText.split(',').map(p => p.trim());
+    document.querySelectorAll('.preference-tags input[type="checkbox"]').forEach(checkbox => {
+      if (prefs.includes(checkbox.value)) {
+        checkbox.checked = true;
+      }
+    });
+  }
+
+  // Toast Notification
+  function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `wh-toast wh-toast-${type}`;
+    toast.innerHTML = `
+      <div class="wh-toast-icon">
+        <i class="bi bi-${type === 'success' ? 'check-circle' : 'x-circle'}-fill"></i>
+      </div>
+      <div class="wh-toast-content">
+        <span class="wh-toast-message">${message}</span>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+});
+
+function cancelEdit(formId) {
+  const form = document.getElementById(formId + 'Form');
+  const inputs = form.querySelectorAll('input, textarea');
+  const actions = form.querySelector('.form-actions');
+  const editBtn = form.closest('.profile-card').querySelector('.edit-toggle-btn');
+
+  inputs.forEach(input => {
+    if (input.id !== 'email_display') {
+      input.readOnly = true;
+    }
+  });
+
+  actions.style.display = 'none';
+  editBtn.style.display = 'flex';
+  
+  // Reload page to reset form values
+  location.reload();
+}
+</script>
+{% endblock %}

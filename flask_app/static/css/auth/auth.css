@@ -1,0 +1,3509 @@
+/* ============================================
+   AUTHENTICATION PAGES STYLES
+   This file contains all the CSS for login, 
+   register, forgot password and reset password pages.
+   We keep it separate to make it easier to maintain
+   and understand the code structure.
+============================================ */
+
+/* Auth Buttons - used in header navigation */
+.wh-auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wh-btn-register,
+.wh-btn-signin {
+  padding: 10px 16px;
+  border-radius: var(--wh-radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  transition: var(--wh-transition);
+}
+
+.wh-btn-register {
+  background: var(--wh-white);
+  color: var(--wh-blue);
+}
+
+.wh-btn-register:hover {
+  background: var(--wh-gray-100);
+  text-decoration: none;
+}
+
+.wh-btn-signin {
+  background: var(--wh-blue-light);
+  color: var(--wh-white);
+  border: 1px solid var(--wh-blue-light);
+}
+
+.wh-btn-signin:hover {
+  background: var(--wh-blue-hover);
+  border-color: var(--wh-blue-hover);
+  text-decoration: none;
+  color: var(--wh-white);
+}
+
+.wh-btn-user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: var(--wh-white);
+  padding: 8px 14px;
+  border-radius: var(--wh-radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--wh-transition);
+}
+
+.wh-btn-user:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.wh-btn-user i {
+  font-size: 20px;
+}
+
+/* Mobile Toggle */
+.wh-toggler {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: var(--wh-white);
+  padding: 8px 12px;
+  border-radius: var(--wh-radius-sm);
+  font-size: 24px;
+}
+
+/* Dropdown Menu */
+.wh-dropdown {
+  border: none;
+  border-radius: var(--wh-radius-md);
+  box-shadow: var(--wh-shadow-lg);
+  padding: 8px;
+  min-width: 200px;
+}
+
+.wh-dropdown .dropdown-item {
+  padding: 10px 14px;
+  border-radius: var(--wh-radius-sm);
+  font-weight: 500;
+  color: var(--wh-gray-800);
+}
+
+.wh-dropdown .dropdown-item:hover {
+  background: var(--wh-gray-50);
+}
+
+.wh-dropdown .dropdown-item i {
+  color: var(--wh-gray-600);
+}
+
+.wh-dropdown .dropdown-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--wh-gray-400);
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   HERO SECTION - Booking.com Style
+============================================= */
+.wh-hero {
+  position: relative;
+  background: var(--wh-blue);
+  padding: 40px 0 160px;
+}
+
+.wh-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--wh-blue) 60%, var(--wh-blue-dark) 100%);
+}
+
+.wh-hero-content {
+  position: relative;
+  z-index: 1;
+  color: var(--wh-white);
+}
+
+.wh-hero h1 {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.wh-hero p {
+  font-size: 18px;
+  opacity: 0.9;
+  margin-bottom: 32px;
+}
+
+/* Search Box */
+.wh-search-box {
+  position: relative;
+  z-index: 10;
+}
+
+.wh-search-form {
+  display: flex;
+  align-items: stretch;
+  background: var(--wh-yellow);
+  padding: 4px;
+  border-radius: var(--wh-radius-md);
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.wh-search-field {
+  display: flex;
+  align-items: center;
+  background: var(--wh-white);
+  border-radius: var(--wh-radius-sm);
+  padding: 0 16px;
+  min-height: 56px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.wh-search-field i {
+  color: var(--wh-gray-600);
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+.wh-search-field input,
+.wh-search-field select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--wh-black);
+  width: 100%;
+  padding: 8px 0;
+}
+
+.wh-search-field input::placeholder {
+  color: var(--wh-gray-600);
+}
+
+.wh-search-dates {
+  gap: 8px;
+}
+
+.wh-date-separator {
+  color: var(--wh-gray-400);
+}
+
+.wh-search-btn {
+  background: var(--wh-blue-light);
+  color: var(--wh-white);
+  border: none;
+  padding: 16px 32px;
+  border-radius: var(--wh-radius-sm);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--wh-transition);
+  white-space: nowrap;
+}
+
+.wh-search-btn:hover {
+  background: var(--wh-blue-hover);
+}
+
+/* ============================================
+   IMPROVED HERO SECTION
+============================================= */
+.wh-hero-improved {
+  position: relative;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  padding: 60px 0 100px;
+  overflow: hidden;
+}
+
+.wh-hero-bg-improved {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.wh-hero-bg-improved img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: slowZoom 20s ease-in-out infinite;
+}
+
+@keyframes slowZoom {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.wh-hero-overlay-improved {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 35, 80, 0.85) 0%, rgba(0, 113, 194, 0.75) 100%);
+  z-index: 1;
+}
+
+.wh-hero-content-improved {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(254, 187, 2, 0.95);
+  color: var(--wh-black);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-badge i {
+  font-size: 1rem;
+}
+
+.hero-headline {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  color: white;
+}
+
+.hero-headline .text-gradient {
+  background: linear-gradient(135deg, #febb02 0%, #fed847 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* Improved Search Box - Premium Design */
+.wh-search-box-improved {
+  background: white;
+  border-radius: 16px;
+  padding: 4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.wh-search-form-improved {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.search-field-group {
+  display: grid;
+  grid-template-columns: 2.5fr 2fr 2fr auto;
+  gap: 0;
+  align-items: stretch;
+  background: white;
+}
+
+.wh-search-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  height: 56px;
+  background: white;
+  transition: all 0.2s ease;
+  position: relative;
+  border-right: 1px solid #e5e7eb;
+}
+
+.wh-search-field:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.wh-search-field:last-of-type:not(.wh-search-btn-improved) {
+  border-right: none;
+}
+
+.wh-search-field:hover {
+  background: #f9fafb;
+}
+
+.wh-search-field:focus-within {
+  background: #f9fafb;
+  z-index: 1;
+}
+
+.wh-search-field i {
+  color: #6b7280;
+  font-size: 18px;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.wh-search-field:focus-within i {
+  color: var(--wh-blue-light);
+}
+
+.wh-search-field input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: #111827;
+  width: 100%;
+  padding: 0;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.wh-search-field input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.wh-search-field input[type="date"] {
+  color: #111827;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.wh-search-field input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.5;
+  margin-left: 8px;
+  width: 18px;
+  height: 18px;
+  transition: opacity 0.2s ease;
+}
+
+.wh-search-field input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 0.8;
+}
+
+.wh-search-field:focus-within input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.8;
+}
+
+.date-field {
+  min-width: 0;
+}
+
+.guests-field {
+  min-width: 0;
+}
+
+.guests-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.guest-btn {
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid #d1d5db;
+  background: white;
+  color: #6b7280;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.guest-btn:hover {
+  background: #f3f4f6;
+  border-color: var(--wh-blue-light);
+  color: var(--wh-blue-light);
+}
+
+.guest-btn:active {
+  transform: scale(0.95);
+}
+
+.guest-btn i {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.guests-selector input {
+  width: 24px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  border: none;
+  background: transparent;
+  padding: 0;
+  -moz-appearance: textfield;
+}
+
+.guests-selector input::-webkit-outer-spin-button,
+.guests-selector input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.guests-label {
+  font-size: 14px;
+  color: #6b7280;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  display: none;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  margin-top: 4px;
+}
+
+.suggestion-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 15px;
+  color: #111827;
+}
+
+.suggestion-item:hover {
+  background: #f9fafb;
+  color: var(--wh-blue-light);
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.wh-search-btn-improved {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 56px;
+  padding: 0 24px;
+  background: var(--wh-blue-light);
+  color: white;
+  border: none;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  margin-left: 0;
+  box-shadow: none;
+  min-width: 120px;
+}
+
+.wh-search-btn-improved:hover {
+  background: var(--wh-blue-hover);
+  transform: none;
+}
+
+.wh-search-btn-improved:active {
+  transform: scale(0.98);
+}
+
+.wh-search-btn-improved i {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.popular-cities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.popular-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.city-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  background: rgba(0, 113, 194, 0.8);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 113, 194, 0.3);
+}
+
+.city-link:hover {
+  background: rgba(0, 113, 194, 1);
+  transform: translateY(-2px);
+  border-color: rgba(0, 113, 194, 0.5);
+}
+
+/* Trust Badges Section */
+.wh-trust-badges-section {
+  background: white;
+  padding: 50px 0;
+  position: relative;
+}
+
+.wh-trust-badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.trust-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 25px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.trust-badge-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--wh-blue-light);
+  box-shadow: 0 10px 30px rgba(0, 113, 194, 0.15);
+}
+
+.trust-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--wh-blue-light), var(--wh-blue));
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.trust-content h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--wh-black);
+  margin: 0 0 5px;
+}
+
+.trust-content p {
+  font-size: 0.9rem;
+  color: var(--wh-gray-600);
+  margin: 0;
+}
+
+/* Testimonials Section */
+.wh-testimonials-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  padding: 80px 0;
+}
+
+.wh-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.wh-testimonial-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.wh-testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  border-color: var(--wh-blue-light);
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.testimonial-header img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-info h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--wh-black);
+  margin: 0 0 5px;
+}
+
+.testimonial-rating {
+  color: #febb02;
+  font-size: 0.9rem;
+}
+
+.testimonial-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--wh-gray-800);
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.testimonial-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--wh-blue-light);
+  font-weight: 600;
+}
+
+/* Property Type Badges */
+.property-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+}
+
+.property-hotel .property-badge {
+  background: rgba(0, 113, 194, 0.9);
+  color: white;
+}
+
+.property-apartment .property-badge {
+  background: rgba(16, 185, 129, 0.9);
+  color: white;
+}
+
+.property-resort .property-badge {
+  background: rgba(245, 158, 11, 0.9);
+  color: white;
+}
+
+.property-villa .property-badge {
+  background: rgba(139, 92, 246, 0.9);
+  color: white;
+}
+
+.property-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 25px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  color: white;
+}
+
+.property-overlay h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 5px;
+}
+
+.property-overlay p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Destination Descriptions */
+.wh-dest-overlay p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 10px 0;
+  opacity: 0.95;
+}
+
+.dest-booking-count {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: rgba(254, 187, 2, 0.2);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Hotel Filters */
+.hotel-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 24px;
+  background: var(--wh-gray-50);
+  border: 2px solid var(--wh-gray-200);
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--wh-gray-800);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--wh-blue-light);
+  color: var(--wh-blue-light);
+}
+
+.filter-btn.active {
+  background: var(--wh-blue-light);
+  color: white;
+  border-color: var(--wh-blue-light);
+}
+
+/* Urgency Indicators */
+.hotel-urgency-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(239, 68, 68, 0.95);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 3;
+  backdrop-filter: blur(10px);
+  animation: pulseUrgency 2s ease-in-out infinite;
+}
+
+@keyframes pulseUrgency {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.hotel-urgency-badge i {
+  font-size: 0.9rem;
+}
+
+.booking-activity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--wh-gray-600);
+  margin-top: 8px;
+}
+
+.booking-activity i {
+  color: var(--wh-blue-light);
+}
+
+/* Offer Badges */
+.offer-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  backdrop-filter: blur(10px);
+}
+
+/* Scroll Animations */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-on-load {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced Hotel Card Hover */
+.wh-hotel-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wh-hotel-card:hover {
+  transform: translateY(-8px);
+}
+
+.wh-hotel-card:hover .wh-hotel-image img {
+  transform: scale(1.05);
+}
+
+.wh-hotel-image img {
+  transition: transform 0.4s ease;
+}
+
+/* Better White Space */
+.wh-section {
+  padding: 80px 0;
+}
+
+.wh-section-title {
+  margin-bottom: 12px;
+}
+
+.wh-section-subtitle {
+  margin-bottom: 40px;
+}
+
+/* Responsive Improvements */
+@media (max-width: 1024px) {
+  .search-field-group {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .wh-search-field {
+    border-right: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .wh-search-field:nth-child(2n) {
+    border-right: none;
+  }
+  
+  .wh-search-field:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  
+  .wh-search-btn-improved {
+    grid-column: 1 / -1;
+    border-radius: 0 0 12px 12px;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .hero-headline {
+    font-size: 2.5rem;
+  }
+  
+  .wh-trust-badges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .wh-hero-improved {
+    min-height: 450px;
+    padding: 40px 0 80px;
+  }
+  
+  .hero-badge {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    margin-bottom: 14px;
+  }
+  
+  .hero-headline {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+  }
+  
+  .wh-search-box-improved {
+    padding: 4px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+  
+  .search-field-group {
+    grid-template-columns: 1fr;
+  }
+  
+  .wh-search-field {
+    height: 52px;
+    padding: 0 14px;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 0;
+  }
+  
+  .wh-search-field:first-child {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  
+  .wh-search-field:last-of-type:not(.wh-search-btn-improved) {
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .wh-search-btn-improved {
+    width: 100%;
+    height: 52px;
+    padding: 0 24px;
+    font-size: 15px;
+    border-radius: 0 0 12px 12px;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .popular-cities {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+  
+  .popular-label {
+    display: none;
+  }
+  
+  .wh-stats-bar {
+    margin-top: -60px;
+    padding: 20px 0;
+  }
+  
+  .wh-stats-row {
+    gap: 24px;
+  }
+  
+  .wh-stat-item {
+    gap: 10px;
+  }
+  
+  .wh-stat-item i {
+    font-size: 28px;
+  }
+  
+  .wh-stat-item strong {
+    font-size: 18px;
+  }
+  
+  .wh-stat-item span {
+    font-size: 12px;
+  }
+  
+  .wh-trust-badges-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .trust-badge-card {
+    padding: 20px;
+  }
+  
+  .wh-testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wh-section {
+    padding: 60px 0;
+  }
+  
+  .hotel-filters {
+    overflow-x: auto;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .hotel-filters::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .filter-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .wh-promo-banner {
+    font-size: 0.8rem;
+  }
+  
+  .wh-promo-banner span {
+    display: none;
+  }
+  
+  .wh-promo-banner::after {
+    content: 'Sale: Save 15%';
+  }
+}
+
+/* ============================================
+   STATS BAR
+============================================= */
+.wh-stats-bar {
+  background: var(--wh-white);
+  padding: 24px 0;
+  margin-top: -70px;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.wh-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.wh-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--wh-gray-800);
+  padding: 8px 0;
+}
+
+.wh-stat-item i {
+  font-size: 32px;
+  color: var(--wh-blue-light);
+  flex-shrink: 0;
+}
+
+.wh-stat-item strong {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--wh-black);
+  line-height: 1.2;
+}
+
+.wh-stat-item span {
+  font-size: 13px;
+  color: var(--wh-gray-600);
+  font-weight: 500;
+}
+
+/* ============================================
+   SECTIONS
+============================================= */
+.wh-section {
+  padding: 48px 0;
+}
+
+.wh-section-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--wh-black);
+}
+
+.wh-section-subtitle {
+  color: var(--wh-gray-600);
+  margin-bottom: 24px;
+}
+
+.wh-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.wh-see-all {
+  color: var(--wh-blue-light);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ============================================
+   OFFERS SECTION
+============================================= */
+.wh-offers {
+  background: var(--wh-gray-50);
+}
+
+.wh-offers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.wh-offer-card {
+  display: flex;
+  border-radius: var(--wh-radius-lg);
+  overflow: hidden;
+  min-height: 180px;
+}
+
+.wh-offer-blue {
+  background: linear-gradient(135deg, #1a4a8a 0%, #0a2a5a 100%);
+  color: var(--wh-white);
+}
+
+.wh-offer-green {
+  background: linear-gradient(135deg, #1a6b1a 0%, #0a3a0a 100%);
+  color: var(--wh-white);
+}
+
+.wh-offer-content {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wh-offer-content h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.wh-offer-content p {
+  opacity: 0.9;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.wh-offer-btn {
+  display: inline-block;
+  background: var(--wh-white);
+  color: var(--wh-blue);
+  padding: 10px 20px;
+  border-radius: var(--wh-radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  width: fit-content;
+  transition: var(--wh-transition);
+}
+
+.wh-offer-btn:hover {
+  background: var(--wh-gray-100);
+  text-decoration: none;
+}
+
+.wh-offer-image {
+  width: 180px;
+  flex-shrink: 0;
+}
+
+.wh-offer-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================
+   PROPERTY TYPES
+============================================= */
+.wh-property-types {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.wh-property-card {
+  display: block;
+  color: var(--wh-black);
+  transition: var(--wh-transition);
+}
+
+.wh-property-card:hover {
+  text-decoration: none;
+}
+
+.wh-property-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: var(--wh-radius-md);
+  margin-bottom: 12px;
+}
+
+.wh-property-card:hover img {
+  opacity: 0.9;
+}
+
+.wh-property-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.wh-property-card p {
+  font-size: 13px;
+  color: var(--wh-gray-600);
+  margin: 0;
+}
+
+/* ============================================
+   DESTINATIONS GRID
+============================================= */
+/* Destinations section styles moved to main styles.css */
+/* Removed to prevent conflicts - all destination styles are in styles.css */
+
+/* Destinations grid styles moved to main styles.css - this file should not override */
+/* Removed conflicting styles to prevent overlap issues */
+
+/* ============================================
+   HOTEL CARDS - Booking.com Style
+============================================= */
+.wh-hotels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.wh-hotel-card {
+  background: var(--wh-white);
+  border: 1px solid var(--wh-gray-200);
+  border-radius: var(--wh-radius-md);
+  overflow: hidden;
+  transition: var(--wh-transition);
+}
+
+.wh-hotel-card:hover {
+  box-shadow: var(--wh-shadow-md);
+  border-color: var(--wh-gray-400);
+}
+
+.wh-hotel-link {
+  display: block;
+  color: var(--wh-black);
+}
+
+.wh-hotel-link:hover {
+  text-decoration: none;
+}
+
+.wh-hotel-image {
+  position: relative;
+  height: 180px;
+}
+
+.wh-hotel-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wh-wishlist {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--wh-white);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--wh-shadow-sm);
+  transition: var(--wh-transition);
+}
+
+.wh-wishlist:hover {
+  background: var(--wh-gray-100);
+}
+
+.wh-wishlist i {
+  color: var(--wh-gray-600);
+}
+
+.wh-hotel-info {
+  padding: 16px;
+}
+
+.wh-hotel-location {
+  font-size: 12px;
+  color: var(--wh-gray-600);
+  margin-bottom: 4px;
+}
+
+.wh-hotel-location i {
+  color: var(--wh-blue-light);
+}
+
+.wh-hotel-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--wh-blue-light);
+}
+
+.wh-hotel-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.wh-rating-badge {
+  background: var(--wh-blue);
+  color: var(--wh-white);
+  padding: 4px 8px;
+  border-radius: var(--wh-radius-sm) var(--wh-radius-sm) var(--wh-radius-sm) 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wh-rating-text {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.wh-rating-count {
+  color: var(--wh-gray-600);
+  font-size: 12px;
+}
+
+.wh-hotel-features {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--wh-gray-600);
+}
+
+.wh-hotel-features span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wh-hotel-features i {
+  color: var(--wh-green);
+}
+
+.wh-hotel-pricing {
+  border-top: 1px solid var(--wh-gray-100);
+  padding-top: 12px;
+}
+
+.wh-price-label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.wh-price-type {
+  font-size: 12px;
+  color: var(--wh-gray-600);
+}
+
+.wh-price-amount {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--wh-black);
+}
+
+.wh-price-night {
+  font-size: 12px;
+  color: var(--wh-gray-600);
+}
+
+.wh-price-peak {
+  font-size: 12px;
+  color: var(--wh-gray-600);
+  margin-top: 4px;
+}
+
+/* ============================================
+   CURRENCY CONVERSION STYLES
+============================================= */
+
+/* Price update animation */
+@keyframes priceUpdate {
+  0% {
+    opacity: 0.5;
+    transform: translateY(-5px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.price-convert,
+.peak-price {
+  transition: all 0.3s ease;
+}
+
+.price-convert.price-updated,
+.peak-price.price-updated {
+  color: var(--wh-blue);
+}
+
+/* After animation, return to normal color */
+.price-convert.price-updated {
+  animation: priceColorFade 2s ease forwards;
+}
+
+@keyframes priceColorFade {
+  0% { color: var(--wh-blue); }
+  70% { color: var(--wh-blue); }
+  100% { color: var(--wh-black); }
+}
+
+/* Currency Change Notification */
+.currency-notification {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, var(--wh-blue) 0%, var(--wh-blue-light) 100%);
+  color: white;
+  padding: 16px 28px;
+  border-radius: 50px;
+  box-shadow: 0 10px 40px rgba(0, 53, 128, 0.4),
+              0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.currency-notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.currency-notification i {
+  font-size: 20px;
+  color: var(--wh-yellow);
+}
+
+.currency-notification strong {
+  color: var(--wh-yellow);
+}
+
+/* Price amount styling for destinations page */
+.dest-card-pricing .price-amount {
+  transition: all 0.3s ease;
+}
+
+.dest-card-pricing .price-amount.price-updated {
+  animation: priceUpdate 0.4s ease-out, priceColorFade 2s ease forwards;
+}
+
+/* ============================================
+   LOYALTY BANNER
+============================================= */
+.wh-loyalty-banner {
+  background: var(--wh-blue);
+}
+
+.wh-loyalty-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--wh-radius-lg);
+  padding: 32px;
+  flex-wrap: wrap;
+}
+
+.wh-loyalty-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--wh-yellow);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wh-loyalty-icon i {
+  font-size: 32px;
+  color: var(--wh-blue);
+}
+
+.wh-loyalty-content {
+  flex: 1;
+  color: var(--wh-white);
+  min-width: 200px;
+}
+
+.wh-loyalty-content h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.wh-loyalty-content p {
+  opacity: 0.9;
+  margin: 0;
+}
+
+.wh-loyalty-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.wh-btn-primary {
+  background: var(--wh-blue-light);
+  color: var(--wh-white);
+  padding: 12px 24px;
+  border-radius: var(--wh-radius-sm);
+  font-weight: 600;
+  transition: var(--wh-transition);
+}
+
+.wh-btn-primary:hover {
+  background: var(--wh-blue-hover);
+  color: var(--wh-white);
+  text-decoration: none;
+}
+
+.wh-btn-secondary {
+  background: transparent;
+  color: var(--wh-white);
+  padding: 12px 24px;
+  border-radius: var(--wh-radius-sm);
+  border: 1px solid rgba(255,255,255,0.5);
+  font-weight: 600;
+  transition: var(--wh-transition);
+}
+
+.wh-btn-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--wh-white);
+  text-decoration: none;
+}
+
+/* ============================================
+   TRUST SECTION
+============================================= */
+.wh-trust-section {
+  border-top: 1px solid var(--wh-gray-100);
+}
+
+.wh-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+  text-align: center;
+}
+
+.wh-trust-item i {
+  font-size: 32px;
+  color: var(--wh-blue);
+  margin-bottom: 12px;
+}
+
+.wh-trust-item h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.wh-trust-item p {
+  font-size: 14px;
+  color: var(--wh-gray-600);
+  margin: 0;
+}
+
+/* ============================================
+   FOOTER - Booking.com Style
+============================================= */
+.wh-footer {
+  background: var(--wh-blue);
+  color: var(--wh-white);
+  padding: 48px 0 24px;
+}
+
+.wh-footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.wh-footer-col h6 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.wh-footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wh-footer-col li {
+  margin-bottom: 10px;
+}
+
+.wh-footer-col a {
+  color: var(--wh-white);
+  opacity: 0.85;
+  font-size: 13px;
+}
+
+.wh-footer-col a:hover {
+  opacity: 1;
+}
+
+.wh-footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 24px;
+  text-align: center;
+}
+
+.wh-footer-brand {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.wh-copyright {
+  font-size: 12px;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* ============================================
+   BACK TO TOP
+============================================= */
+.wh-back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  background: var(--wh-blue);
+  color: var(--wh-white);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--wh-transition);
+  box-shadow: var(--wh-shadow-md);
+  z-index: 999;
+}
+
+.wh-back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wh-back-to-top:hover {
+  background: var(--wh-blue-dark);
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+============================================= */
+.wh-toast-container {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.wh-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateX(120%);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+  border-left: 4px solid var(--wh-blue);
+}
+
+.wh-toast-show {
+  transform: translateX(0);
+  opacity: 1;
+  animation: toastSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toastSlideIn {
+  0% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.wh-toast-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--wh-blue) 0%, var(--wh-blue-dark) 100%);
+}
+
+.wh-toast-icon i {
+  font-size: 18px;
+  color: white;
+}
+
+/* Success Toast */
+.wh-toast:has(.bi-check-circle-fill) {
+  border-left-color: #10b981;
+}
+
+.wh-toast:has(.bi-check-circle-fill) .wh-toast-icon {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* Error Toast */
+.wh-toast:has(.bi-x-circle-fill) {
+  border-left-color: #ef4444;
+}
+
+.wh-toast:has(.bi-x-circle-fill) .wh-toast-icon {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Warning Toast */
+.wh-toast:has(.bi-exclamation-triangle-fill) {
+  border-left-color: #f59e0b;
+}
+
+.wh-toast:has(.bi-exclamation-triangle-fill) .wh-toast-icon {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+/* Info Toast */
+.wh-toast:has(.bi-info-circle-fill) {
+  border-left-color: var(--wh-blue);
+}
+
+.wh-toast-content {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.wh-toast-message {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--wh-black);
+  line-height: 1.5;
+  display: block;
+}
+
+.wh-toast-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.wh-toast-close:hover {
+  background: #f3f4f6;
+  color: var(--wh-black);
+}
+
+.wh-toast-close i {
+  font-size: 14px;
+}
+
+/* Progress Bar */
+.wh-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--wh-blue) 0%, var(--wh-blue-light) 100%);
+  animation: toastProgress 5s linear forwards;
+  border-radius: 0 0 0 16px;
+}
+
+@keyframes toastProgress {
+  0% { width: 100%; }
+  100% { width: 0%; }
+}
+
+/* Success progress */
+.wh-toast:has(.bi-check-circle-fill) .wh-toast-progress {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+}
+
+/* Error progress */
+.wh-toast:has(.bi-x-circle-fill) .wh-toast-progress {
+  background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);
+}
+
+/* Warning progress */
+.wh-toast:has(.bi-exclamation-triangle-fill) .wh-toast-progress {
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .wh-toast-container {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+  }
+  
+  .wh-toast {
+    padding: 14px 16px;
+  }
+}
+
+/* ============================================
+   FORM STYLES (Login, Register, etc.)
+============================================= */
+.form-card {
+  max-width: 420px;
+  margin: 48px auto;
+  padding: 32px;
+  background: var(--wh-white);
+  border: 1px solid var(--wh-gray-200);
+  border-radius: var(--wh-radius-md);
+  box-shadow: var(--wh-shadow-sm);
+}
+
+.form-card h2 {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.form-card .form-subtitle {
+  text-align: center;
+  color: var(--wh-gray-600);
+  margin-bottom: 24px;
+}
+
+.form-card label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.form-card input,
+.form-card select,
+.form-card textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--wh-gray-200);
+  border-radius: var(--wh-radius-sm);
+  font-size: 14px;
+  margin-bottom: 16px;
+  transition: var(--wh-transition);
+}
+
+.form-card input:focus,
+.form-card select:focus,
+.form-card textarea:focus {
+  outline: none;
+  border-color: var(--wh-blue-light);
+  box-shadow: 0 0 0 3px rgba(0, 113, 194, 0.1);
+}
+
+.form-card .btn-primary {
+  width: 100%;
+  background: var(--wh-blue-light);
+  border: none;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.form-card .btn-primary:hover {
+  background: var(--wh-blue-hover);
+}
+
+/* ============================================
+   AUTH PAGES - Modern Login & Register
+============================================= */
+
+/* ============================================
+   FULLSCREEN LOGIN PAGE
+============================================= */
+.wh-login-fullscreen {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  overflow: hidden;
+}
+
+.wh-login-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.wh-login-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: slowZoom 25s ease-in-out infinite alternate;
+}
+
+.wh-login-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 53, 128, 0.85) 0%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+/* 3D Flying Plane Animation
+   This creates a cool 3D plane that flies across the screen.
+   It uses CSS transforms and animations to make it look realistic.
+   The plane moves from left to right continuously.
+*/
+.wh-flying-plane-container {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.wh-flying-plane {
+  position: absolute;
+  top: 25%;
+  left: -200px;
+  width: 120px;
+  height: 40px;
+  transform-style: preserve-3d;
+  animation: planeFly 18s linear infinite;
+}
+
+@keyframes planeFly {
+  0% {
+    left: -200px;
+    top: 30%;
+    transform: rotateX(15deg) rotateY(-20deg) rotateZ(-5deg) scale(0.6);
+  }
+  25% {
+    top: 20%;
+    transform: rotateX(10deg) rotateY(-10deg) rotateZ(-2deg) scale(0.8);
+  }
+  50% {
+    top: 35%;
+    transform: rotateX(5deg) rotateY(5deg) rotateZ(2deg) scale(1);
+  }
+  75% {
+    top: 25%;
+    transform: rotateX(8deg) rotateY(15deg) rotateZ(5deg) scale(0.9);
+  }
+  100% {
+    left: calc(100% + 200px);
+    top: 20%;
+    transform: rotateX(12deg) rotateY(20deg) rotateZ(8deg) scale(0.7);
+  }
+}
+
+/* Plane Body */
+.plane-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.plane-fuselage {
+  position: absolute;
+  width: 100%;
+  height: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 50%, #d0d0d0 100%);
+  border-radius: 50px 15px 15px 50px;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 3px 6px rgba(255, 255, 255, 0.8);
+}
+
+.plane-nose {
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 18px;
+  background: linear-gradient(180deg, #f5f5f5 0%, #d0d0d0 100%);
+  border-radius: 50% 0 0 50%;
+  box-shadow: inset 2px 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.plane-tail {
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 14px;
+  background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
+  border-radius: 0 10px 10px 0;
+}
+
+.plane-tail-fin {
+  position: absolute;
+  right: 0;
+  top: -12px;
+  width: 25px;
+  height: 22px;
+  background: linear-gradient(90deg, #0071c2 0%, #003580 100%);
+  clip-path: polygon(100% 100%, 0% 100%, 70% 0%);
+  border-radius: 0 3px 0 0;
+}
+
+/* Wings */
+.plane-wing {
+  position: absolute;
+  width: 70px;
+  height: 12px;
+  top: 50%;
+  left: 30%;
+  background: linear-gradient(180deg, #ffffff 0%, #c8c8c8 100%);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.plane-wing-left {
+  transform: translateY(-50%) rotateX(75deg) skewX(-15deg);
+  transform-origin: right center;
+  border-radius: 2px 30px 30px 2px;
+}
+
+.plane-wing-right {
+  transform: translateY(-50%) rotateX(-75deg) skewX(15deg);
+  transform-origin: right center;
+  border-radius: 2px 30px 30px 2px;
+}
+
+/* Engines */
+.plane-engine {
+  position: absolute;
+  width: 18px;
+  height: 10px;
+  background: linear-gradient(180deg, #888 0%, #555 100%);
+  border-radius: 50%;
+  left: 35%;
+}
+
+.plane-engine-left {
+  top: -8px;
+  box-shadow: 0 -2px 8px rgba(255, 200, 100, 0.5);
+}
+
+.plane-engine-right {
+  bottom: -8px;
+  box-shadow: 0 2px 8px rgba(255, 200, 100, 0.5);
+}
+
+/* Windows */
+.plane-windows {
+  position: absolute;
+  display: flex;
+  gap: 6px;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+
+.plane-windows span {
+  width: 5px;
+  height: 5px;
+  background: linear-gradient(180deg, #87ceeb 0%, #4a90c2 100%);
+  border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Contrails */
+.plane-contrail {
+  position: absolute;
+  right: 100%;
+  top: 30%;
+  width: 300px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.3) 100%);
+  border-radius: 0 2px 2px 0;
+  animation: contrailFade 2s ease-out infinite;
+}
+
+.plane-contrail-2 {
+  top: 60%;
+  animation-delay: 0.1s;
+}
+
+@keyframes contrailFade {
+  0% { opacity: 0.8; width: 300px; }
+  100% { opacity: 0; width: 500px; }
+}
+
+/* Clouds */
+.wh-clouds {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  filter: blur(2px);
+  animation: cloudDrift 40s linear infinite;
+}
+
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.cloud-1 {
+  width: 150px;
+  height: 50px;
+  top: 15%;
+  left: -200px;
+  animation-duration: 35s;
+}
+
+.cloud-1::before {
+  width: 70px;
+  height: 70px;
+  top: -30px;
+  left: 20px;
+}
+
+.cloud-1::after {
+  width: 50px;
+  height: 50px;
+  top: -20px;
+  left: 70px;
+}
+
+.cloud-2 {
+  width: 120px;
+  height: 40px;
+  top: 55%;
+  left: -200px;
+  animation-duration: 45s;
+  animation-delay: -15s;
+}
+
+.cloud-2::before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 15px;
+}
+
+.cloud-2::after {
+  width: 40px;
+  height: 40px;
+  top: -15px;
+  left: 55px;
+}
+
+.cloud-3 {
+  width: 100px;
+  height: 35px;
+  top: 75%;
+  left: -200px;
+  animation-duration: 50s;
+  animation-delay: -25s;
+}
+
+.cloud-3::before {
+  width: 45px;
+  height: 45px;
+  top: -20px;
+  left: 10px;
+}
+
+.cloud-3::after {
+  width: 35px;
+  height: 35px;
+  top: -12px;
+  left: 45px;
+}
+
+@keyframes cloudDrift {
+  0% { left: -250px; }
+  100% { left: 110%; }
+}
+
+/* Left Branding Section */
+.wh-login-branding {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 60px 80px;
+  color: white;
+}
+
+.wh-login-brand-content {
+  max-width: 600px;
+}
+
+.wh-login-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 40px;
+}
+
+.auth-logo-img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+.wh-login-logo i {
+  display: none; /* Hide icon when logo image is present */
+}
+
+.wh-login-logo .brand-dot {
+  color: var(--wh-yellow);
+}
+
+.wh-login-headline {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+
+.wh-login-headline span {
+  background: linear-gradient(135deg, var(--wh-yellow) 0%, #ffd54f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.wh-login-subtext {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  line-height: 1.7;
+  margin-bottom: 50px;
+  max-width: 480px;
+}
+
+.wh-login-stats {
+  display: flex;
+  gap: 40px;
+}
+
+.login-stat {
+  text-align: center;
+}
+
+.login-stat .stat-num {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--wh-yellow);
+}
+
+.login-stat .stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+/* Right Form Section */
+.wh-login-form-wrapper {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(20px);
+}
+
+.wh-login-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.wh-login-card-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.wh-login-card-header h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--wh-black);
+  margin-bottom: 8px;
+}
+
+.wh-login-card-header p {
+  color: var(--wh-gray);
+  font-size: 14px;
+}
+
+/* Google Sign In Button */
+.wh-google-signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 20px;
+  background: white;
+  border: 2px solid var(--wh-gray-200);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--wh-black);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.wh-google-signin:hover {
+  border-color: var(--wh-blue-light);
+  box-shadow: 0 4px 20px rgba(0, 113, 194, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Divider */
+.wh-login-divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  color: var(--wh-gray);
+  font-size: 13px;
+}
+
+.wh-login-divider::before,
+.wh-login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--wh-gray-200);
+}
+
+.wh-login-divider span {
+  padding: 0 16px;
+}
+
+/* Form Fields */
+.wh-login-field {
+  margin-bottom: 20px;
+}
+
+.wh-login-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--wh-gray-800);
+}
+
+.wh-login-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.wh-login-input > i:first-child {
+  position: absolute;
+  left: 16px;
+  color: var(--wh-gray-400);
+  font-size: 18px;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.wh-login-input input {
+  width: 100%;
+  padding: 14px 50px 14px 48px;
+  border: 2px solid var(--wh-gray-200);
+  border-radius: 12px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background: var(--wh-bg);
+}
+
+.wh-login-input input:focus {
+  outline: none;
+  border-color: var(--wh-blue);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(0, 113, 194, 0.1);
+}
+
+.wh-login-input input:focus + i,
+.wh-login-input:focus-within > i:first-child {
+  color: var(--wh-blue);
+}
+
+.wh-login-input input::placeholder {
+  color: var(--wh-gray-400);
+}
+
+/* Password Toggle Button in Login Form
+   This button allows users to show or hide their password while typing.
+   It's positioned on the right side of password input field.
+   When clicked, it toggles between showing password text or dots.
+*/
+.wh-login-input .wh-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--wh-gray-400);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.wh-login-input .wh-password-toggle:hover {
+  color: var(--wh-blue);
+  background: rgba(0, 113, 194, 0.1);
+}
+
+/* Login Options Row
+   This contains the "Remember me" checkbox and forgot password link.
+   Users can choose to stay logged in or reset their password if needed.
+*/
+.wh-login-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.wh-login-remember {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--wh-gray-600);
+}
+
+.wh-login-remember input {
+  display: none;
+}
+
+.remember-check {
+  width: 20px;
+  height: 20px;
+  border: 1px solid blue;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.wh-login-remember input:checked + .remember-check {
+  background: var(--wh-blue);
+  border-color: var(--wh-blue);
+}
+
+.wh-login-remember input:checked + .remember-check::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.wh-forgot-link {
+  font-size: 14px;
+  color: var(--wh-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.wh-forgot-link:hover {
+  color: var(--wh-blue-dark);
+  text-decoration: underline;
+}
+
+/* Login Submit Button
+   This is the main button that submits the login form.
+   It has a nice gradient background and hover effects to make it attractive.
+   When clicked, it sends the form data to server for authentication.
+*/
+.wh-login-submit {
+  width: 100%;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--wh-blue) 0%, var(--wh-blue-dark) 100%);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 53, 128, 0.3);
+}
+
+.wh-login-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 53, 128, 0.4);
+}
+
+.wh-login-submit i {
+  transition: transform 0.3s ease;
+}
+
+.wh-login-submit:hover i {
+  transform: translateX(4px);
+}
+
+/* Hint Box */
+.wh-login-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(254, 187, 2, 0.1);
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #b45309;
+}
+
+.wh-login-hint i {
+  font-size: 18px;
+  color: var(--wh-yellow);
+}
+
+/* Footer */
+.wh-login-footer {
+  text-align: center;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--wh-gray-200);
+}
+
+.wh-login-footer p {
+  font-size: 14px;
+  color: var(--wh-gray);
+}
+
+.wh-login-footer a {
+  color: var(--wh-blue);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.wh-login-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Secure Badge */
+.wh-login-secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--wh-gray-400);
+}
+
+.wh-login-secure i {
+  color: #10b981;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .wh-login-fullscreen {
+    grid-template-columns: 1fr 420px;
+  }
+  
+  .wh-login-branding {
+    padding: 40px 50px;
+  }
+}
+
+@media (max-width: 900px) {
+  .wh-login-fullscreen {
+    grid-template-columns: 1fr;
+  }
+  
+  .wh-login-branding {
+    display: none;
+  }
+  
+  .wh-login-form-wrapper {
+    min-height: 100vh;
+  }
+  
+  .wh-login-bg img {
+    display: none;
+  }
+  
+  .wh-login-overlay {
+    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+}
+
+@media (max-width: 480px) {
+  .wh-login-form-wrapper {
+    padding: 24px 20px;
+  }
+  
+  .wh-login-card-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   AUTH SECTION (for register, forgot password, etc.)
+   This is the main container for register and other auth pages.
+   It uses a two-column layout with image on one side and form on other.
+   On mobile devices, the image section is hidden to save space.
+============================================= */
+.wh-auth-section {
+  min-height: 100vh;
+  background: var(--wh-gray-50);
+}
+
+.wh-auth-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+/* Auth Sidebar - This is the left side with image and branding
+   It shows hotel images and some benefits of using our service.
+   The background has a nice gradient overlay for better text readability.
+*/
+.wh-auth-sidebar {
+  position: relative;
+  background: var(--wh-blue);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.wh-auth-sidebar-content {
+  position: relative;
+  z-index: 2;
+  padding: 40px 50px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.wh-auth-illustration {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 20px 20px 20px 20px;
+  overflow: hidden;
+  
+}
+
+.wh-auth-illustration img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px 20px 20px 20px;
+}
+
+.wh-auth-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 53, 128, 0.92) 0%, rgba(0, 34, 79, 0.95) 100%);
+}
+
+.wh-auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--wh-white);
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.wh-auth-logo i {
+  font-size: 36px;
+  color: var(--wh-yellow);
+}
+
+.wh-auth-tagline {
+  position: relative;
+  z-index: 2;
+  color: var(--wh-white);
+  margin-bottom: 40px;
+}
+
+.wh-auth-tagline h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.wh-auth-tagline p {
+  font-size: 16px;
+  opacity: 0.9;
+  line-height: 1.6;
+  animation: fadeInUp 0.6s ease 0.1s forwards;
+  opacity: 0;
+}
+
+.wh-auth-features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.wh-auth-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--wh-white);
+  font-size: 14px;
+  opacity: 0;
+  animation: fadeInLeft 0.5s ease forwards;
+}
+
+.wh-auth-feature:nth-child(1) { animation-delay: 0.2s; }
+.wh-auth-feature:nth-child(2) { animation-delay: 0.3s; }
+.wh-auth-feature:nth-child(3) { animation-delay: 0.4s; }
+
+.wh-auth-feature i {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--wh-yellow);
+}
+
+/* Auth Form Section - This is where the actual form is displayed
+   It contains all the input fields, buttons and validation messages.
+   We use modern styling to make it look professional and user-friendly.
+*/
+.wh-auth-form-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  background: var(--wh-white);
+}
+
+.wh-auth-form-wrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+.wh-auth-mobile-logo {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.wh-auth-mobile-logo .auth-logo-img {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
+.wh-auth-mobile-logo i {
+  display: none; /* Hide icon when logo image is present */
+}
+
+.wh-auth-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.wh-auth-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--wh-black);
+  margin-bottom: 8px;
+}
+
+.wh-auth-header p {
+  color: var(--wh-gray-600);
+  font-size: 15px;
+}
+
+/* Social Login Buttons */
+.wh-social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.wh-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: var(--wh-radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wh-google-btn {
+  background: var(--wh-white);
+  border: 1px solid var(--wh-gray-200);
+  color: var(--wh-gray-800);
+}
+
+.wh-google-btn:hover {
+  background: var(--wh-gray-50);
+  border-color: var(--wh-gray-400);
+  transform: translateY(-2px);
+  box-shadow: var(--wh-shadow-sm);
+}
+
+.wh-apple-btn {
+  background: var(--wh-black);
+  border: 1px solid var(--wh-black);
+  color: var(--wh-white);
+}
+
+.wh-apple-btn:hover {
+  background: #333;
+  transform: translateY(-2px);
+  box-shadow: var(--wh-shadow-md);
+}
+
+.wh-apple-btn i {
+  font-size: 20px;
+}
+
+/* Divider */
+.wh-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.wh-auth-divider::before,
+.wh-auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--wh-gray-200);
+}
+
+.wh-auth-divider span {
+  color: var(--wh-gray-400);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* Auth Form */
+.wh-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wh-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.wh-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wh-form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--wh-gray-800);
+}
+
+.wh-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.wh-input-wrapper i:first-child {
+  position: absolute;
+  left: 10px;
+  color: var(--wh-gray-400);
+  font-size: 18px;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.wh-input-wrapper input {
+  width: 100%;
+  padding: 14px 50px 14px 46px;
+  border: 2px solid var(--wh-gray-200);
+  border-radius: var(--wh-radius-md);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: var(--wh-white);
+}
+
+/* Input without password toggle (like email) */
+.wh-input-wrapper input[type="email"],
+.wh-input-wrapper input[type="text"]:not([id*="password"]) {
+  padding-right: 14px;
+}
+
+.wh-input-wrapper input:focus {
+  outline: none;
+  border-color: var(--wh-blue-light);
+  box-shadow: 0 0 0 4px rgba(0, 113, 194, 0.1);
+}
+
+.wh-input-wrapper input:focus + i:first-child,
+.wh-input-wrapper:focus-within i:first-child {
+  color: var(--wh-blue-light);
+}
+
+.wh-input-wrapper input::placeholder {
+  color: var(--wh-gray-400);
+}
+
+/* Password Toggle */
+.wh-password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--wh-gray-400);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.wh-password-toggle:hover {
+  color: var(--wh-blue);
+  background: rgba(0, 113, 194, 0.1);
+}
+
+.wh-password-toggle i {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Password Strength */
+.wh-password-strength {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.wh-password-strength .strength-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--wh-gray-200);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.wh-password-strength .strength-bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: var(--wh-gray-400);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.wh-password-strength .strength-text {
+  font-size: 12px;
+  color: var(--wh-gray-400);
+  white-space: nowrap;
+}
+
+/* Form Options (Remember me, Forgot password) */
+.wh-form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Checkbox */
+.wh-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--wh-gray-600);
+}
+
+.wh-checkbox input {
+  display: none;
+}
+
+.wh-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgb(120, 120, 201);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.wh-checkbox input:checked + .checkmark {
+  background: var(--wh-blue-light);
+  border-color: var(--wh-blue-light);
+}
+
+.wh-checkbox input:checked + .checkmark::after {
+  content: '✓';
+  color: var(--wh-white);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wh-checkbox:hover .checkmark {
+  border-color: var(--wh-blue-light);
+}
+
+.wh-terms-checkbox span a {
+  color: var(--wh-blue-light);
+  text-decoration: none;
+}
+
+.wh-terms-checkbox span a:hover {
+  text-decoration: underline;
+}
+
+/* Forgot Password Link */
+.wh-forgot-link {
+  font-size: 14px;
+  color: var(--wh-blue-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.wh-forgot-link:hover {
+  color: var(--wh-blue-hover);
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.wh-auth-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--wh-blue-light);
+  color: var(--wh-white);
+  border: none;
+  border-radius: var(--wh-radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.wh-auth-submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.wh-auth-submit:hover {
+  background: var(--wh-blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 113, 194, 0.3);
+}
+
+.wh-auth-submit:hover::before {
+  left: 100%;
+}
+
+.wh-auth-submit:hover i {
+  transform: translateX(4px);
+}
+
+.wh-auth-submit i {
+  transition: transform 0.3s ease;
+}
+
+.wh-register-submit {
+  background: var(--wh-green);
+}
+
+.wh-register-submit:hover {
+  background: #006607;
+  box-shadow: 0 8px 20px rgba(0, 128, 9, 0.3);
+}
+
+/* Auth Alert */
+.wh-auth-alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(254, 187, 2, 0.1);
+  border: 1px solid var(--wh-yellow);
+  border-radius: var(--wh-radius-md);
+  margin-top: 20px;
+}
+
+.wh-auth-alert i {
+  color: var(--wh-yellow);
+  font-size: 20px;
+}
+
+.wh-auth-alert p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--wh-gray-800);
+}
+
+/* Auth Footer */
+.wh-auth-footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--wh-gray-100);
+}
+
+.wh-auth-footer p {
+  margin: 0;
+  color: var(--wh-gray-600);
+  font-size: 14px;
+}
+
+.wh-auth-footer a {
+  color: var(--wh-blue-light);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.wh-auth-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Auth Trust Badges */
+.wh-auth-trust {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.wh-auth-trust span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--wh-gray-400);
+}
+
+.wh-auth-trust i {
+  color: var(--wh-green);
+}
+
+/* Register Sidebar Benefits */
+.wh-auth-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.wh-benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  color: var(--wh-white);
+  opacity: 0;
+  animation: fadeInRight 0.5s ease forwards;
+}
+
+.wh-benefit-item:nth-child(1) { animation-delay: 0.2s; }
+.wh-benefit-item:nth-child(2) { animation-delay: 0.3s; }
+.wh-benefit-item:nth-child(3) { animation-delay: 0.4s; }
+.wh-benefit-item:nth-child(4) { animation-delay: 0.5s; }
+
+.wh-benefit-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--wh-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wh-benefit-icon i {
+  font-size: 22px;
+  color: var(--wh-yellow);
+}
+
+.wh-benefit-text h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.wh-benefit-text p {
+  font-size: 13px;
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* Auth Stats */
+.wh-auth-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.wh-auth-stat {
+  text-align: center;
+  color: var(--wh-white);
+}
+
+.wh-auth-stat strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--wh-yellow);
+}
+
+.wh-auth-stat span {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Register page - We reverse the layout here so form comes first
+   This is done to give more focus on the registration form since
+   it has more fields than login page. The sidebar still shows
+   benefits but in a different order.
+*/
+.wh-register-form {
+  order: 1;
+}
+
+.wh-register-sidebar {
+  order: 2;
+  background: linear-gradient(135deg, #1a6b1a 0%, #0a3a0a 100%);
+}
+
+.wh-register-sidebar .wh-auth-overlay {
+  background: linear-gradient(135deg, rgba(26, 107, 26, 0.92) 0%, rgba(10, 58, 10, 0.95) 100%);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .wh-auth-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .wh-auth-sidebar {
+    display: none;
+  }
+  
+  .wh-auth-mobile-logo {
+    display: flex;
+  }
+  
+  .wh-auth-form-section {
+    padding: 32px 24px;
+  }
+  
+  .wh-register-form {
+    order: unset;
+  }
+}
+
+@media (max-width: 576px) {
+  .wh-form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .wh-form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .wh-social-login {
+    gap: 10px;
+  }
+  
+  .wh-auth-trust {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+}

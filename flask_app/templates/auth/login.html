@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - World Hotels{% endblock %}
+
+{% block content %}
+<!-- Login Page Section
+     This is the main login page where users can sign in to their account.
+     It includes a beautiful fullscreen background with 3D flying plane animation
+     and a clean form on the right side for better user experience.
+-->
+<section class="wh-login-fullscreen">
+  <!-- Fullscreen Background - shows hotel image with overlay for better text readability -->
+  <div class="wh-login-bg">
+    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80" alt="Luxury Hotel">
+    <div class="wh-login-overlay"></div>
+  </div>
+  
+  <!-- 3D Flying Plane -->
+  <div class="wh-flying-plane-container">
+    <div class="wh-flying-plane">
+      <!-- Plane Body -->
+      <div class="plane-body">
+        <div class="plane-nose"></div>
+        <div class="plane-fuselage"></div>
+        <div class="plane-tail"></div>
+        <div class="plane-tail-fin"></div>
+      </div>
+      <!-- Wings -->
+      <div class="plane-wing plane-wing-left"></div>
+      <div class="plane-wing plane-wing-right"></div>
+      <!-- Engines -->
+      <div class="plane-engine plane-engine-left"></div>
+      <div class="plane-engine plane-engine-right"></div>
+      <!-- Windows -->
+      <div class="plane-windows">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <!-- Contrail -->
+      <div class="plane-contrail"></div>
+      <div class="plane-contrail plane-contrail-2"></div>
+    </div>
+  </div>
+  
+  <!-- Clouds -->
+  <div class="wh-clouds">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+  
+  <!-- Left Branding Content -->
+  <div class="wh-login-branding">
+    <div class="wh-login-brand-content">
+      <div class="wh-login-logo">
+        <img src="{{ url_for('main.serve_image', filename='logo.png') }}" alt="World Hotels" class="auth-logo-img">
+      </div>
+      
+      <h1 class="wh-login-headline">
+        Welcome Back to <span>Extraordinary</span> Stays
+      </h1>
+      
+      <p class="wh-login-subtext">
+        Sign in to access exclusive deals, manage your reservations, and continue your journey with us.
+      </p>
+      
+      <div class="wh-login-stats">
+        <div class="login-stat">
+          <span class="stat-num">500+</span>
+          <span class="stat-label">Hotels Worldwide</span>
+        </div>
+        <div class="login-stat">
+          <span class="stat-num">2M+</span>
+          <span class="stat-label">Happy Guests</span>
+        </div>
+        <div class="login-stat">
+          <span class="stat-num">4.8</span>
+          <span class="stat-label">Average Rating</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Login Form Card
+       This is the main form container where users enter their login details.
+       All form fields have proper validation to ensure data security.
+  -->
+  <div class="wh-login-form-wrapper">
+    <div class="wh-login-card">
+      <div class="wh-login-card-header">
+        <h2>Sign in</h2>
+        <p>Enter your credentials to continue</p>
+      </div>
+      
+      <!-- Login Form
+           This form collects user's email and password for authentication.
+           There's also a "Remember me" checkbox and forgot password link.
+           After successful login, user will be redirected to their dashboard.
+      -->
+      <form method="post" class="wh-login-form">
+        <div class="wh-login-field">
+          <label for="email">Email</label>
+          <div class="wh-login-input">
+            <i class="bi bi-envelope"></i>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+          </div>
+        </div>
+        
+        <div class="wh-login-field">
+          <label for="password">Password</label>
+          <div class="wh-login-input">
+            <i class="bi bi-lock"></i>
+            <input type="password" id="password" name="password" placeholder="Enter password" required>
+            <button type="button" class="wh-password-toggle" onclick="togglePassword('password')">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="wh-login-options">
+          <label class="wh-login-remember">
+            <input type="checkbox" name="remember">
+            <span class="remember-check"></span>
+            <span>Remember me</span>
+          </label>
+          <a href="{{ url_for('auth.forgot_password') }}" class="wh-forgot-link">Forgot password?</a>
+        </div>
+        
+        <button type="submit" class="wh-login-submit">
+          <span>Sign in</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </form>
+      
+      {% if register_hint %}
+      <div class="wh-login-hint">
+        <i class="bi bi-info-circle"></i>
+        <span>Please sign in to make a booking</span>
+      </div>
+      {% endif %}
+      
+      <div class="wh-login-footer">
+        <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Create one free</a></p>
+      </div>
+      
+      <div class="wh-login-secure">
+        <i class="bi bi-shield-lock"></i>
+        <span>Secured with 256-bit SSL encryption</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function togglePassword(inputId) {
+  const input = document.getElementById(inputId);
+  const icon = input.parentElement.querySelector('.wh-password-toggle i');
+  
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.remove('bi-eye');
+    icon.classList.add('bi-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.remove('bi-eye-slash');
+    icon.classList.add('bi-eye');
+  }
+}
+</script>
+{% endblock %}

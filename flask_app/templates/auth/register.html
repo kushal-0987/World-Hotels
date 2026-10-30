@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account - World Hotels{% endblock %}
+
+{% block content %}
+<!-- Register Page Section
+     This page allows new users to create an account with us.
+     The form includes validation to ensure all required fields are filled properly.
+-->
+<section class="wh-auth-section">
+  <div class="wh-auth-container">
+    <!-- Left Side - Registration Form
+         This is where users fill out their information to create account.
+         The form has validation to check email format and password strength.
+         Phone number is optional but recommended for booking confirmations.
+    -->
+    <div class="wh-auth-form-section wh-register-form">
+      <div class="wh-auth-form-wrapper">
+        <!-- Mobile Logo -->
+        <div class="wh-auth-mobile-logo">
+          <img src="{{ url_for('main.serve_image', filename='logo.png') }}" alt="World Hotels" class="auth-logo-img">
+        </div>
+
+        <div class="wh-auth-header">
+          <h1>Create an account</h1>
+          <p>Join thousands of travelers booking smarter.</p>
+        </div>
+
+        <!-- Register Form (real functionality) -->
+        <!-- Registration Form
+             This form collects user information like name, email, password and phone.
+             All fields are validated on both client and server side for security.
+             After successful registration, user will be redirected to login page.
+        -->
+        <form method="post" class="wh-auth-form" action="{{ url_for('auth.register') }}">
+          <div class="wh-form-group">
+            <label for="full_name">Full name</label>
+            <div class="wh-input-wrapper">
+              <i class="bi bi-person"></i>
+              <input type="text"
+                     id="full_name"
+                     name="full_name"
+                     placeholder="John Doe"
+                     required>
+            </div>
+          </div>
+
+          <div class="wh-form-group">
+            <label for="email">Email address</label>
+            <div class="wh-input-wrapper">
+              <i class="bi bi-envelope"></i>
+              <input type="email"
+                     id="email"
+                     name="email"
+                     placeholder="john@example.com"
+                     required>
+            </div>
+          </div>
+
+          <div class="wh-form-group">
+            <label for="password">Password</label>
+            <div class="wh-input-wrapper">
+              <i class="bi bi-lock"></i>
+              <input type="password"
+                     id="password"
+                     name="password"
+                     placeholder="Create a strong password"
+                     required
+                     minlength="8">
+              <button type="button"
+                      class="wh-password-toggle"
+                      onclick="togglePassword('password')"
+                      aria-label="Toggle password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <div class="wh-password-strength">
+              <div class="strength-bar"></div>
+              <span class="strength-text">Password strength</span>
+            </div>
+          </div>
+
+          <div class="wh-form-group">
+            <label class="wh-checkbox wh-terms-checkbox">
+              <input type="checkbox" name="terms" required>
+              <span class="checkmark"></span>
+              <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+            </label>
+          </div>
+
+          <div class="wh-form-group">
+            <label class="wh-checkbox">
+              <input type="checkbox" name="newsletter">
+              <span class="checkmark"></span>
+              <span>Send me exclusive deals and travel tips</span>
+            </label>
+          </div>
+
+          <button type="submit" class="wh-auth-submit wh-register-submit">
+            <span>Create account</span>
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="wh-auth-footer">
+          <p>Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Illustration and Benefits
+         This section shows why users should register with us.
+         It displays our key statistics and benefits in an attractive way.
+         On mobile devices, this section is hidden to save space.
+    -->
+    <div class="wh-auth-sidebar wh-register-sidebar">
+      <div class="wh-auth-sidebar-content">
+        <div class="wh-auth-illustration">
+          <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&q=80"
+               alt="Travel Experience">
+          <div class="wh-auth-overlay"></div>
+        </div>
+
+        <div class="wh-auth-tagline">
+          <h2>Start Your Journey</h2>
+          <p>Create an account and unlock amazing benefits.</p>
+        </div>
+
+        <div class="wh-auth-benefits">
+          <div class="wh-benefit-item">
+            <div class="wh-benefit-icon">
+              <i class="bi bi-percent"></i>
+            </div>
+            <div class="wh-benefit-text">
+              <h4>Exclusive Discounts</h4>
+              <p>Get up to 15% off on your first booking</p>
+            </div>
+          </div>
+
+          <div class="wh-benefit-item">
+            <div class="wh-benefit-icon">
+              <i class="bi bi-lightning-charge"></i>
+            </div>
+            <div class="wh-benefit-text">
+              <h4>Faster Checkout</h4>
+              <p>Save your details for quick bookings</p>
+            </div>
+          </div>
+
+          <div class="wh-benefit-item">
+            <div class="wh-benefit-icon">
+              <i class="bi bi-award"></i>
+            </div>
+            <div class="wh-benefit-text">
+              <h4>Loyalty Rewards</h4>
+              <p>Earn points on every booking</p>
+            </div>
+          </div>
+
+          <div class="wh-benefit-item">
+            <div class="wh-benefit-icon">
+              <i class="bi bi-bell"></i>
+            </div>
+            <div class="wh-benefit-text">
+              <h4>Price Alerts</h4>
+              <p>Get notified when prices drop</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="wh-auth-stats">
+          <div class="wh-auth-stat">
+            <strong>500K+</strong>
+            <span>Happy Guests</span>
+          </div>
+          <div class="wh-auth-stat">
+            <strong>4.8</strong>
+            <span>Avg. Rating</span>
+          </div>
+          <div class="wh-auth-stat">
+            <strong>24/7</strong>
+            <span>Support</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function togglePassword(inputId) {
+  const input = document.getElementById(inputId);
+  const icon = input.parentElement.querySelector('.wh-password-toggle i');
+
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.remove('bi-eye');
+    icon.classList.add('bi-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.remove('bi-eye-slash');
+    icon.classList.add('bi-eye');
+  }
+}
+
+// Password strength indicator
+const passwordInput = document.getElementById('password');
+const strengthBar = document.querySelector('.strength-bar');
+const strengthText = document.querySelector('.strength-text');
+
+if (passwordInput && strengthBar) {
+  passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    let strength = 0;
+
+    if (password.length >= 8) strength += 25;
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 25;
+    if (password.match(/[0-9]/)) strength += 25;
+    if (password.match(/[^a-zA-Z0-9]/)) strength += 25;
+
+    strengthBar.style.width = strength + '%';
+
+    if (strength <= 25) {
+      strengthBar.style.background = '#cc0000';
+      strengthText.textContent = 'Weak password';
+    } else if (strength <= 50) {
+      strengthBar.style.background = '#febb02';
+      strengthText.textContent = 'Fair password';
+    } else if (strength <= 75) {
+      strengthBar.style.background = '#0071c2';
+      strengthText.textContent = 'Good password';
+    } else {
+      strengthBar.style.background = '#008009';
+      strengthText.textContent = 'Strong password';
+    }
+  });
+}
+</script>
+{% endblock %}

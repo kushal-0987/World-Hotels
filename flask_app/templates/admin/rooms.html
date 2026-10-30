@@ -1,0 +1,120 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Rooms - Admin Panel{% endblock %}
+
+{% block breadcrumbs %}
+<a href="{{ url_for('admin.dashboard') }}">Dashboard</a> / <span>Rooms</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Room Management</h1>
+    <p class="text-muted">Manage all rooms across hotels</p>
+  </div>
+  <div class="d-flex gap-2">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#bulkCreateModal">
+      <i class="bi bi-plus-circle-fill"></i> Bulk Create Rooms
+    </button>
+    <a href="{{ url_for('admin.add_room') }}" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i> Add New Room
+    </a>
+  </div>
+</div>
+
+<!-- Bulk Create Rooms Modal -->
+<div class="modal fade" id="bulkCreateModal" tabindex="-1" aria-labelledby="bulkCreateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bulkCreateModalLabel">Bulk Create Rooms</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{{ url_for('admin.bulk_create_rooms') }}">
+        <div class="modal-body">
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            <strong>Room Distribution:</strong> 30% Standard, 50% Double, 20% Family
+          </div>
+          <div class="mb-3">
+            <label for="hotel_id" class="form-label">Select Hotel <span class="text-danger">*</span></label>
+            <select class="form-select" id="hotel_id" name="hotel_id" required>
+              <option value="">Choose a hotel...</option>
+              {% for hotel in hotels %}
+              <option value="{{ hotel.HotelID }}">
+                {{ hotel.HotelName }} - {{ hotel.City }} (Capacity: {{ hotel.CapacityRooms }} rooms)
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="total_rooms" class="form-label">Total Rooms to Create</label>
+            <input type="number" class="form-control" id="total_rooms" name="total_rooms" 
+                   min="10" max="500" value="100">
+            <small class="form-text text-muted">Leave empty to use hotel's capacity. Distribution will be: 30% Standard, 50% Double, 20% Family</small>
+          </div>
+          <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i>
+            <strong>Note:</strong> This will create rooms following the distribution rule. Existing rooms will not be deleted.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success">Create Rooms</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Room Number</th>
+          <th>Hotel</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Price/Night</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if rooms %}
+          {% for room in rooms %}
+          <tr>
+            <td><strong>{{ room.RoomNumber }}</strong></td>
+            <td>{{ room.HotelName }}<br><small class="text-muted">{{ room.City }}</small></td>
+            <td>{{ room.RoomTypeName }}</td>
+            <td>
+              {% if room.RoomStatus == 'Available' %}
+                <span class="badge bg-success">Available</span>
+              {% elif room.RoomStatus == 'Booked' %}
+                <span class="badge bg-secondary">Booked</span>
+              {% elif room.RoomStatus == 'Under Maintenance' %}
+                <span class="badge bg-danger">Maintenance</span>
+              {% else %}
+                <span class="badge bg-warning">{{ room.RoomStatus }}</span>
+              {% endif %}
+            </td>
+            <td>£{{ '%.2f'|format(room.BasePricePerNight) }}</td>
+            <td>
+              <a href="{{ url_for('admin.edit_room', room_id=room.RoomID) }}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-pencil"></i> Edit
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="6" class="text-center text-muted">
+              No rooms found. <a href="{{ url_for('admin.add_room') }}">Add your first room</a>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

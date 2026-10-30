@@ -1,0 +1,455 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Reports - Admin Panel{% endblock %}
+
+{% block breadcrumbs %}
+<a href="{{ url_for('admin.dashboard') }}">Dashboard</a> / <span>Reports</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="page-header-content">
+    <div class="page-header-icon">
+      <i class="bi bi-graph-up-arrow"></i>
+    </div>
+    <div>
+      <h1>Reports & Analytics</h1>
+      <p class="text-muted">Comprehensive insights into sales performance and booking analytics</p>
+    </div>
+  </div>
+</div>
+
+<!-- Monthly Sales Revenue Report - Redesigned -->
+<div class="revenue-report-section">
+  <div class="revenue-header-card">
+    <div class="revenue-header-content">
+      <h2 class="revenue-title">
+        <i class="bi bi-graph-up-arrow"></i>
+        Monthly Sales Revenue
+      </h2>
+      <p class="revenue-subtitle">Track your monthly performance and revenue trends</p>
+    </div>
+    {% if monthly_sales %}
+    <div class="revenue-summary-stats">
+      {% set total_revenue = monthly_sales|sum(attribute='TotalSales') or 0 %}
+      {% set total_bookings = monthly_sales|sum(attribute='NumBookings') or 0 %}
+      <div class="summary-stat-item">
+        <div class="stat-icon revenue-icon">
+          <i class="bi bi-currency-pound"></i>
+        </div>
+        <div class="stat-details">
+          <span class="stat-label">Total Revenue</span>
+          <span class="stat-value">£{{ "%.2f"|format(total_revenue) }}</span>
+        </div>
+      </div>
+      <div class="summary-stat-item">
+        <div class="stat-icon bookings-icon">
+          <i class="bi bi-calendar-check"></i>
+        </div>
+        <div class="stat-details">
+          <span class="stat-label">Total Bookings</span>
+          <span class="stat-value">{{ total_bookings }}</span>
+        </div>
+      </div>
+      <div class="summary-stat-item">
+        <div class="stat-icon avg-icon">
+          <i class="bi bi-calculator"></i>
+        </div>
+        <div class="stat-details">
+          <span class="stat-label">Avg Booking Value</span>
+          <span class="stat-value">£{{ "%.2f"|format((total_revenue / total_bookings) if total_bookings > 0 else 0) }}</span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if monthly_sales %}
+  <div class="revenue-chart-card">
+    <div class="chart-card-header">
+      <h5 class="chart-title">
+        <i class="bi bi-bar-chart-fill"></i>
+        Revenue Trend
+      </h5>
+      <div class="chart-legend">
+        <span class="legend-item">
+          <span class="legend-color" style="background: linear-gradient(135deg, #2563eb, #8b5cf6);"></span>
+          Revenue (£)
+        </span>
+      </div>
+    </div>
+    <div class="chart-body-enhanced">
+      <canvas id="monthlySalesChart"></canvas>
+    </div>
+  </div>
+
+  <div class="revenue-table-card">
+    <div class="table-card-header">
+      <h5 class="table-title">
+        <i class="bi bi-table"></i>
+        Detailed Monthly Breakdown
+      </h5>
+      <div class="table-actions">
+        <button class="btn-icon" onclick="exportTable()" title="Export to CSV">
+          <i class="bi bi-download"></i>
+        </button>
+      </div>
+    </div>
+    <div class="table-responsive-enhanced">
+      <table class="table table-hover revenue-table" id="monthlySalesTable">
+        <thead>
+          <tr>
+            <th><i class="bi bi-calendar3"></i> Period</th>
+            <th><i class="bi bi-currency-pound"></i> Total Sales</th>
+            <th><i class="bi bi-calendar-check"></i> Bookings</th>
+            <th><i class="bi bi-graph-up"></i> Avg Value</th>
+            <th><i class="bi bi-percent"></i> Growth</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in monthly_sales %}
+          {% set prev_row = monthly_sales[loop.index0 - 1] if loop.index0 > 0 else none %}
+          {% set growth = ((row.TotalSales - prev_row.TotalSales) / prev_row.TotalSales * 100) if prev_row and prev_row.TotalSales > 0 else 0 %}
+          <tr class="revenue-row">
+            <td>
+              <div class="period-cell">
+                <strong>{{ row.YearMonth }}</strong>
+              </div>
+            </td>
+            <td>
+              <div class="amount-cell">
+                <span class="currency-symbol">£</span>
+                <span class="amount-value">{{ "%.2f"|format(row.TotalSales or 0) }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="badge badge-bookings">{{ row.NumBookings }}</span>
+            </td>
+            <td>
+              <div class="avg-cell">
+                £{{ "%.2f"|format((row.TotalSales or 0) / (row.NumBookings or 1)) }}
+              </div>
+            </td>
+            <td>
+              {% if loop.index0 > 0 %}
+              <span class="growth-badge {% if growth > 0 %}growth-positive{% elif growth < 0 %}growth-negative{% else %}growth-neutral{% endif %}">
+                <i class="bi bi-arrow-{% if growth > 0 %}up{% elif growth < 0 %}down{% else %}right{% endif %}"></i>
+                {{ "%.1f"|format(growth|abs) }}%
+              </span>
+              {% else %}
+              <span class="growth-badge growth-neutral">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="admin-card">
+    <div class="empty-state">
+      <i class="bi bi-graph-up empty-icon"></i>
+      <h4>No Sales Data Available</h4>
+      <p class="text-muted">Sales data will appear here once bookings are made.</p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Reports Grid Layout -->
+<div class="reports-grid">
+  <!-- Hotel Performance Chart -->
+  <div class="report-card hotel-performance-card">
+    <div class="report-card-header">
+      <div class="report-header-content">
+        <div class="report-icon-wrapper hotel-icon">
+          <i class="bi bi-building"></i>
+        </div>
+        <div>
+          <h5 class="report-card-title">Hotel Performance</h5>
+          <p class="report-card-subtitle">Bookings and sales by hotel</p>
+        </div>
+      </div>
+    </div>
+    {% if hotel_stats %}
+    <div class="report-chart-container">
+      <canvas id="hotelPerformanceChart"></canvas>
+    </div>
+    <div class="report-table-container">
+      <table class="report-table" id="hotelStatsTable">
+        <thead>
+          <tr>
+            <th><i class="bi bi-geo-alt"></i> City</th>
+            <th><i class="bi bi-building"></i> Hotel</th>
+            <th><i class="bi bi-calendar-check"></i> Bookings</th>
+            <th><i class="bi bi-currency-pound"></i> Sales</th>
+            <th><i class="bi bi-graph-up"></i> Profit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for h in hotel_stats %}
+          <tr>
+            <td><span class="city-badge">{{ h.City }}</span></td>
+            <td><strong>{{ h.HotelName }}</strong></td>
+            <td><span class="metric-badge bookings-badge">{{ h.NumBookings }}</span></td>
+            <td><span class="amount-text">£{{ "%.2f"|format(h.TotalSales or 0) }}</span></td>
+            <td><span class="profit-text">£{{ "%.2f"|format(h.EstimatedProfit or 0) }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <i class="bi bi-building empty-icon"></i>
+      <h4>No Hotel Data</h4>
+      <p class="text-muted">Hotel statistics will appear here once bookings are made.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Top Customers Report -->
+  <div class="report-card customers-card">
+    <div class="report-card-header">
+      <div class="report-header-content">
+        <div class="report-icon-wrapper customers-icon">
+          <i class="bi bi-people"></i>
+        </div>
+        <div>
+          <h5 class="report-card-title">Top Customers</h5>
+          <p class="report-card-subtitle">Highest spending customers</p>
+        </div>
+      </div>
+    </div>
+    {% if top_customers %}
+    <div class="customers-list">
+      {% for customer in top_customers %}
+      <div class="customer-item">
+        <div class="customer-rank">
+          <span class="rank-badge rank-{{ loop.index }}">{{ loop.index }}</span>
+        </div>
+        <div class="customer-info">
+          <h6 class="customer-name">{{ customer.CustomerName }}</h6>
+          <p class="customer-email">{{ customer.CustomerEmail }}</p>
+        </div>
+        <div class="customer-stats">
+          <div class="customer-stat">
+            <span class="stat-label">Bookings</span>
+            <span class="stat-value">{{ customer.TotalBookings }}</span>
+          </div>
+          <div class="customer-stat">
+            <span class="stat-label">Total Spent</span>
+            <span class="stat-value amount">£{{ "%.2f"|format(customer.TotalSpent or 0) }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <i class="bi bi-people empty-icon"></i>
+      <h4>No Customer Data</h4>
+      <p class="text-muted">Customer statistics will appear here once bookings are made.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Profit vs Loss Hotels Report -->
+  <div class="report-card profit-loss-card">
+    <div class="report-card-header">
+      <div class="report-header-content">
+        <div class="report-icon-wrapper profit-icon">
+          <i class="bi bi-pie-chart"></i>
+        </div>
+        <div>
+          <h5 class="report-card-title">Profit & Loss Analysis</h5>
+          <p class="report-card-subtitle">Financial performance by hotel</p>
+        </div>
+      </div>
+    </div>
+    {% if profit_loss_hotels %}
+    <div class="profit-loss-grid">
+      {% for hotel in profit_loss_hotels %}
+      <div class="profit-loss-item {% if hotel.Status == 'Profit' %}profit{% else %}loss{% endif %}">
+        <div class="pl-header">
+          <div class="pl-hotel-info">
+            <h6 class="pl-hotel-name">{{ hotel.HotelName }}</h6>
+            <span class="pl-city">{{ hotel.City }}</span>
+          </div>
+          <span class="pl-status-badge {% if hotel.Status == 'Profit' %}profit-badge{% else %}loss-badge{% endif %}">
+            <i class="bi bi-{% if hotel.Status == 'Profit' %}arrow-up-circle{% else %}arrow-down-circle{% endif %}"></i>
+            {{ hotel.Status }}
+          </span>
+        </div>
+        <div class="pl-metrics">
+          <div class="pl-metric">
+            <span class="pl-label">Revenue</span>
+            <span class="pl-value">£{{ "%.2f"|format(hotel.TotalRevenue or 0) }}</span>
+          </div>
+          <div class="pl-metric">
+            <span class="pl-label">Cost</span>
+            <span class="pl-value cost">£{{ "%.2f"|format(hotel.EstimatedCost or 0) }}</span>
+          </div>
+          <div class="pl-metric highlight">
+            <span class="pl-label">Profit</span>
+            <span class="pl-value profit-amount">£{{ "%.2f"|format(hotel.EstimatedProfit or 0) }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <i class="bi bi-pie-chart empty-icon"></i>
+      <h4>No Financial Data</h4>
+      <p class="text-muted">Profit/loss data will appear here once bookings are made.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+{% if monthly_sales %}
+// Enhanced Monthly Sales Chart with Okabe-Ito color palette
+const monthlySalesCtx = document.getElementById('monthlySalesChart');
+const chartContainer = monthlySalesCtx.parentElement;
+const chartHeight = chartContainer.clientHeight || 400;
+const gradient = monthlySalesCtx.getContext('2d').createLinearGradient(0, 0, 0, chartHeight);
+gradient.addColorStop(0, 'rgba(0, 114, 178, 0.6)'); // Okabe dark blue with opacity
+gradient.addColorStop(1, 'rgba(0, 114, 178, 0.1)');
+
+const monthlySalesChart = new Chart(monthlySalesCtx, {
+  type: 'line',
+  data: {
+    labels: {{ monthly_sales|map(attribute='YearMonth')|list|tojson }},
+    datasets: [{
+      label: 'Revenue (£)',
+      data: {{ monthly_sales|map(attribute='TotalSales')|list|tojson }},
+      backgroundColor: gradient,
+      borderColor: '#0072B2', // Okabe dark blue
+      borderWidth: 3,
+      fill: true,
+      tension: 0.4,
+      pointBackgroundColor: '#0072B2',
+      pointBorderColor: '#ffffff',
+      pointBorderWidth: 2,
+      pointRadius: 6,
+      pointHoverRadius: 8,
+      pointHoverBackgroundColor: '#56B4E9', // Okabe blue
+      pointHoverBorderColor: '#ffffff',
+      pointHoverBorderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { 
+        display: false 
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        titleFont: { size: 14, weight: 'bold' },
+        bodyFont: { size: 13 },
+        borderColor: '#2563eb',
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: false,
+        callbacks: {
+          label: function(context) {
+            return 'Revenue: £' + context.parsed.y.toFixed(2);
+          }
+        }
+      }
+    },
+    scales: {
+      y: { 
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)',
+          drawBorder: false
+        },
+        ticks: {
+          callback: function(value) {
+            return '£' + value.toLocaleString();
+          },
+          font: { size: 11 },
+          color: '#6b7280'
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: { size: 11 },
+          color: '#6b7280'
+        }
+      }
+    },
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    }
+  }
+});
+
+// Export table function
+function exportTable() {
+  const table = document.getElementById('monthlySalesTable');
+  let csv = [];
+  const rows = table.querySelectorAll('tr');
+  
+  for (let i = 0; i < rows.length; i++) {
+    const row = [], cols = rows[i].querySelectorAll('td, th');
+    for (let j = 0; j < cols.length; j++) {
+      let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/"/g, '""');
+      row.push('"' + data + '"');
+    }
+    csv.push(row.join(','));
+  }
+  
+  const csvFile = new Blob([csv.join('\n')], { type: 'text/csv' });
+  const downloadLink = document.createElement('a');
+  downloadLink.download = 'monthly_sales_report_' + new Date().toISOString().split('T')[0] + '.csv';
+  downloadLink.href = window.URL.createObjectURL(csvFile);
+  downloadLink.style.display = 'none';
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+}
+{% endif %}
+
+{% if hotel_stats %}
+// Hotel Performance Chart with Okabe-Ito color palette
+const hotelPerfCtx = document.getElementById('hotelPerformanceChart');
+const hotelPerfChart = new Chart(hotelPerfCtx, {
+  type: 'bar',
+  data: {
+    labels: {{ hotel_stats|map(attribute='HotelName')|list|tojson }},
+    datasets: [{
+      label: 'Bookings',
+      data: {{ hotel_stats|map(attribute='NumBookings')|list|tojson }},
+      backgroundColor: '#009E73', // Okabe green
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      x: { beginAtZero: true }
+    }
+  }
+});
+{% endif %}
+</script>
+{% endblock %}
